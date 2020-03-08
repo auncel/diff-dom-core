@@ -1,0 +1,42 @@
+<!--
+description: Bootstrap 的 list group 
+similarity: 50
+-->
+<style>
+  ul {
+    width: 400px;
+  }
+  .list-group {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+  }
+
+  .list-group-item:first-child {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+  }
+
+  .list-group-item {
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+  }
+
+  .list-group-item:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+</style>
+
+<!-- splitter -->
+
+<ul class="list-group">
+  <li class="list-group-item">Cras justo odio</li>
+  <li class="list-group-item">Dapibus ac facilisis in</li>
+  <li class="list-group-item">Morbi leo risus</li>
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <li class="list-group-item">Vestibulum at eros</li>
+</ul>

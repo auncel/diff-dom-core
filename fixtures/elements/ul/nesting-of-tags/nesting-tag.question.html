@@ -1,0 +1,63 @@
+<!--
+description:  ul li 嵌套其他标签，from github.com 
+similarity: 50
+-->
+<style>
+  body {
+    background-color: #fff;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  a {
+    color: #333;
+    text-decoration: none;
+  }
+</style>
+
+<!-- splitter -->
+
+<ul class="list-style-none">
+  <li class="bar">
+    <a href="#/features/code-review/">Code review</a></li>
+  <li>
+    <a href="#/features/project-management/">Project management</a></li>
+  <li id="foo">
+    <a href="#/features/integrations">Integrations</a>
+  </li>
+  <li data-baz="baz">
+    <ul>
+      <li>
+        <a href="#/features/packages">Packages</a>
+      </li>
+      <li>
+        <a href="#/features/security">Security</a>
+      </li>
+    </ul>
+  </li>
+  <li checked>
+    <a href="#/features/actions">Actions</a>
+  </li>
+  <li>
+    <ul>
+      <li>
+        <a href="#/features#team-management">Team management</a>
+      </li>
+      <li>
+        <a href="#/features#social-coding">Social coding</a>
+      </li>
+      <li>
+        <ul>
+          <li>
+            <a href="#/features#documentation">Documentation</a>
+          </li>
+          <li>
+            <a href="#/features#code-hosting">Code hosting</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>

@@ -1,0 +1,29 @@
+<!--
+description: 通过负 margin
+similarity: 50
+-->
+<style>
+  .parent {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    background-color: red;
+  }
+
+  .child {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+    background-color: green;
+  }
+</style>
+
+<!-- splitter -->
+
+<div class="parent">
+  <div class="child"></div>
+</div>

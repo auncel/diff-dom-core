@@ -1,0 +1,13 @@
+import { TStyleProps } from '@surpass/common/types/css';
+import { IDistinctionDetail, DistinctionType, TCSSPropertyValueType, TNodeRect, IRenderNode, IDiffNode } from '@surpass/common/types/domCore';
+import { IStrictlyEqualOption, IStrictlyEqualStyleOption } from '../config';
+export declare function createDistinction<T>(key: string, type: DistinctionType, expect?: T, actual?: T): IDistinctionDetail<T>;
+export declare type Comparator = <T>(object: object, comparison: object, keys: string[]) => IDistinctionDetail<T>[];
+export declare function distinctionCompare<T>(object: object, comparison: object, keys: string[], isEqualFn?: (value: any, other: any) => boolean): IDistinctionDetail<T>[];
+export declare function isElementType(element: IRenderNode): boolean;
+export declare function identifyStyleDistinction(leftNodeStyle: TStyleProps, rightNodeStyle: TStyleProps, styleConfig: IStrictlyEqualStyleOption): IDistinctionDetail<TCSSPropertyValueType>[];
+export declare function identifyRectDistinction(leftRect: TNodeRect, rightRect: TNodeRect, rectTolerance: number): IDistinctionDetail<number>[];
+export declare function isStyleEqual(node1: IRenderNode, node2: IRenderNode): boolean;
+export declare function getNodeLocal(node: IRenderNode): string;
+export declare function createDiffNode(): IDiffNode;
+export declare function getDiffNode(left: IRenderNode, right: IRenderNode, config: IStrictlyEqualOption): IDiffNode;

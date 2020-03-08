@@ -1,0 +1,30 @@
+<!--
+description: 通过 margin auto 实现
+similarity: 50
+-->
+<style>
+  .parent {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    background-color: red;
+  }
+
+  .child {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: green;
+  }
+</style>
+
+<!-- splitter -->
+
+<div class="parent">
+  <div class="child"></div>
+</div>

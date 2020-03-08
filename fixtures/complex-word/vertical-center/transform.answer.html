@@ -1,0 +1,28 @@
+<!--
+description: 通过 transform 实现
+similarity: 50
+-->
+<style>
+  .parent {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    background-color: red;
+  }
+
+  .child {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: green;
+  }
+</style>
+
+<!-- splitter -->
+
+<div class="parent">
+  <div class="child"></div>
+</div>

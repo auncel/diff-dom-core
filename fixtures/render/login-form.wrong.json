@@ -1,0 +1,260 @@
+{
+  "title": "github 登录框",
+  "fragment": "<main>\n  <div class=\"login-form\">\n    <label for=\"login_field\" class=\"login-form-lable\">\n      Username or email address\n    </label>\n    <input type=\"text\" name=\"login_field\" class=\"form-control input-block\">\n\n    <label for=\"password\" class=\"login-form-lable\">\n      Password <a class=\"label-link\" href=\"/password_reset\">Forgot password?</a>\n    </label>\n    <input type=\"password\" name=\"password\" id=\"password\" class=\"form-control form-control input-block\">\n\n    <input type=\"submit\" name=\"commit\" value=\"Sign in\" class=\"btn\">\n  </div>\n</main>",
+  "stylesheet": "body {\n      background-color: #f9f9f9;\n    }\n  \n    main {\n      margin-top: 120px; /* wrong */\n    }\n  \n    .login-form {\n      width: 340px;\n      margin: 0 auto;\n  \n      border-radius: 5px;\n      padding: 20px;\n      font-size: 14px;\n      background-color: #fff;\n      border: 3px solid #d8dee2; /* wrong */\n    }\n  \n    label {\n      display: block;\n      margin-bottom: 7px;\n      text-align: left;\n      font-weight: normal;  /* wrong */\n    }\n  \n    input {\n      display: block;\n      width: 100%;\n      margin-bottom: 5px; /* wrong */\n      margin-top: 15px; /* wrong */\n      font-size: 14px;\n      padding: 6px 8px;\n      font-size: 16px;\n      line-height: 20px;\n      color: #24292e;\n      background-color: #fff;\n      border: 1px solid #d1d5da;\n      border-radius: 3px;\n      outline: none;\n    }\n  \n    .label-link {\n      float: right;\n      font-size: 12px;\n      color: #0366d6;\n      text-decoration: none;\n    }\n  \n    .btn {\n      margin-top: 20px;\n      color: #fff;\n      background-color: #34d058; /* wrong */\n      position: relative;\n      padding: 6px 12px;\n      font-size: 14px;\n      font-weight: 600;\n      line-height: 20px;\n      cursor: pointer;\n      border-radius: .25em;\n    }",
+  "anwser": {
+    "attr": {},
+    "rect": {
+      "x": 0,
+      "y": 120,
+      "left": 0,
+      "top": 120,
+      "width": 1519,
+      "height": 240
+    },
+    "tagName": "BODY",
+    "nodeType": 1,
+    "style": {
+      "background-color": "rgb(249, 249, 249)"
+    },
+    "id": "",
+    "className": "",
+    "uuid": "uuid_0",
+    "children": [{
+      "attr": {},
+      "rect": {
+        "x": 0,
+        "y": 120,
+        "left": -120,
+        "top": 120,
+        "width": 1519,
+        "height": 240
+      },
+      "tagName": "MAIN",
+      "nodeType": 1,
+      "style": {
+        "margin-top": "120px"
+      },
+      "id": "",
+      "className": "",
+      "uuid": "uuid_0_0",
+      "children": [{
+        "attr": {},
+        "rect": {
+          "x": 566.5,
+          "y": 120,
+          "left": 446.5,
+          "top": 240,
+          "width": 386,
+          "height": 240
+        },
+        "tagName": "DIV",
+        "nodeType": 1,
+        "style": {
+          "width": "340px",
+          "margin": "0px 566.5px",
+          "border-radius": "5px",
+          "padding": "20px",
+          "font-size": "14px",
+          "background-color": "rgb(255, 255, 255)",
+          "border": "3px solid rgb(216, 222, 226)"
+        },
+        "id": "",
+        "className": "login-form",
+        "uuid": "uuid_0_0_0",
+        "children": [{
+            "attr": {
+              "for": "login_field"
+            },
+            "rect": {
+              "x": 589.5,
+              "y": 143,
+              "left": 349.5,
+              "top": -303.5,
+              "width": 340,
+              "height": 16
+            },
+            "tagName": "LABEL",
+            "nodeType": 1,
+            "style": {
+              "display": "block",
+              "margin-bottom": "7px",
+              "text-align": "left",
+              "font-weight": "400"
+            },
+            "id": "",
+            "className": "login-form-lable",
+            "uuid": "uuid_0_0_0_0",
+            "children": [{
+              "text": "Username or email address",
+              "nodeType": 3
+            }]
+          },
+          {
+            "attr": {
+              "type": "text",
+              "name": "login_field"
+            },
+            "rect": {
+              "x": 589.5,
+              "y": 174,
+              "left": 349.5,
+              "top": -272.5,
+              "width": 358,
+              "height": 34
+            },
+            "tagName": "INPUT",
+            "nodeType": 1,
+            "style": {
+              "display": "block",
+              "width": "340px",
+              "margin-bottom": "5px",
+              "margin-top": "15px",
+              "font-size": "16px",
+              "padding": "6px 8px",
+              "line-height": "20px",
+              "color": "rgb(36, 41, 46)",
+              "background-color": "rgb(255, 255, 255)",
+              "border": "1px solid rgb(209, 213, 218)",
+              "border-radius": "3px",
+              "outline": "rgb(36, 41, 46) none 0px"
+            },
+            "id": "",
+            "className": "form-control input-block",
+            "uuid": "uuid_0_0_0_1",
+            "children": []
+          },
+          {
+            "attr": {
+              "for": "password"
+            },
+            "rect": {
+              "x": 589.5,
+              "y": 213,
+              "left": 349.5,
+              "top": -233.5,
+              "width": 340,
+              "height": 16
+            },
+            "tagName": "LABEL",
+            "nodeType": 1,
+            "style": {
+              "display": "block",
+              "margin-bottom": "7px",
+              "text-align": "left",
+              "font-weight": "400"
+            },
+            "id": "",
+            "className": "login-form-lable",
+            "uuid": "uuid_0_0_0_2",
+            "children": [{
+                "text": "Password",
+                "nodeType": 3
+              },
+              {
+                "attr": {
+                  "href": "/password_reset"
+                },
+                "rect": {
+                  "x": 844.046875,
+                  "y": 213,
+                  "left": 1077.546875,
+                  "top": -136.5,
+                  "width": 85.453125,
+                  "height": 13
+                },
+                "tagName": "A",
+                "nodeType": 1,
+                "style": {
+                  "float": "right",
+                  "font-size": "12px",
+                  "color": "rgb(3, 102, 214)",
+                  "text-decoration": "none solid rgb(3, 102, 214)"
+                },
+                "id": "",
+                "className": "label-link",
+                "uuid": "uuid_0_0_0_2_0",
+                "children": [{
+                  "text": "Forgot password?",
+                  "nodeType": 3
+                }]
+              }
+            ]
+          },
+          {
+            "attr": {
+              "type": "password",
+              "name": "password"
+            },
+            "rect": {
+              "x": 589.5,
+              "y": 244,
+              "left": 349.5,
+              "top": -202.5,
+              "width": 358,
+              "height": 34
+            },
+            "tagName": "INPUT",
+            "nodeType": 1,
+            "style": {
+              "display": "block",
+              "width": "340px",
+              "margin-bottom": "5px",
+              "margin-top": "15px",
+              "font-size": "16px",
+              "padding": "6px 8px",
+              "line-height": "20px",
+              "color": "rgb(36, 41, 46)",
+              "background-color": "rgb(255, 255, 255)",
+              "border": "1px solid rgb(209, 213, 218)",
+              "border-radius": "3px",
+              "outline": "rgb(36, 41, 46) none 0px"
+            },
+            "id": "password",
+            "className": "form-control form-control input-block",
+            "uuid": "uuid_0_0_0_3",
+            "children": []
+          },
+          {
+            "attr": {
+              "type": "submit",
+              "name": "commit",
+              "value": "Sign in"
+            },
+            "rect": {
+              "x": 589.5,
+              "y": 298,
+              "left": 349.5,
+              "top": -148.5,
+              "width": 340,
+              "height": 34
+            },
+            "tagName": "INPUT",
+            "nodeType": 1,
+            "style": {
+              "display": "block",
+              "width": "340px",
+              "margin-bottom": "5px",
+              "margin-top": "20px",
+              "font-size": "14px",
+              "padding": "6px 12px",
+              "line-height": "20px",
+              "color": "rgb(255, 255, 255)",
+              "background-color": "rgb(52, 208, 88)",
+              "border": "1px solid rgb(209, 213, 218)",
+              "border-radius": "3.5px",
+              "outline": "rgb(255, 255, 255) none 0px",
+              "position": "relative",
+              "font-weight": "600",
+              "cursor": "pointer"
+            },
+            "id": "",
+            "className": "btn",
+            "uuid": "uuid_0_0_0_4",
+            "children": []
+          }
+        ]
+      }]
+    }]
+  }
+}

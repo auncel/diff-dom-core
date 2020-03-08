@@ -1,0 +1,782 @@
+{
+  "type": 0,
+  "location": "body",
+  "rect": [{
+      "key": "left",
+      "type": 3,
+      "expect": 0,
+      "actual": null
+    },
+    {
+      "key": "top",
+      "type": 2,
+      "expect": 106,
+      "actual": 120
+    },
+    {
+      "key": "width",
+      "type": 3,
+      "expect": 1519,
+      "actual": null
+    },
+    {
+      "key": "height",
+      "type": 3,
+      "expect": 240,
+      "actual": null
+    },
+    {
+      "key": "x",
+      "type": 1,
+      "expect": null,
+      "actual": 0
+    },
+    {
+      "key": "y",
+      "type": 1,
+      "expect": null,
+      "actual": 120
+    }
+  ],
+  "children": [{
+    "type": 64,
+    "location": "main",
+    "style": [{
+      "key": "margin-top",
+      "type": 2,
+      "expect": "106px",
+      "actual": "120px"
+    }],
+    "rect": [{
+        "key": "left",
+        "type": 2,
+        "expect": -106,
+        "actual": -120
+      },
+      {
+        "key": "top",
+        "type": 2,
+        "expect": 106,
+        "actual": 120
+      },
+      {
+        "key": "width",
+        "type": 3,
+        "expect": 1519,
+        "actual": null
+      },
+      {
+        "key": "height",
+        "type": 3,
+        "expect": 240,
+        "actual": null
+      },
+      {
+        "key": "x",
+        "type": 1,
+        "expect": null,
+        "actual": 0
+      },
+      {
+        "key": "y",
+        "type": 1,
+        "expect": null,
+        "actual": 120
+      }
+    ],
+    "children": [{
+      "type": 64,
+      "location": "div.login-form",
+      "style": [{
+          "key": "width",
+          "type": 3,
+          "expect": "340px",
+          "actual": null
+        },
+        {
+          "key": "margin",
+          "type": 2,
+          "expect": "0px 568.5px",
+          "actual": "0px 566.5px"
+        },
+        {
+          "key": "border-radius",
+          "type": 3,
+          "expect": "5px",
+          "actual": null
+        },
+        {
+          "key": "padding",
+          "type": 3,
+          "expect": "20px",
+          "actual": null
+        },
+        {
+          "key": "font-size",
+          "type": 3,
+          "expect": "14px",
+          "actual": null
+        },
+        {
+          "key": "background-color",
+          "type": 3,
+          "expect": "rgb(255, 255, 255)",
+          "actual": null
+        },
+        {
+          "key": "border",
+          "type": 2,
+          "expect": "1px solid rgb(216, 222, 226)",
+          "actual": "3px solid rgb(216, 222, 226)"
+        }
+      ],
+      "rect": [{
+          "key": "left",
+          "type": 2,
+          "expect": 462.5,
+          "actual": 446.5
+        },
+        {
+          "key": "top",
+          "type": 2,
+          "expect": 212,
+          "actual": 240
+        },
+        {
+          "key": "width",
+          "type": 2,
+          "expect": 382,
+          "actual": 386
+        },
+        {
+          "key": "height",
+          "type": 3,
+          "expect": 240,
+          "actual": null
+        },
+        {
+          "key": "x",
+          "type": 1,
+          "expect": null,
+          "actual": 566.5
+        },
+        {
+          "key": "y",
+          "type": 1,
+          "expect": null,
+          "actual": 120
+        }
+      ],
+      "children": [{
+          "type": 80,
+          "location": "label.login-form-lable",
+          "attr": [{
+            "key": "for",
+            "type": 3,
+            "expect": "login_field",
+            "actual": null
+          }],
+          "style": [{
+              "key": "display",
+              "type": 3,
+              "expect": "block",
+              "actual": null
+            },
+            {
+              "key": "margin-bottom",
+              "type": 3,
+              "expect": "7px",
+              "actual": null
+            },
+            {
+              "key": "text-align",
+              "type": 3,
+              "expect": "left",
+              "actual": null
+            },
+            {
+              "key": "font-weight",
+              "type": 2,
+              "expect": "600",
+              "actual": "400"
+            }
+          ],
+          "rect": [{
+              "key": "left",
+              "type": 2,
+              "expect": 377.5,
+              "actual": 349.5
+            },
+            {
+              "key": "top",
+              "type": 2,
+              "expect": -335.5,
+              "actual": -303.5
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": 340,
+              "actual": null
+            },
+            {
+              "key": "height",
+              "type": 3,
+              "expect": 16,
+              "actual": null
+            },
+            {
+              "key": "x",
+              "type": 1,
+              "expect": null,
+              "actual": 589.5
+            },
+            {
+              "key": "y",
+              "type": 1,
+              "expect": null,
+              "actual": 143
+            }
+          ],
+          "children": [{
+            "type": 0,
+            "location": ""
+          }]
+        },
+        {
+          "type": 80,
+          "location": "input.form-control.input-block",
+          "attr": [{
+              "key": "type",
+              "type": 3,
+              "expect": "text",
+              "actual": null
+            },
+            {
+              "key": "name",
+              "type": 3,
+              "expect": "login_field",
+              "actual": null
+            }
+          ],
+          "style": [{
+              "key": "display",
+              "type": 3,
+              "expect": "block",
+              "actual": null
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": "340px",
+              "actual": null
+            },
+            {
+              "key": "margin-top",
+              "type": 2,
+              "expect": "5px",
+              "actual": "15px"
+            },
+            {
+              "key": "margin-bottom",
+              "type": 2,
+              "expect": "15px",
+              "actual": "5px"
+            },
+            {
+              "key": "font-size",
+              "type": 3,
+              "expect": "16px",
+              "actual": null
+            },
+            {
+              "key": "padding",
+              "type": 3,
+              "expect": "6px 8px",
+              "actual": null
+            },
+            {
+              "key": "line-height",
+              "type": 3,
+              "expect": "20px",
+              "actual": null
+            },
+            {
+              "key": "color",
+              "type": 3,
+              "expect": "rgb(36, 41, 46)",
+              "actual": null
+            },
+            {
+              "key": "background-color",
+              "type": 3,
+              "expect": "rgb(255, 255, 255)",
+              "actual": null
+            },
+            {
+              "key": "border",
+              "type": 3,
+              "expect": "1px solid rgb(209, 213, 218)",
+              "actual": null
+            },
+            {
+              "key": "border-radius",
+              "type": 3,
+              "expect": "3px",
+              "actual": null
+            },
+            {
+              "key": "outline",
+              "type": 3,
+              "expect": "rgb(36, 41, 46) none 0px",
+              "actual": null
+            }
+          ],
+          "rect": [{
+              "key": "left",
+              "type": 2,
+              "expect": 377.5,
+              "actual": 349.5
+            },
+            {
+              "key": "top",
+              "type": 2,
+              "expect": -312.5,
+              "actual": -272.5
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": 358,
+              "actual": null
+            },
+            {
+              "key": "height",
+              "type": 3,
+              "expect": 34,
+              "actual": null
+            },
+            {
+              "key": "x",
+              "type": 1,
+              "expect": null,
+              "actual": 589.5
+            },
+            {
+              "key": "y",
+              "type": 1,
+              "expect": null,
+              "actual": 174
+            }
+          ]
+        },
+        {
+          "type": 80,
+          "location": "label.login-form-lable",
+          "attr": [{
+            "key": "for",
+            "type": 3,
+            "expect": "password",
+            "actual": null
+          }],
+          "style": [{
+              "key": "display",
+              "type": 3,
+              "expect": "block",
+              "actual": null
+            },
+            {
+              "key": "margin-bottom",
+              "type": 3,
+              "expect": "7px",
+              "actual": null
+            },
+            {
+              "key": "text-align",
+              "type": 3,
+              "expect": "left",
+              "actual": null
+            },
+            {
+              "key": "font-weight",
+              "type": 2,
+              "expect": "600",
+              "actual": "400"
+            }
+          ],
+          "rect": [{
+              "key": "left",
+              "type": 2,
+              "expect": 377.5,
+              "actual": 349.5
+            },
+            {
+              "key": "top",
+              "type": 2,
+              "expect": -263.5,
+              "actual": -233.5
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": 340,
+              "actual": null
+            },
+            {
+              "key": "height",
+              "type": 3,
+              "expect": 16,
+              "actual": null
+            },
+            {
+              "key": "x",
+              "type": 1,
+              "expect": null,
+              "actual": 589.5
+            },
+            {
+              "key": "y",
+              "type": 1,
+              "expect": null,
+              "actual": 213
+            }
+          ],
+          "children": [{
+              "type": 0,
+              "location": ""
+            },
+            {
+              "type": 16,
+              "location": "a.label-link",
+              "attr": [{
+                "key": "href",
+                "type": 3,
+                "expect": "/password_reset",
+                "actual": null
+              }],
+              "rect": [{
+                  "key": "left",
+                  "type": 2,
+                  "expect": 1100.65625,
+                  "actual": 1077.546875
+                },
+                {
+                  "key": "top",
+                  "type": 2,
+                  "expect": -178.5,
+                  "actual": -136.5
+                },
+                {
+                  "key": "width",
+                  "type": 2,
+                  "expect": 92.34375,
+                  "actual": 85.453125
+                },
+                {
+                  "key": "height",
+                  "type": 3,
+                  "expect": 13,
+                  "actual": null
+                },
+                {
+                  "key": "x",
+                  "type": 1,
+                  "expect": null,
+                  "actual": 844.046875
+                },
+                {
+                  "key": "y",
+                  "type": 1,
+                  "expect": null,
+                  "actual": 213
+                }
+              ],
+              "children": [{
+                "type": 0,
+                "location": ""
+              }]
+            }
+          ]
+        },
+        {
+          "type": 80,
+          "location": "input#password.form-control.form-control.input-block",
+          "attr": [{
+              "key": "type",
+              "type": 3,
+              "expect": "password",
+              "actual": null
+            },
+            {
+              "key": "name",
+              "type": 3,
+              "expect": "password",
+              "actual": null
+            }
+          ],
+          "style": [{
+              "key": "display",
+              "type": 3,
+              "expect": "block",
+              "actual": null
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": "340px",
+              "actual": null
+            },
+            {
+              "key": "margin-top",
+              "type": 2,
+              "expect": "5px",
+              "actual": "15px"
+            },
+            {
+              "key": "margin-bottom",
+              "type": 2,
+              "expect": "15px",
+              "actual": "5px"
+            },
+            {
+              "key": "font-size",
+              "type": 3,
+              "expect": "16px",
+              "actual": null
+            },
+            {
+              "key": "padding",
+              "type": 3,
+              "expect": "6px 8px",
+              "actual": null
+            },
+            {
+              "key": "line-height",
+              "type": 3,
+              "expect": "20px",
+              "actual": null
+            },
+            {
+              "key": "color",
+              "type": 3,
+              "expect": "rgb(36, 41, 46)",
+              "actual": null
+            },
+            {
+              "key": "background-color",
+              "type": 3,
+              "expect": "rgb(255, 255, 255)",
+              "actual": null
+            },
+            {
+              "key": "border",
+              "type": 3,
+              "expect": "1px solid rgb(209, 213, 218)",
+              "actual": null
+            },
+            {
+              "key": "border-radius",
+              "type": 3,
+              "expect": "3px",
+              "actual": null
+            },
+            {
+              "key": "outline",
+              "type": 3,
+              "expect": "rgb(36, 41, 46) none 0px",
+              "actual": null
+            }
+          ],
+          "rect": [{
+              "key": "left",
+              "type": 2,
+              "expect": 377.5,
+              "actual": 349.5
+            },
+            {
+              "key": "top",
+              "type": 2,
+              "expect": -240.5,
+              "actual": -202.5
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": 358,
+              "actual": null
+            },
+            {
+              "key": "height",
+              "type": 3,
+              "expect": 34,
+              "actual": null
+            },
+            {
+              "key": "x",
+              "type": 1,
+              "expect": null,
+              "actual": 589.5
+            },
+            {
+              "key": "y",
+              "type": 1,
+              "expect": null,
+              "actual": 244
+            }
+          ]
+        },
+        {
+          "type": 80,
+          "location": "input.btn",
+          "attr": [{
+              "key": "type",
+              "type": 3,
+              "expect": "submit",
+              "actual": null
+            },
+            {
+              "key": "name",
+              "type": 3,
+              "expect": "commit",
+              "actual": null
+            },
+            {
+              "key": "value",
+              "type": 3,
+              "expect": "Sign in",
+              "actual": null
+            }
+          ],
+          "style": [{
+              "key": "display",
+              "type": 3,
+              "expect": "block",
+              "actual": null
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": "340px",
+              "actual": null
+            },
+            {
+              "key": "margin-top",
+              "type": 3,
+              "expect": "20px",
+              "actual": null
+            },
+            {
+              "key": "margin-bottom",
+              "type": 2,
+              "expect": "15px",
+              "actual": "5px"
+            },
+            {
+              "key": "font-size",
+              "type": 3,
+              "expect": "14px",
+              "actual": null
+            },
+            {
+              "key": "padding",
+              "type": 3,
+              "expect": "6px 12px",
+              "actual": null
+            },
+            {
+              "key": "line-height",
+              "type": 3,
+              "expect": "20px",
+              "actual": null
+            },
+            {
+              "key": "color",
+              "type": 3,
+              "expect": "rgb(255, 255, 255)",
+              "actual": null
+            },
+            {
+              "key": "background-color",
+              "type": 2,
+              "expect": "rgb(40, 167, 69)",
+              "actual": "rgb(52, 208, 88)"
+            },
+            {
+              "key": "border",
+              "type": 3,
+              "expect": "1px solid rgb(209, 213, 218)",
+              "actual": null
+            },
+            {
+              "key": "border-radius",
+              "type": 3,
+              "expect": "3.5px",
+              "actual": null
+            },
+            {
+              "key": "outline",
+              "type": 3,
+              "expect": "rgb(255, 255, 255) none 0px",
+              "actual": null
+            },
+            {
+              "key": "position",
+              "type": 3,
+              "expect": "relative",
+              "actual": null
+            },
+            {
+              "key": "font-weight",
+              "type": 3,
+              "expect": "600",
+              "actual": null
+            },
+            {
+              "key": "cursor",
+              "type": 3,
+              "expect": "pointer",
+              "actual": null
+            }
+          ],
+          "rect": [{
+              "key": "left",
+              "type": 2,
+              "expect": 377.5,
+              "actual": 349.5
+            },
+            {
+              "key": "top",
+              "type": 2,
+              "expect": -186.5,
+              "actual": -148.5
+            },
+            {
+              "key": "width",
+              "type": 3,
+              "expect": 340,
+              "actual": null
+            },
+            {
+              "key": "height",
+              "type": 3,
+              "expect": 34,
+              "actual": null
+            },
+            {
+              "key": "x",
+              "type": 1,
+              "expect": null,
+              "actual": 589.5
+            },
+            {
+              "key": "y",
+              "type": 1,
+              "expect": null,
+              "actual": 298
+            }
+          ]
+        }
+      ]
+    }]
+  }]
+}
