@@ -10,9 +10,9 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 /* eslint-disable max-len */
-import RenderNode, { IRenderNode } from './RenderNode';
-import ElementRenderNode from './ElementRenderNode';
-import TextRenderNode from './TextRenderNode';
+import RenderNode, { IRenderNode } from '../RenderNode/RenderNode';
+import ElementRenderNode from '../RenderNode/ElementRenderNode';
+import TextRenderNode from '../RenderNode/TextRenderNode';
 
 export enum ShadowDiffType {
   NONE = 0b0,

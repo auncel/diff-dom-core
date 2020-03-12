@@ -14,14 +14,14 @@
 import { NodeType } from '../../RenderNode/domCore';
 // why???
 import {
-  XTreeDiff, XTree, NodeType as XTreeNodeType, EditOption,
-} from '../../../node_modules/@dovyih/x-tree-diff/dist/index';
-import ShadowRenderNode, { ShadowDiffType } from '../../RenderNode/ShadowRenderNode';
+  XTreeDiffPlus, XTree, NodeType as XTreeNodeType, EditOption,
+} from '@dovyih/x-tree-diff-plus';
+import ShadowRenderNode, { ShadowDiffType } from '../ShadowRenderNode';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
 import RenderNode from '../../RenderNode/RenderNode';
 
-export default class RenderNodeXTreeDiff extends XTreeDiff<RenderNode> {
+export default class RenderNodeXTreeDiff extends XTreeDiffPlus<RenderNode> {
   public buildXTree(root: ElementRenderNode): XTree<ShadowRenderNode> {
     function diffRenderNode2XTree(
       renderNode: ElementRenderNode | TextRenderNode, index: number,
