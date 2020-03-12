@@ -1,7 +1,7 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-  entry: './lib/index.ts',
+  entry: './src/index.ts',
   output: {
     library: 'globalThis.Diff',
     libraryTarget: 'assign',
