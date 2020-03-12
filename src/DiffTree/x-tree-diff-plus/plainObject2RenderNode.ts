@@ -9,9 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import ShadowRenderNode from '../../RenderNode/ShadowRenderNode';
-import RenderNode, { IRenderNode } from '../../RenderNode/RenderNode';
-import { NodeType } from '../../RenderNode/domCore';
+import { NodeType } from '../../RenderNode/enum';
 import ElementRenderNode, { IElementRenderNode } from '../../RenderNode/ElementRenderNode';
 import TextRenderNode, { ITextRenderNode } from '../../RenderNode/TextRenderNode';
 
@@ -21,7 +19,9 @@ import TextRenderNode, { ITextRenderNode } from '../../RenderNode/TextRenderNode
  * @param {(null | RenderNode | IRenderNode)} node
  * @returns
  */
-function createRenderNode(node: IElementRenderNode | ITextRenderNode): ElementRenderNode | TextRenderNode {
+function createRenderNode(
+  node: IElementRenderNode | ITextRenderNode,
+): ElementRenderNode | TextRenderNode {
   if (node.nodeType === NodeType.ELEMENT_NODE) {
     return new ElementRenderNode(node);
   } else if (node.nodeType === NodeType.TEXT_NODE) {
@@ -30,25 +30,27 @@ function createRenderNode(node: IElementRenderNode | ITextRenderNode): ElementRe
   throw new Error('unkonw NodeType');
 }
 
-export function plainObject2RenderNode(root: IElementRenderNode | ITextRenderNode): RenderNode {
-  const renderRoot = createRenderNode(root);
-  function traverse(node: IRenderNode, renderNode: ElementRenderNode | TextRenderNode): RenderNode {
+export function plainObject2RenderNode(
+  root: IElementRenderNode | ITextRenderNode,
+): ElementRenderNode {
+  function traverse(
+    node: IElementRenderNode | ITextRenderNode,
+    renderNode: ElementRenderNode | TextRenderNode,
+  ): ElementRenderNode | TextRenderNode {
     if (Array.isArray(node.children)) {
-      const shadowChild = node.children.map(child =>
-        traverse(
-          child as unknown as IElementRenderNode | ITextRenderNode,
-          createRenderNode(child as unknown as IElementRenderNode | ITextRenderNode),
-        ),
-      );
+      const renderChild = (node.children as unknown as (IElementRenderNode | ITextRenderNode)[])
+        .map(child => traverse(child, createRenderNode(child)));
+
       // eslint-disable-next-line no-param-reassign
       if (renderNode.nodeType === NodeType.ELEMENT_NODE) {
         renderNode.clear();
-        renderNode.append<RenderNode>(shadowChild);
+        renderNode.append(renderChild);
       }
     }
 
     return renderNode;
   }
 
-  return traverse(root, renderRoot);
+  const renderRoot = createRenderNode(root);
+  return traverse(root, renderRoot) as ElementRenderNode;
 }

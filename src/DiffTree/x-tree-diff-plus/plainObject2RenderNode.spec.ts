@@ -9,17 +9,40 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { plainObject2RenderNode } from './plainObject2RenderNode'
-import ElementRenderNode from '../../RenderNode/ElementRenderNode';
-import ShadowRenderNode from '../../RenderNode/ShadowRenderNode';
+import { plainObject2RenderNode } from './plainObject2RenderNode';
+import ElementRenderNode, { IElementRenderNode } from '../../RenderNode/ElementRenderNode';
+import { NodeType } from '../../RenderNode/enum';
+import TextRenderNode, { ITextRenderNode } from '../../RenderNode/TextRenderNode';
 // const diffTree = require('../../../fixtures/render/diff-tree.json');
 
 describe('RenderNode2ShadowRenderNode', () => {
-  test('{tagName: div}.children{tagName: div}', () => {
-    const renderTree = new ElementRenderNode('div');
-    renderTree.append(new ElementRenderNode('span'));
-    const shadowTree = plainObject2RenderNode(renderTree)
-    expect(shadowTree instanceof ShadowRenderNode).toBe(true);
-    expect(shadowTree.get(0) instanceof ShadowRenderNode).toBe(true);
+  test('{tagName: div}.children[{tagName: div}, {tagName: #text}]', () => {
+    const renderTree: IElementRenderNode = {
+      tagName: 'div',
+      nodeType: NodeType.ELEMENT_NODE,
+      attr: {},
+      style: {},
+      rect: {},
+      children: [
+        {
+          tagName: 'div',
+          nodeType: NodeType.ELEMENT_NODE,
+          attr: {},
+          style: {},
+          rect: {},
+          children: [],
+        },
+        {
+          tagName: '#text',
+          nodeType: NodeType.TEXT_NODE,
+          text: 'text node',
+        } as ITextRenderNode,
+      ],
+    };
+
+    const shadowTree = plainObject2RenderNode(renderTree);
+    expect(shadowTree instanceof ElementRenderNode).toBe(true);
+    expect(shadowTree.get(0) instanceof ElementRenderNode).toBe(true);
+    expect(shadowTree.get(1) instanceof TextRenderNode).toBe(true);
   });
 });
