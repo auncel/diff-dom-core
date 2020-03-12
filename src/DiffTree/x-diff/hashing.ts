@@ -11,7 +11,7 @@
  *-------------------------------------------------------------------------- */
 /* eslint-disable no-param-reassign */
 import md5 from 'md5';
-import { IRenderNode, NodeType } from '../../renderNode/domCore';
+import { IRenderNode, NodeType } from '../../RenderNode/domCore';
 // import { TAttributes } from '../../lib/types/element';
 
 // function attrs2String(attrs: TAttributes): string {
@@ -32,8 +32,8 @@ export function hashing(node: IRenderNode): void {
   const fragementCache = new Map<string, string>();
   function renderNode2HTML(node: IRenderNode): string {
     if (node.nodeType === NodeType.ELEMENT_NODE) {
-      if (fragementCache.has(node.uuid)) {
-        return fragementCache.get(node.uuid);
+      if (fragementCache.has(node.uuid!)) {
+        return fragementCache.get(node.uuid!)!;
       }
       const fragement = [
         // 暂不加入 attribute，x-diff 只是 diff dom 结构
@@ -41,10 +41,10 @@ export function hashing(node: IRenderNode): void {
         `${node.children.map(child => renderNode2HTML(child)).join('')}`,
         `</${node.tagName}>`,
       ].join('');
-      fragementCache.set(node.uuid, fragement);
+      fragementCache.set(node.uuid!, fragement);
       return fragement;
     } else if (node.nodeType === NodeType.TEXT_NODE) {
-      return node.text;
+      return node.text ?? '';
     }
     return '';
   }

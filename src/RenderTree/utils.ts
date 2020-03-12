@@ -9,15 +9,19 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
-import { TNodeRect } from '../../lib/renderNode/domCore';
-import { TAttributes, TTagAttribute } from '../../lib/renderNode/element';
+import { TNodeRect } from '../RenderNode/domCore';
+import { TAttributes, TTagAttribute } from '../RenderNode/element';
 import { UUID_ATTR } from './getCSSPropertyValues';
 
 /* global elementPropertyMap */
 declare const elementPropertyMap: Map<string, Map<string, string>>;
 
 export function getUuid(node: Element): string {
-  return node.getAttribute(UUID_ATTR);
+  return node.getAttribute(UUID_ATTR) ?? '';
+}
+
+export function setUuid(node: Element, value: string): void {
+  node.setAttribute(UUID_ATTR, value);
 }
 
 const defaultMap = new Map();
@@ -46,9 +50,9 @@ export function getAttrs(node: Element): TAttributes {
 
   for (let i = 0; i < attrs.length; i++) {
     const attr: Attr = attrs[i];
-    const nodeName = attr.nodeName as TTagAttribute;
-    if (!ignoreAttrs.includes(nodeName) && !datasetReg.test(nodeName)) {
-      attrObj[nodeName] = attr.nodeValue;
+    const attrName = attr.nodeName as TTagAttribute;
+    if (!ignoreAttrs.includes(attrName) && !datasetReg.test(attrName)) {
+      attrObj[attrName] = attr.nodeValue ?? '';
     }
   }
 

@@ -52,7 +52,7 @@ export class PageManager {
       await sleep(200);
     }
 
-    return this.pagePool.shift();
+    return this.pagePool.shift()!;
   }
 
   public async releasePage(page: Page): Promise<void> {

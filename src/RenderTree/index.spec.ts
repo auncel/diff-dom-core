@@ -11,7 +11,7 @@
  *-------------------------------------------------------------------------- */
 
 import { Puppeteer } from '../pptr/index';
-import { IRenderNode } from '../../lib/renderNode/domCore';
+import { IRenderNode } from '../../lib/RenderNode/domCore';
 import { createHTMLTpl } from '../utils/index';
 import diffBeforeAll, { pageManager, M_diffScript } from '../../test/beforeAll';
 import '@auncel/common/polyfill/toJSON';
@@ -34,7 +34,7 @@ function testFactory(prefix, data) {
 }
 
 describe('simple world', () => {
-  divSimple.forEach(example => testFactory('相等测试',example));
+  divSimple.forEach(example => testFactory('相等测试', example));
 });
 
 describe('complex world', () => {

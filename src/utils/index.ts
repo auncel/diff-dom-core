@@ -1,8 +1,8 @@
-import { IRenderNode, NodeType } from '../renderNode/domCore';
-import { TTag } from '../renderNode/element';
+import { IRenderNode, NodeType } from '../RenderNode/domCore';
+import { TTag } from '../RenderNode/element';
 import { USER_STYLE_ID } from './const';
-import ElementRenderNode from '../renderNode/ElementRenderNode';
-import TextRenderNode from '../renderNode/TextRenderNode';
+import ElementRenderNode from '../RenderNode/ElementRenderNode';
+import TextRenderNode from '../RenderNode/TextRenderNode';
 
 /**
  * 创建空的 RenderNode

@@ -12,8 +12,8 @@
 
 export type TTreeNodeCallback<T extends TreeNode = TreeNode> = (
   node: T,
-  index?: number,
-  thisArg?: TreeNode | TreeNode[]
+  index: number,
+  thisArg: TreeNode | TreeNode[]
 ) => void | T;
 
 export interface ITreeNode {
@@ -37,14 +37,14 @@ abstract class TreeNode {
   }
 
   forEach<T extends TreeNode = TreeNode>(callback: TTreeNodeCallback<T>): void {
-    this.children.forEach((node: T, index) => {
-      callback(node, index, this);
+    this.children.forEach((node, index) => {
+      callback(node as T, index, this);
     });
   }
 
   map<T extends TreeNode = TreeNode>(callback: TTreeNodeCallback<T>): T[] {
-    return this.children.map((node: T, index) =>
-      callback(node, index, this) as T,
+    return this.children.map<T>((node, index) =>
+      callback(node as T, index, this) as T,
     );
   }
 

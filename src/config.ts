@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { TCSSProperty } from './renderNode/css';
-import { TTag, TTagAttribute } from './renderNode/element';
+import { TCSSProperty } from './RenderNode/css';
+import { TTag, TTagAttribute } from './RenderNode/element';
 
 export interface IGenerateRenderTreeOptions {
   ignoreElement?: TTag[];
@@ -33,12 +33,20 @@ export const generateRenderTreeOptions: IGenerateRenderTreeOptions = {
 export function mergeWithDefaultConfig(
   config: IGenerateRenderTreeOptions,
 ): IGenerateRenderTreeOptions {
-  Object.keys(generateRenderTreeOptions).forEach((option) => {
+  type IGenerateRenderTreeOptionsKeys = keyof IGenerateRenderTreeOptions;
+  Object.keys(generateRenderTreeOptions).forEach((key) => {
+    const option = key as IGenerateRenderTreeOptionsKeys;
     if (typeof config[option] !== 'undefined') {
       if (Array.isArray(generateRenderTreeOptions[option])) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         config[option] = [...generateRenderTreeOptions[option], ...config[option]];
+      } else {
+        throw new TypeError(`generateRenderTreeOptions[${option}] should Be Array`);
       }
     } else {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       config[option] = generateRenderTreeOptions[option];
     }
   });

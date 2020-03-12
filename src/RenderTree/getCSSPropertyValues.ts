@@ -28,17 +28,18 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
   for (const [selector, properties] of selectorMap) {
     const $elementList = document.querySelectorAll(selector);
     $elementList.forEach(($element) => {
-      const elementUuid = $element.getAttribute(UUID_ATTR);
-      let propertyMap: Map<string, string> = null;
+      const elementUuid = $element.getAttribute(UUID_ATTR)!;
+      let propertyMap: Map<string, string> = new Map();
       if (elementStyleCache.has(elementUuid)) {
-        propertyMap = elementStyleCache.get(elementUuid);
+        propertyMap = elementStyleCache.get(elementUuid)!;
       } else {
         propertyMap = new Map<string, string>();
         elementStyleCache.set(elementUuid, propertyMap);
       }
+      type TCSSStyleDeclarationKeys = keyof CSSStyleDeclaration;
       const elementStyle = window.getComputedStyle($element);
       properties.forEach((property) => {
-        const propertyValue = elementStyle[property];
+        const propertyValue = elementStyle[property as TCSSStyleDeclarationKeys];
         propertyMap.set(property, propertyValue);
       });
     });

@@ -1,13 +1,15 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable no-param-reassign */
-import { IDiffNode, IDiffLog, DiffType, DistinctionType } from '../lib/renderNode/domCore';
+import { IDiffNode, IDiffLog, DiffType, DistinctionType } from './RenderNode/domCore';
 
-function getNodeLocation(node: IDiffNode): string {
+function getNodeLocation(node: IDiffNode | undefined): string {
   const buff = [];
 
   while (node) {
     buff.unshift(node.location);
     node = node.parent;
   }
+
   return buff.join(' ');
 }
 
@@ -23,7 +25,7 @@ function getNodeLocation(node: IDiffNode): string {
 // }
 
 function diffStyle(node: IDiffNode): string[] {
-  const styleDistinction = node.style;
+  const styleDistinction = node.style!;
   const diffReason = [];
   const score = 10;
   // eslint-disable-next-line no-restricted-syntax
@@ -61,33 +63,31 @@ export function genDiffResult(root: IDiffNode): IDiffLog[] {
 
   // 非递归遍历
   while (stack.length) {
-    const node = stack.pop();
-    if (node) {
-      // diff type is rect
-      if (node.type & DiffType.Rect) {
-        // const $rect = createRectEle(node.rect.instance);
-        // framgent.appendChild($rect);
-      }
+    const node = stack.pop()!;
+    // diff type is rect
+    if (node.type & DiffType.Rect) {
+      // const $rect = createRectEle(node.rect.instance);
+      // framgent.appendChild($rect);
+    }
 
-      if (node.type & DiffType.Style) {
-        const logMsg: IDiffLog = {
-          location: getNodeLocation(node),
-          difference: diffStyle(node),
-        };
-        diffLog.push(logMsg);
-      }
+    if (node.type & DiffType.Style) {
+      const logMsg: IDiffLog = {
+        location: getNodeLocation(node),
+        difference: diffStyle(node),
+      };
+      diffLog.push(logMsg);
+    }
 
-      // push children to stack
-      if (node.children) {
-        node.children.forEach((child) => {
-          child.parent = node;
-          stack.push(child);
-        });
-      }
+    // push children to stack
+    if (node.children) {
+      node.children.forEach((child: IDiffNode) => {
+        child.parent = node;
+        stack.push(child);
+      });
     }
   }
 
-  document.body.appendChild(framgent);
+  // document.body.appendChild(framgent);
   return diffLog;
 }
 

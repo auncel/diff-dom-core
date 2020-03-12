@@ -1,4 +1,5 @@
 import { UUID_ATTR } from './getCSSPropertyValues';
+import { getUuid, setUuid } from './utils';
 
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
@@ -37,14 +38,16 @@ export function appendUuid(doc: Document): void {
   while (treeWalker.nextNode()) {
     const current: Element = treeWalker.currentNode as Element;
     const parent: Element = current.parentNode as Element;
-    const parentUuid: string = parent.getAttribute(UUID_ATTR);
+    const parentUuid: string = getUuid(parent);
     const firstChild: Element = parent.firstElementChild as Element;
     if (current.isEqualNode(firstChild)) {
-      current.setAttribute(UUID_ATTR, `${parentUuid}_0`);
+      setUuid(current, `${parentUuid}_0`);
     } else {
-      const prevSibling: Element = current.previousElementSibling;
-      const prevSiblingUuid = prevSibling.getAttribute(UUID_ATTR);
-      current.setAttribute(UUID_ATTR, `${parentUuid}_${getLastOrderNumber(prevSiblingUuid) + 1}`);
+      const prevSibling = current.previousElementSibling;
+      if (prevSibling) {
+        const prevSiblingUuid = getUuid(prevSibling);
+        setUuid(current, `${parentUuid}_${getLastOrderNumber(prevSiblingUuid) + 1}`);
+      }
     }
   }
 }

@@ -12,7 +12,7 @@
 import { appendUuid } from './appendUuid';
 import { generateRenderTree } from './generateRenderTree';
 import { computeElementStyle } from './getCSSPropertyValues';
-import { TRenderNode } from '../renderNode/RenderNode';
+import { TRenderNode } from '../RenderNode/RenderNode';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/interface-name-prefix

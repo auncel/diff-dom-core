@@ -18,11 +18,11 @@ import { generateRenderTree } from './generateRenderTree';
 import { readFixtures, IFixtureData } from '../../fixtures/readFixture';
 import { USER_STYLE_ID } from '../utils/const';
 import { computeElementStyle } from './getCSSPropertyValues';
-import { TRenderNode } from '../renderNode/RenderNode';
+import { TRenderNode } from '../RenderNode/RenderNode';
 
 function getRenderTree(fixture: IFixtureData): TRenderNode {
   if (!fixture) return null;
-  const { fragment, stylesheet, } = fixture;
+  const { fragment, stylesheet } = fixture;
   let $userStyle = document.getElementById(USER_STYLE_ID);
   if (!$userStyle) {
     $userStyle = document.createElement('style');
@@ -37,20 +37,20 @@ function getRenderTree(fixture: IFixtureData): TRenderNode {
   return tree;
 }
 
-const fixtrues = readFixtures(__dirname + '/../../fixtures/elements/button/bootstrap/')
+const fixtrues = readFixtures(`${__dirname}/../../fixtures/elements/button/bootstrap/`);
 
-let question: IFixtureData = fixtrues.question;
-let answers: IFixtureData[] = fixtrues.answers;
+const question: IFixtureData = fixtrues.question;
+const answers: IFixtureData[] = fixtrues.answers;
 
 beforeAll(() => {
   jest.setTimeout(10_000);
 }, 10_000);
 
 describe('bootstrap', () => {
-  test(`button`, () => {
-  const questionTree = getRenderTree(question as IFixtureData);
-  for (const answer of answers) {
-    const answerTree = getRenderTree(answer as IFixtureData);
+  test('button', () => {
+    const questionTree = getRenderTree(question as IFixtureData);
+    for (const answer of answers) {
+      const answerTree = getRenderTree(answer as IFixtureData);
       expect(questionTree).toEqual(answerTree);
     }
   });

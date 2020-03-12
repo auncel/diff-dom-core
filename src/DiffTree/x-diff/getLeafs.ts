@@ -9,7 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { IRenderNode, NodeType } from '../../renderNode/domCore';
+import { IRenderNode, NodeType } from '../../RenderNode/domCore';
 
 /**
  * 返回值不能是 Map<xHash, IRenderNode> 类型，因为子节点的 xHash 可能是相同的
@@ -35,5 +35,5 @@ export default function getLeafs(nodes: IRenderNode[]): IRenderNode[] {
   return nodes.reduce((acc, node) => {
     acc.push(...getNodeLeafs(node));
     return acc;
-  }, []);
+  }, [] as IRenderNode[]);
 }

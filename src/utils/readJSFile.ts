@@ -18,7 +18,7 @@ export function readJSFile(filepath: string): Promise<string> {
     }
     console.log(`read JavaScript from ${filepath}`);
     if (cache.has(filepath)) {
-      return Promise.resolve(cache.get(filepath));
+      return Promise.resolve(cache.get(filepath)!);
     }
     return fsp.readFile(filepath).then((buff) => {
       const srcCode = buff.toString();

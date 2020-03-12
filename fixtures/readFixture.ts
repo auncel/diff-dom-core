@@ -42,7 +42,7 @@ export function readFixture(filepath: string): IFixtureData {
   const fragment = htmlContent.substring(splitterIdx + SPLITTER.length).trim();
 
   const relativePaths = relative(__dirname, filepath).split('/');
-  const filename = relativePaths.pop();
+  const filename = relativePaths.pop()!;
 
   const { description, similarity }: { description: string; similarity: number} = YAML.load(yamlText);
   const [typeName, type] = filename.split('.');
@@ -73,8 +73,9 @@ export function readFixtures(dirpath: string): IFixture {
   if (fs.existsSync(absPath) && !fs.statSync(absPath).isDirectory) {
     throw Error(`${absPath} must be Directory`);
   }
-  const fixtureObject: IFixture = { title: '', question: null, answers: [] };
+  const fixtureObject: IFixture = {} as IFixture;
   fixtureObject.title = relative(__dirname, dirpath).split('/').join(' -> ');
+  fixtureObject.answers = [];
   const filenames = fs.readdirSync(absPath);
   filenames.sort(); // 字母排序
   // eslint-disable-next-line no-restricted-syntax

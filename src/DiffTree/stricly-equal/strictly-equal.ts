@@ -12,7 +12,7 @@
 
 import {
   IRenderNode, IDiffNode, DistinctionType, DiffType, NodeType,
-} from '../../renderNode/domCore';
+} from '../../RenderNode/domCore';
 import { IStrictlyEqualOption, strictlyEqualOption } from '../../config';
 import {
   getDiffNode, isElementType, createDistinction, createDiffNode,

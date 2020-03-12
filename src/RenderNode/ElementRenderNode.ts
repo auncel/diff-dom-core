@@ -13,6 +13,7 @@ import { NodeType, TNodeRect } from './domCore';
 import { TAttributes, TTag } from './element';
 import { TStyleProps } from './css';
 import RenderNode, { IRenderNode } from './RenderNode';
+import { ITextRenderNode } from './TextRenderNode';
 
 export interface IElementRenderNode extends IRenderNode {
   attr: TAttributes;
@@ -29,6 +30,8 @@ export interface IElementRenderNode extends IRenderNode {
   dataset?: DOMStringMap;
 
   style: TStyleProps;
+
+  children: (IElementRenderNode | ITextRenderNode)[];
 }
 
 export default class ElementRenderNode extends RenderNode implements IElementRenderNode {
@@ -51,14 +54,14 @@ export default class ElementRenderNode extends RenderNode implements IElementRen
 
   style: TStyleProps = {};
 
-  // children: ElementRenderNode[];
+  children: ElementRenderNode[] = [];
   // text?: string; // for TEXT_NODE
 
   // xHash?: string; // 专门给 x-diff 算法
   // parent?: IRenderNode; // x-diff 需要
   // nodeDiffType?: DiffType;
 
-  constructor(tagName: TTag | IElementRenderNode = 'div') {
+  constructor(tagName: IElementRenderNode | TTag = 'div') {
     super();
     if (typeof tagName === 'string') {
       this.tagName = tagName;

@@ -13,7 +13,7 @@
 import { Puppeteer, PageManager } from './pptr/index';
 import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
 import { createHTMLTpl } from './utils/index';
-import { IRenderNode } from '../lib/renderNode/domCore';
+import { IRenderNode } from '../lib/RenderNode/domCore';
 import { strictEqualDiff } from './diffCore/stricly-equal/index';
 import { generateDiffResult, IFixedScoringPointResult } from './evaluateSimilarity/fixedScoringPoint';
 import { writeFileSync } from 'fs';
@@ -40,7 +40,7 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
       let questionRenderTree = null;
       test(answer.description, async () => {
         if (!questionRenderTree) {
-          questionRenderTree = await getRenderTree(question)
+          questionRenderTree = await getRenderTree(question);
         }
         const answerRenerTree = await getRenderTree(answer);
         const diffTree = strictEqualDiff(questionRenderTree, answerRenerTree);
@@ -54,7 +54,7 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
 }
 
 afterAll(async () => {
-  const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g,'-');
-  writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap,null,2));
+  const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
+  writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
   await Puppeteer.close();
 });

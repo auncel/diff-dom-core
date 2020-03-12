@@ -48,7 +48,6 @@ if (isDefine(config.html)) {
     .finally(() => process.exit(0));
 }
 
-
 // generateRenderTree(`
 //   <div></div>
 // `, 'div { color: red; } ');

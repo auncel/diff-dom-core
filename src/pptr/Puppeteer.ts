@@ -4,8 +4,8 @@ import { PageManager } from './PageManager';
 import { MAX_PAGE_POOL_SIZE } from './constants';
 
 export class Puppeteer {
-  private static browser: Browser = null;
-  private static pageManager: PageManager = null;
+  private static browser: Browser | null = null;
+  private static pageManager: PageManager | null = null;
 
   public static async getBrowser(): Promise<Browser> {
     if (!this.browser) {
@@ -41,7 +41,7 @@ export class Puppeteer {
 
   public static async close(): Promise<void> {
     if (this.browser) {
-      this.pageManager.closeAll();
+      this.pageManager?.closeAll();
       this.pageManager = null;
       this.browser.close();
       this.browser = null;

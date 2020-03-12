@@ -1,13 +1,13 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
-import { NodeType } from '../renderNode/domCore';
+import { NodeType } from '../RenderNode/domCore';
 import { createTextNode } from '../utils/index';
-import { TTag } from '../../lib/renderNode/element';
+import { TTag } from '../RenderNode/element';
 import { getAttrs, getStyle, getRect, getUuid } from './utils';
 import { IGenerateRenderTreeOptions, mergeWithDefaultConfig } from '../config';
-import { TRenderNode } from '../renderNode/RenderNode';
-import ElementRenderNode from '../renderNode/ElementRenderNode';
-import TextRenderNode from '../renderNode/TextRenderNode';
+import { TRenderNode } from '../RenderNode/RenderNode';
+import ElementRenderNode from '../RenderNode/ElementRenderNode';
+import TextRenderNode from '../RenderNode/TextRenderNode';
 
 /**
  * Depth-first traversal
@@ -20,7 +20,7 @@ function depthFirstTraversal(
   coordinate: {x: number; y: number},
   config: IGenerateRenderTreeOptions,
 ): TRenderNode {
-  let renderNode: TRenderNode = null;
+  let renderNode: TRenderNode | null = null;
   if (domNode.nodeType === NodeType.ELEMENT_NODE) {
     const tagName = domNode.tagName as TTag;
     renderNode = new ElementRenderNode(tagName);
@@ -33,7 +33,7 @@ function depthFirstTraversal(
     renderNode.style = getStyle(domNode);
     renderNode.rect = getRect(domNode, coordinate);
 
-    if (!config.noChildElement.includes(tagName)) {
+    if (!config.noChildElement?.includes(tagName)) {
       const children = domNode.childNodes;
 
       let x = coordinate.x;
@@ -50,7 +50,7 @@ function depthFirstTraversal(
       for (let i = 0; i < children.length; i++) {
         const childNode = children[i] as HTMLElement;
         if (childNode.nodeType === NodeType.TEXT_NODE) {
-          const text = childNode.nodeValue.trim();
+          const text = childNode.nodeValue?.trim() ?? '';
           if (text) { // 排除空串
             const textChild = createTextNode(text);
             renderNode.append(textChild);
@@ -62,10 +62,10 @@ function depthFirstTraversal(
       }
     }
   } else if (domNode.nodeType === NodeType.TEXT_NODE) {
-    renderNode = new TextRenderNode(domNode.nodeValue);
+    renderNode = new TextRenderNode(domNode.nodeValue ?? '');
   }
 
-  return renderNode;
+  return renderNode as TRenderNode;
 }
 
 export function generateRenderTree(
