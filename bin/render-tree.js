@@ -11,7 +11,7 @@ const { readJSFile } = require('../dist/utils/readJSFile');
 const { createHTMLTpl } = require('../dist/utils');
 const { Puppeteer } = require('../dist/pptr');
 const { readFixture } = require('./readFixture');
-require('../../common/dist/polyfill/toJSON');
+require('@auncel/common/polyfill/toJSON');
 
 /**
  * generate Render Tree

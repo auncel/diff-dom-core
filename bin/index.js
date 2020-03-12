@@ -8,7 +8,7 @@ function isDefine(val) {
   return typeof val !== 'undefined';
 }
 
-require('../../common/dist/polyfill/toJSON');
+require('@auncel/common/polyfill/toJSON');
 
 args
   .option('html', 'input html fixture file path')
