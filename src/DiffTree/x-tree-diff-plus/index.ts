@@ -9,15 +9,15 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import RenderTreeXTreeDiff from './RenderTreeXTreeDiff';
-import { renderNode2DiffRenderNode } from './RenderNode2DiffRenderNode';
+import RenderTreeXTreeDiffPlus from './RenderNodeXTreeDiffPlus';
+import { plainObject2RenderNode } from './plainObject2RenderNode';
 
 const { div } = require('../../../fixtures/render/diff.json');
 
 
-const treeOld = renderNode2DiffRenderNode(div.origin);
-const treeNew = renderNode2DiffRenderNode(div.padding);
-const xTreeDiff = new RenderTreeXTreeDiff(treeOld, treeNew);
+const treeOld = plainObject2RenderNode(div.origin);
+const treeNew = plainObject2RenderNode(div.padding);
+const xTreeDiff = new RenderTreeXTreeDiffPlus(treeOld, treeNew);
 const res = xTreeDiff.diff();
 
-console.log(JSON.stringify(res, null, 2));
+// console.log(JSON.stringify(res, null, 2));

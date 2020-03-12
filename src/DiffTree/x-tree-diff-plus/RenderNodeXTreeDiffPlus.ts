@@ -10,20 +10,20 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 /* eslint-disable class-methods-use-this */
-
-import { NodeType } from '../../RenderNode/domCore';
-// why???
+/* eslint-disable no-bitwise */
+/* eslint-disable no-param-reassign */
 import {
   XTreeDiffPlus, XTree, NodeType as XTreeNodeType, EditOption,
 } from '@dovyih/x-tree-diff-plus';
-import ShadowRenderNode, { ShadowDiffType } from '../ShadowRenderNode';
+import { NodeType } from '../../RenderNode/enum';
+import ShadowRenderNode, { ShadowDiffType } from '../../ShadowNode/ShadowRenderNode';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
 import RenderNode from '../../RenderNode/RenderNode';
 
-export default class RenderNodeXTreeDiff extends XTreeDiffPlus<RenderNode> {
+export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<RenderNode> {
   public buildXTree(root: ElementRenderNode): XTree<ShadowRenderNode> {
-    function diffRenderNode2XTree(
+    function renderNode2XTree(
       renderNode: ElementRenderNode | TextRenderNode, index: number,
     ): XTree<ShadowRenderNode> {
       const shadowNode = new ShadowRenderNode(renderNode);
@@ -36,7 +36,7 @@ export default class RenderNodeXTreeDiff extends XTreeDiffPlus<RenderNode> {
             data: shadowNode,
           });
           renderNode.forEach((child, idx) => {
-            const childXTreeNode = diffRenderNode2XTree(child as ElementRenderNode, idx);
+            const childXTreeNode = renderNode2XTree(child as ElementRenderNode, idx);
             xTreeNode.append(childXTreeNode);
           });
           return xTreeNode;
@@ -54,76 +54,61 @@ export default class RenderNodeXTreeDiff extends XTreeDiffPlus<RenderNode> {
           throw TypeError(`Unkown NodeType: ${(renderNode as any)?.nodeType}`);
       }
     }
-    return diffRenderNode2XTree(root, 1);
+    return renderNode2XTree(root, 1);
   }
 
   /**
    *
-   * @param {XTree<ShadowRenderNode>} rootA
+   * @param {XTree<ShadowRenderNode>} root
    */
-  public dumpXTree(rootA: XTree<ShadowRenderNode>): ShadowRenderNode {
+  public dumpXTree(root: XTree<ShadowRenderNode>): ShadowRenderNode {
     // rootA.data.diffType = ShadowDiffType.NONE;
-    const stack1: XTree<ShadowRenderNode>[] = [rootA];
-
-    rootA.data.parent = null;
+    const stack1: XTree<ShadowRenderNode>[] = [root];
+    // const rootShadowNode = root.data;
     while (stack1.length) {
-      const nodeA = stack1.pop();
-      const shadowNode = nodeA.data;
-      switch (nodeA.Op) {
+      const xTreeNode = stack1.pop()!;
+      const shadowNode = xTreeNode.data;
+      switch (xTreeNode.Op) {
+        // old tree has extra node
         case EditOption.DEL: {
           shadowNode.diffType ^= ShadowDiffType.MISSING_NODE;
-
-          const nodeBParent: XTree<ShadowRenderNode> = nodeA?.pPtr?.nPtr;
-          if (nodeBParent) {
-            const shadowNodeB = nodeBParent.data;
+          const anthorXTreeParentNode = xTreeNode?.pPtr?.nPtr;
+          if (anthorXTreeParentNode) {
+            const shadowNodeB: ShadowRenderNode = anthorXTreeParentNode.data;
             shadowNodeB.diffType ^= ShadowDiffType.SHADOW_CHILDREN;
-            shadowNodeB.shadowChildren[nodeA.index] = shadowNode;
+            shadowNodeB.shadowChildren[xTreeNode.index] = shadowNode;
           }
-
           break;
         }
         case EditOption.INS: {
           shadowNode.diffType ^= ShadowDiffType.EXTRA_NODE;
-          const nodeBParent: XTree<ShadowRenderNode> = nodeA?.pPtr?.nPtr;
-          if (nodeBParent) {
-            const shadowNodeB = nodeBParent.data;
-            shadowNodeB.diffType ^= ShadowDiffType.SHADOW_CHILDREN;
-            shadowNodeB.shadowChildren[nodeA.index] = shadowNode;
-          }
           break;
         }
-        // MOV means the node is equal, but its order not
+        // MOV means the nodes are equal, but not its order
+        case EditOption.UPD:
         case EditOption.MOV: {
           shadowNode.diffType ^= ShadowDiffType.MOVED_NODE;
-          if (shadowNode.parent === null) break;
-          const nodeAParent = nodeA.pPtr;
-          const nodeB: XTree<ShadowRenderNode> = nodeA?.nPtr;
-          if (nodeB) {
-            nodeAParent.data.diffType ^= ShadowDiffType.SHADOW_CHILDREN;
-            shadowNode.shadowChildren[nodeB.index] = shadowNode;
+          const equivalenceShadowNode = xTreeNode?.nPtr;
+          if (equivalenceShadowNode) {
+            shadowNode.shadowNode = equivalenceShadowNode.data as ShadowRenderNode;
           }
-          break;
-        }
-        case EditOption.UPD: {
-          shadowNode.diffType ^= ShadowDiffType.SHADOW_NODE;
-          shadowNode.shadowNode = new ShadowRenderNode(nodeA.nPtr.data as RenderNode);
           break;
         }
         default:
           shadowNode.diffType ^= ShadowDiffType.NONE;
       }
 
-      if (nodeA.hasChildren()) {
-        nodeA.forEach((node: XTree<ShadowRenderNode>, index) => {
+      if (xTreeNode.hasChildren()) {
+        xTreeNode.forEach((node: XTree<ShadowRenderNode>, index) => {
           // add parent link
-          node.data.parent = nodeA.data;
+          node.data.parent = xTreeNode.data;
           // rebuild tree link
-          nodeA.data.set<ShadowRenderNode>(index, node.data);
+          xTreeNode.data.set<ShadowRenderNode>(index, node.data);
           stack1.push(node);
         });
       }
     }
 
-    return rootA.data;
+    return root.data;
   }
 }

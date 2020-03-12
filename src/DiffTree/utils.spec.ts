@@ -10,7 +10,7 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
 
-import { DistinctionType } from '../renderNode/domCore';
+import { DistinctionType } from '../RenderNode/domCore';
 import { distinctionCompare } from './utils';
 
 describe('utils: objectCompare', () => {

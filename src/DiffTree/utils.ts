@@ -9,13 +9,15 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
+/* eslint-disable no-bitwise */
 
 import { isEqual } from 'lodash';
-import { TStyleProps } from '../renderNode/css';
+import { IPlainObject } from '@auncel/common/types/IPlainObject';
+import { TStyleProps } from '../RenderNode/css';
 import { IDistinctionDetail, DistinctionType,
   NodeType, TAttrPropertyType, TCSSPropertyValueType, TNodeRect,
   IRenderNode, IDiffNode, DiffType,
-} from '../renderNode/domCore';
+} from '../RenderNode/domCore';
 import {
   IStrictlyEqualAttrOption, IStrictlyEqualOption, IStrictlyEqualStyleOption,
 } from '../config';
@@ -44,7 +46,7 @@ export type Comparator = <T>(
  * @param isEualFn 是否相等的比较函数
  */
 export function distinctionCompare<T>(
-  object: object, comparison: object, keys: string[], isEqualFn = isEqual,
+  object: IPlainObject, comparison: IPlainObject, keys: string[], isEqualFn = isEqual,
 ): IDistinctionDetail<T>[] {
   const res: IDistinctionDetail<T>[] = [];
 
@@ -59,7 +61,6 @@ export function distinctionCompare<T>(
             key,
             DistinctionType.EQUALITY,
             object[key],
-            null,
           ),
         );
       } else {
@@ -85,7 +86,7 @@ export function distinctionCompare<T>(
         createDistinction<T>(
           key,
           DistinctionType.MISSING,
-          null,
+          undefined,
           comparison[key],
         ),
       );
@@ -99,7 +100,7 @@ export function distinctionCompare<T>(
         createDistinction<T>(
           key,
           DistinctionType.EXTRA,
-          null,
+          undefined,
           comparison[key],
         ),
       );
@@ -117,11 +118,17 @@ function identifyAttrDistinction(
   leftNode: IRenderNode, rightNode: IRenderNode, attrConfig: IStrictlyEqualAttrOption,
 ): IDistinctionDetail<TAttrPropertyType>[] {
   if (Array.isArray(attrConfig.list)) {
-    return distinctionCompare<TAttrPropertyType>(leftNode.attr, rightNode.attr, attrConfig.list);
+    return distinctionCompare<TAttrPropertyType>(
+      leftNode.attr ?? {},
+      rightNode.attr ?? {},
+      attrConfig.list,
+    );
   }
 
   const distinctions: IDistinctionDetail<TAttrPropertyType>[] = distinctionCompare<TAttrPropertyType>(
-    leftNode.attr, rightNode.attr, Object.keys(leftNode.attr),
+    leftNode.attr ?? {},
+    rightNode.attr ?? {},
+    Object.keys(leftNode.attr ?? {}),
   );
 
   if (attrConfig.isStrictlyEqual) {
@@ -147,7 +154,7 @@ export function identifyRectDistinction(
 ): IDistinctionDetail<number>[] {
   const distinctions = distinctionCompare<number>(
     leftRect, rightRect, ['left', 'top', 'width', 'height'],
-    (leftValue, rightValue) => Math.abs(leftValue - rightValue) <= rectTolerance,
+    (leftValue: number, rightValue: number) => Math.abs(leftValue - rightValue) <= rectTolerance,
   );
 
   return distinctions;
@@ -158,7 +165,7 @@ export function isStyleEqual(node1: IRenderNode, node2: IRenderNode): boolean {
 }
 
 export function getNodeLocal(node: IRenderNode): string {
-  const buff = [node.tagName.toLowerCase()];
+  const buff = [(node.tagName ?? '').toLowerCase()];
   if (node.id) buff.push(`#${node.id}`);
   if (node.className) buff.push('.', node.className.split(' ').join('.'));
   return buff.join('');
@@ -168,6 +175,8 @@ export function createDiffNode(): IDiffNode {
   return {
     type: DiffType.None,
     location: '',
+    children: [],
+    hasChildren: (): boolean => false,
   };
 }
 
@@ -216,19 +225,27 @@ export function getDiffNode(
     }
   }
 
-  const attrDisctinctions = identifyAttrDistinction(left, right, config.attrs);
+  const attrDisctinctions = identifyAttrDistinction(left, right, config.attrs ?? {});
   if (attrDisctinctions.length !== 0) {
     diffNode.type |= DiffType.Attr;
     diffNode.attr = attrDisctinctions;
   }
 
-  const styleDistinctions = identifyStyleDistinction(left.style, right.style, config.style);
+  const styleDistinctions = identifyStyleDistinction(
+    left.style ?? {},
+    right.style ?? {},
+    config.style,
+  );
   if (!isStyleEqual(left, right)) {
     diffNode.type |= DiffType.Style;
     diffNode.style = styleDistinctions;
   }
 
-  const rectDistinction = identifyRectDistinction(left.rect, right.rect, config.rectTolerance);
+  const rectDistinction = identifyRectDistinction(
+    left.rect ?? {},
+    right.rect ?? {},
+    config.rectTolerance,
+  );
   if (rectDistinction.length) {
     diffNode.rect = rectDistinction;
   }
