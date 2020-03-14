@@ -14,9 +14,9 @@ import {
   IRenderNode, IDiffNode, DistinctionType, DiffType, NodeType,
 } from '../../RenderNode/domCore';
 import { IStrictlyEqualOption, strictlyEqualOption } from '../../config';
-import {
-  getDiffNode, isElementType, createDistinction, createDiffNode,
-} from '../utils';
+import { isElementType, createDistinction, createDiffNode } from '../utils';
+import { DiffNode } from '../DiffNode';
+import { UnionRenderNode } from '../x-tree-diff-plus/RenderNodeXTreeDiffPlus';
 
 
 /**
@@ -26,16 +26,16 @@ import {
  * @param {IRenderNode} right
  */
 function strictEqualDeepFirstTraversal(
-  left: IRenderNode, right: IRenderNode, config: IStrictlyEqualOption,
-): IDiffNode {
-  let diffNode: IDiffNode;
+  left: UnionRenderNode, right: UnionRenderNode, config: IStrictlyEqualOption,
+): DiffNode {
+  let diffNode: DiffNode;
   if (isElementType(left) && isElementType(right)) {
-    diffNode = getDiffNode(left, right, config);
+    diffNode = DiffNode.createDiffNode(left, right);
 
     if (left.children && left.children.length && right.children && right.children.length) {
       diffNode.children = [];
       for (let i = 0; i < left.children.length; i++) {
-        const childDiffNode = strictEqualDeepFirstTraversal(left.children[i], right.children[i], config);
+        const childDiffNode = strictEqualDeepFirstTraversal(left.get(i), right.get(i), config);
         diffNode.children.push(childDiffNode);
       }
     }
@@ -43,7 +43,7 @@ function strictEqualDeepFirstTraversal(
   } else if (left.nodeType === NodeType.TEXT_NODE && right.nodeType === NodeType.TEXT_NODE) {
     diffNode = createDiffNode();
     if (left.text !== right.text) {
-      diffNode.type |= DiffType.Text;
+      diffNode.diffType |= DiffType.Text;
       diffNode.text = createDistinction(
         'text',
         DistinctionType.INEQUAL,
@@ -53,7 +53,7 @@ function strictEqualDeepFirstTraversal(
     }
   } else {
     diffNode = createDiffNode();
-    diffNode.type |= DiffType.NodeType;
+    diffNode.diffType |= DiffType.NodeType;
     diffNode.nodeType = createDistinction(
       'nodeType',
       DistinctionType.INEQUAL,
