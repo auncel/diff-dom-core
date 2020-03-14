@@ -13,14 +13,10 @@
 
 import { isEqual } from 'lodash';
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
-import { TStyleProps } from '../RenderNode/css';
-import { IDistinctionDetail, DistinctionType,
-  NodeType, TAttrPropertyType, TCSSPropertyValueType, TNodeRect,
-  IRenderNode, IDiffNode, DiffType,
-} from '../RenderNode/domCore';
 import {
-  IStrictlyEqualAttrOption, IStrictlyEqualOption, IStrictlyEqualStyleOption,
-} from '../config';
+  IDistinctionDetail, DistinctionType, NodeType,
+} from '../RenderNode/domCore';
+import ShadowRenderNode from './ShadowRenderNode';
 
 
 export function createDistinction<T>(
@@ -110,145 +106,6 @@ export function distinctionCompare<T>(
   return res;
 }
 
-export function isElementType(element: IRenderNode): boolean {
+export function isElementType(element: ShadowRenderNode): boolean {
   return element.nodeType === NodeType.ELEMENT_NODE;
-}
-
-function identifyAttrDistinction(
-  leftNode: IRenderNode, rightNode: IRenderNode, attrConfig: IStrictlyEqualAttrOption,
-): IDistinctionDetail<TAttrPropertyType>[] {
-  if (Array.isArray(attrConfig.list)) {
-    return distinctionCompare<TAttrPropertyType>(
-      leftNode.attr ?? {},
-      rightNode.attr ?? {},
-      attrConfig.list,
-    );
-  }
-
-  const distinctions: IDistinctionDetail<TAttrPropertyType>[] = distinctionCompare<TAttrPropertyType>(
-    leftNode.attr ?? {},
-    rightNode.attr ?? {},
-    Object.keys(leftNode.attr ?? {}),
-  );
-
-  if (attrConfig.isStrictlyEqual) {
-    return distinctions;
-  }
-
-  return distinctions.filter(distinction => distinction.type === DistinctionType.EXTRA);
-}
-
-/** TODO: styleConfig */
-export function identifyStyleDistinction(
-  leftNodeStyle: TStyleProps, rightNodeStyle: TStyleProps, styleConfig: IStrictlyEqualStyleOption,
-): IDistinctionDetail<TCSSPropertyValueType>[] {
-  const keys = Object.keys(leftNodeStyle);
-  const distinctions = distinctionCompare<TCSSPropertyValueType>(
-    leftNodeStyle, rightNodeStyle, keys,
-  );
-  return distinctions;
-}
-
-export function identifyRectDistinction(
-  leftRect: TNodeRect, rightRect: TNodeRect, rectTolerance: number,
-): IDistinctionDetail<number>[] {
-  const distinctions = distinctionCompare<number>(
-    leftRect, rightRect, ['left', 'top', 'width', 'height'],
-    (leftValue: number, rightValue: number) => Math.abs(leftValue - rightValue) <= rectTolerance,
-  );
-
-  return distinctions;
-}
-
-export function isStyleEqual(node1: IRenderNode, node2: IRenderNode): boolean {
-  return isEqual(node1.style, node2.style);
-}
-
-export function getNodeLocal(node: IRenderNode): string {
-  const buff = [(node.tagName ?? '').toLowerCase()];
-  if (node.id) buff.push(`#${node.id}`);
-  if (node.className) buff.push('.', node.className.split(' ').join('.'));
-  return buff.join('');
-}
-
-export function createDiffNode(): IDiffNode {
-  return {
-    type: DiffType.None,
-    location: '',
-    children: [],
-    hasChildren: (): boolean => false,
-  };
-}
-
-export function getDiffNode(
-  left: IRenderNode,
-  right: IRenderNode,
-  config: IStrictlyEqualOption,
-): IDiffNode {
-  const diffNode = createDiffNode();
-
-  diffNode.location = getNodeLocal(right);
-
-  if (config.isTagStrictlyEqaul) {
-    if (left.nodeName !== right.nodeName) {
-      diffNode.type |= DiffType.Tag;
-      diffNode.tagName = createDistinction<string>(
-        'tagName',
-        DistinctionType.INEQUAL,
-        left.nodeName,
-        right.nodeName,
-      );
-    }
-  }
-
-  if (config.isIdStrictlyEqual) {
-    if (left.id && right.id && left.id !== right.id) {
-      diffNode.type |= DiffType.Id;
-      diffNode.id = createDistinction<string>(
-        'id',
-        DistinctionType.INEQUAL,
-        right.id,
-        left.id,
-      );
-    }
-  }
-
-  if (config.isClassStrictlyEqual) {
-    if (left.className !== right.className) {
-      diffNode.type |= DiffType.ClassName;
-      diffNode.className = createDistinction<string>(
-        'className',
-        DistinctionType.INEQUAL,
-        left.className,
-        right.className,
-      );
-    }
-  }
-
-  const attrDisctinctions = identifyAttrDistinction(left, right, config.attrs ?? {});
-  if (attrDisctinctions.length !== 0) {
-    diffNode.type |= DiffType.Attr;
-    diffNode.attr = attrDisctinctions;
-  }
-
-  const styleDistinctions = identifyStyleDistinction(
-    left.style ?? {},
-    right.style ?? {},
-    config.style,
-  );
-  if (!isStyleEqual(left, right)) {
-    diffNode.type |= DiffType.Style;
-    diffNode.style = styleDistinctions;
-  }
-
-  const rectDistinction = identifyRectDistinction(
-    left.rect ?? {},
-    right.rect ?? {},
-    config.rectTolerance,
-  );
-  if (rectDistinction.length) {
-    diffNode.rect = rectDistinction;
-  }
-
-  return diffNode;
 }

@@ -17,6 +17,12 @@
   ],
   "rules": {
     "import/extensions": 0,
-    "import/prefer-default-export": 0
+    "import/prefer-default-export": 0,
+    "no-bitwise": 0,
+    "import/no-unresolved": 0,
+    "no-param-reassign": 1,
+    "max-len": 1,
+    "no-plusplus": 0,
+    "@typescript-eslint/interface-name-prefix": [2, { "prefixWithI": "always" }]
   }
 }

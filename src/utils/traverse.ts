@@ -9,14 +9,18 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { ITreeNode } from '../RenderNode/domCore';
+// import { ITreeNode } from '../RenderNode/domCore';
+import TreeNode from '../RenderNode/TreeNode';
 
 export type visitorFn = <T>(node: T, index: number, parent: T | null) => boolean | void;
+export interface IVisitorFn<T> {
+  (node: T, index: number, parent: T | null): boolean | void;
+}
 
 export type TraverseNode = {
-  node: ITreeNode;
+  node: TreeNode;
   index: number;
-  parent: ITreeNode | null;
+  parent: TreeNode | null;
 }
 
 /**
@@ -26,7 +30,7 @@ export type TraverseNode = {
  * @param {T} root
  * @param {(node: T) => boolean} visitor
  */
-export function deepFirstTraverse<T extends ITreeNode>(root: T, visitor: visitorFn): void {
+export function deepFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitorFn<T>): void {
   if (!root) return;
   const stack: TraverseNode[] = [{ node: root, index: 0, parent: null }];
   while (stack.length) {
@@ -48,7 +52,7 @@ export function deepFirstTraverse<T extends ITreeNode>(root: T, visitor: visitor
  * @param {(node: XTree) => boolean} visitor
  * @returns {void}
  */
-export function breadthFirstTraverse<T extends ITreeNode>(root: T, visitor: visitorFn): void {
+export function breadthFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitorFn<T>): void {
   if (!root) return;
   const queue: TraverseNode[] = [{ node: root, index: 0, parent: null }];
   while (queue.length) {
