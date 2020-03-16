@@ -9,11 +9,21 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { NodeType, TNodeRect } from './domCore';
+
 import { TAttributes, TTag } from './element';
 import { TStyleProps } from './css';
 import RenderNode, { IRenderNode } from './RenderNode';
 import { ITextRenderNode } from './TextRenderNode';
+import { NodeType } from './enum';
+
+export type TNodeRect = {
+  left?: number;
+  top?: number;
+  width?: number;
+  height?: number;
+  x?: number;
+  y?: number;
+}
 
 export interface IElementRenderNode extends IRenderNode {
   attr: TAttributes;
@@ -55,11 +65,6 @@ export default class ElementRenderNode extends RenderNode implements IElementRen
   style: TStyleProps = {};
 
   children: ElementRenderNode[] = [];
-  // text?: string; // for TEXT_NODE
-
-  // xHash?: string; // 专门给 x-diff 算法
-  // parent?: IRenderNode; // x-diff 需要
-  // nodeDiffType?: DiffType;
 
   constructor(tagName: IElementRenderNode | TTag = 'div') {
     super();

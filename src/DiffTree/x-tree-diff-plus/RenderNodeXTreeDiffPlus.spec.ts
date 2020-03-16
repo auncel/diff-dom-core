@@ -13,8 +13,9 @@ import { execSync } from 'child_process';
 import '@auncel/common/polyfill/toJSON';
 import RenderTreeXTreeDiffPlus from './RenderNodeXTreeDiffPlus';
 import { plainObject2RenderNode } from './plainObject2RenderNode';
-import ShadowRenderNode, { ShadowDiffType } from '../../ShadowNode/ShadowRenderNode';
 import { readFixtures, IFixtureData } from '../../../fixtures/readFixture';
+import { DiffNode, DiffType } from '../DiffNode';
+// import { DiffType } from '../../RenderNode/enum';
 
 const fixture = readFixtures('elements/ul/list-group');
 
@@ -30,12 +31,12 @@ function testFactory(question: IFixtureData) {
   }
 
   const treeOld = getRenderTree(question);
-  return function (answer: IFixtureData, expectFunc: Function) {
+  return function (answer: IFixtureData, expectFunc: (tree: DiffNode) => void) {
     test(answer.name, () => {
       const treeNew = getRenderTree(answer);
       const xTreeDiff = new RenderTreeXTreeDiffPlus(treeOld, treeNew);
-      const { newTree } = xTreeDiff.diff();
-      expectFunc(newTree);
+      const { newTree  } = xTreeDiff.diff();
+      expectFunc(newTree as unknown as DiffNode);
     });
   };
 }
@@ -49,23 +50,31 @@ describe(fixture.title, () => {
 
   testFunc(
     answerMap['px.answer.html'],
-    (shadowTree: ShadowRenderNode) => expect(shadowTree.diffType).toBe(ShadowDiffType.NONE),
+    (shadowTree: DiffNode) =>{
+      expect(shadowTree.diffType).toBe(DiffType.None);
+      expect((shadowTree.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
+      expect((shadowTree.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
+    },
   );
 
   testFunc(
     answerMap['has-extra-child.answer.html'],
-    (shadowTree: ShadowRenderNode) => {
-      expect(shadowTree.diffType).toBe(ShadowDiffType.NONE);
-      expect((shadowTree.get(0).get(5) as ShadowRenderNode).diffType).toBe(ShadowDiffType.EXTRA_NODE);
+    (shadowTree: DiffNode) => {
+      console.log(JSON.stringify(shadowTree, null, 2));
+      expect(shadowTree.diffType).toBe(DiffType.None);
+      expect((shadowTree.get(0).get(5) as DiffNode).subTree).not.toBeNull();
+      expect((shadowTree.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
     },
   );
 
   testFunc(
     answerMap['missing-a-child.answer.html'],
-    (shadowTree: ShadowRenderNode) => {
-      expect(shadowTree.diffType).toBe(ShadowDiffType.NONE);
-      expect((shadowTree.get(0) as ShadowRenderNode).diffType).toBe(ShadowDiffType.SHADOW_CHILDREN);
-      expect((shadowTree.get(0) as ShadowRenderNode).shadowChildren[2].diffType).toBe(ShadowDiffType.MISSING_NODE);
+    (shadowTree: DiffNode) => {
+      expect(shadowTree.diffType).toBe(DiffType.None);
+      expect((shadowTree.get(0) as DiffNode).diffType).toBe(DiffType.None);
+      expect((shadowTree.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
+      expect((shadowTree.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
+      expect((shadowTree.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
     },
   );
 

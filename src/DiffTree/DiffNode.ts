@@ -40,9 +40,9 @@ export enum DiffType {
   Rect = 1 << 7,
   Text = 1 << 8, // 文本不相同
   // 节点差异
-  NodeUPDATE = 1 << 9,
-  NodeINSERT = 1 << 10,
-  NodeDELETE = 1 << 11,
+  NodeUpdate = 1 << 9,
+  NodeInsert = 1 << 10,
+  NodeDelete = 1 << 11,
   NodeMove = 1 << 12,
 }
 
@@ -70,6 +70,7 @@ export class DiffNode extends TreeNode {
   diffType: number = DiffType.None; // 差异类型，是 DiffType 的累加值
   location = ''; // 为了方便日志输出
   moveDistance = 0; // 节点移动距离
+  index = -1;
 
   tagName?: IDistinctionDetail<string>;
   nodeType?: IDistinctionDetail<NodeType>;
@@ -116,21 +117,21 @@ export class DiffNode extends TreeNode {
 
     if (config.isTagStrictlyEqaul) {
       if (newNode.nodeName !== oldNode.nodeName) {
-        diffNode.diffType |= DiffType.Tag;
+        diffNode.diffType ^= DiffType.Tag;
         diffNode.tagName = identifyTagNameDistinction(newNode, oldNode);
       }
     }
 
     if (config.isIdStrictlyEqual) {
       if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
-        diffNode.diffType |= DiffType.Id;
+        diffNode.diffType ^= DiffType.Id;
         diffNode.id = identifyIdDistinction(newNode, oldNode);
       }
     }
 
     if (config.isClassStrictlyEqual) {
       if (newNode.className !== oldNode.className) {
-        diffNode.diffType |= DiffType.ClassName;
+        diffNode.diffType ^= DiffType.ClassName;
         diffNode.className = identifyClassNameDistinction(newNode, oldNode);
       }
     }
@@ -138,7 +139,7 @@ export class DiffNode extends TreeNode {
     // eslint-disable-next-line no-undef
     const attrDisctinctions = identifyAttrDistinction(newNode, oldNode, config.attrs ?? {});
     if (attrDisctinctions.length !== 0) {
-      diffNode.diffType |= DiffType.Attr;
+      diffNode.diffType ^= DiffType.Attr;
       diffNode.attr = attrDisctinctions;
     }
 
@@ -149,7 +150,7 @@ export class DiffNode extends TreeNode {
     );
 
     if (!isStyleEqual(newNode, oldNode)) {
-      diffNode.diffType |= DiffType.Style;
+      diffNode.diffType ^= DiffType.Style;
       diffNode.style = styleDistinctions;
     }
 
@@ -165,7 +166,7 @@ export class DiffNode extends TreeNode {
     return diffNode;
   }
 
-  private static createTextDiffNode(newNode: TextRenderNode, oldNode: TextRenderNode) {
+  private static createTextDiffNode(newNode: TextRenderNode, oldNode: TextRenderNode): DiffNode {
     const diffNode = new DiffNode();
     diffNode.text = identifyTextDistinction(newNode, oldNode);
     return diffNode;

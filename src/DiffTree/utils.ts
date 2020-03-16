@@ -14,9 +14,11 @@
 import { isEqual } from 'lodash';
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
 import {
-  IDistinctionDetail, DistinctionType, NodeType,
+  IDistinctionDetail, DistinctionType, NodeType, IDiffNode,
 } from '../RenderNode/domCore';
-import ShadowRenderNode from './ShadowRenderNode';
+import { UnionRenderNode } from './x-tree-diff-plus/RenderNodeXTreeDiffPlus';
+import ElementRenderNode from '../RenderNode/ElementRenderNode';
+import { DiffType } from './DiffNode';
 
 
 export function createDistinction<T>(
@@ -106,6 +108,23 @@ export function distinctionCompare<T>(
   return res;
 }
 
-export function isElementType(element: ShadowRenderNode): boolean {
+export function isElementType(element: UnionRenderNode): boolean {
   return element.nodeType === NodeType.ELEMENT_NODE;
+}
+
+
+export function getNodeLocal(node: ElementRenderNode): string {
+  const buff = [(node.tagName ?? '').toLowerCase()];
+  if (node.id) buff.push(`#${node.id}`);
+  if (node.className) buff.push('.', node.className.split(' ').join('.'));
+  return buff.join('');
+}
+
+export function createDiffNode(): IDiffNode {
+  return {
+    type: DiffType.None,
+    location: '',
+    children: [],
+    hasChildren: (): boolean => false,
+  };
 }

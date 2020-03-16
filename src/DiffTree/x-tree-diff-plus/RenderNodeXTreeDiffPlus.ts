@@ -18,12 +18,9 @@ import {
 import { NodeType } from '../../RenderNode/enum';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
-import RenderNode from '../../RenderNode/RenderNode';
-import { DiffNode } from '../../DiffTree/DiffNode';
-import { DiffType } from '../../RenderNode/domCore';
+import { DiffNode, DiffType } from '../../DiffTree/DiffNode';
 
 export type UnionRenderNode = ElementRenderNode | TextRenderNode
-
 
 function computeMoveDistance(leftNode: XTree, rightNode: XTree): number {
   const leftParentList: string[] = [];
@@ -45,7 +42,7 @@ function computeMoveDistance(leftNode: XTree, rightNode: XTree): number {
   return Infinity;
 }
 
-export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<RenderNode, UnionRenderNode> {
+export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNode, UnionRenderNode> {
   public buildXTree(root: ElementRenderNode): XTree<UnionRenderNode> {
     function renderNode2XTree(
       renderNode: ElementRenderNode | TextRenderNode, index: number,
@@ -88,29 +85,18 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<RenderNode, U
    * @param {XTree<UnionRenderNode>} newRoot
    */
   public dumpXTree(oldRoot: XTree<UnionRenderNode>, newRoot: XTree<UnionRenderNode>) {
-    let diffRoot: DiffNode;
-    let diffParent: DiffNode;
-    const stack1: XTree<UnionRenderNode>[] = [newRoot];
-    while (stack1.length) {
-      const xTreeNode = stack1.pop()!;
+    function traverse(xTreeNode: XTree<UnionRenderNode>): DiffNode {
       const originNode = xTreeNode.data!;
-      let diffNode: DiffNode;
-
-      if (originNode.parent === null) {
-        diffNode = DiffNode.createDiffNode(originNode, xTreeNode.nPtr!);
-        diffRoot = diffNode;
-        diffParent = diffNode;
-      }
+      let diffNode: DiffNode = new DiffNode();
 
       // eslint-disable-next-line default-case
       switch (xTreeNode.Op) {
         case EditOption.INS: {
           diffNode = new DiffNode();
           diffNode.diffType ^= DiffType.NodeInsert;
+          diffNode.index = xTreeNode.index;
           diffNode.subTree = originNode;
-          // eslint-disable-next-line no-continue
-          continue;
-          // break;
+          return diffNode;
         }
         case EditOption.UPD: {
           const equivalenceShadowNode = xTreeNode?.nPtr;
@@ -148,33 +134,33 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<RenderNode, U
         }
       }
 
-      diffParent!.append(diffNode!);
+      xTreeNode?.nPtr?.forEach((node: XTree<UnionRenderNode>) => {
+        if (node.Op === EditOption.DEL) {
+          console.log(xTreeNode.label, node.label);
+          const childDiffNode = new DiffNode();
+          childDiffNode.diffType ^= DiffType.NodeDelete;
+          childDiffNode.index = node.index;
+          childDiffNode.subTree = node.data;
+          diffNode.append(childDiffNode);
+        }
+      });
 
-      if (xTreeNode.hasChildren()) {
-        xTreeNode.forEach((node: XTree<UnionRenderNode>, index) => {
-          if (node.nPtr) {
-            node.nPtr.forEach((grandChildNode) => {
-              if (grandChildNode.Op === EditOption.DEL) {
-                const childDiffNode = new DiffNode();
-                childDiffNode.diffType = DiffType.NodeDelete;
-                diffNode.subTree = grandChildNode.data;
-                diffNode.set(grandChildNode.index, childDiffNode);
-              }
-            });
-          }
-
+      xTreeNode.forEach((node: XTree<UnionRenderNode>, index) => {
+          // eslint-disable-next-line no-unused-expressions
           if (typeof node.data !== 'undefined') {
-            // add parent link
-            node.data.parent = originNode;
-            // FIXME: why need re-set children
-            // rebuild tree link
-            originNode.set<UnionRenderNode>(index, node.data);
-            stack1.push(node);
+  
+            const diffChild = traverse(node);
+            // console.log(diffChild);
+            diffNode.append(diffChild);
           }
-        });
-      }
+      });
+
+      diffNode.index = xTreeNode.index;
+      // sort children
+      diffNode.sort<DiffNode>((a, b) => a.index - b.index);
+      return diffNode;
     }
 
-    return { oldTree: null, newTree: diffRoot! };
+    return { oldTree: null, newTree: traverse(newRoot) };
   }
 }
