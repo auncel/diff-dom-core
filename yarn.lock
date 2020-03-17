@@ -295,10 +295,10 @@
   dependencies:
     find-up "^4.0.0"
 
-"@dovyih/x-tree-diff-plus@0.0.2-alpha.4":
-  version "0.0.2-alpha.4"
-  resolved "https://registry.npm.taobao.org/@dovyih/x-tree-diff-plus/download/@dovyih/x-tree-diff-plus-0.0.2-alpha.4.tgz#a8dbb30d40412dbad2ef2464c8193b5527b81bd7"
-  integrity sha1-qNuzDUBBLbrS7yRkyBk7VSe4G9c=
+"@dovyih/x-tree-diff-plus@0.0.2-alpha.6":
+  version "0.0.2-alpha.6"
+  resolved "https://registry.npm.taobao.org/@dovyih/x-tree-diff-plus/download/@dovyih/x-tree-diff-plus-0.0.2-alpha.6.tgz?cache=0&sync_timestamp=1584195816751&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40dovyih%2Fx-tree-diff-plus%2Fdownload%2F%40dovyih%2Fx-tree-diff-plus-0.0.2-alpha.6.tgz#56c5077eb0dac8458a5c8549827f16614d2299f2"
+  integrity sha1-VsUHfrDayEWKXIVJgn8WYU0imfI=
   dependencies:
     md5 "^2.2.1"
 
