@@ -136,7 +136,6 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
 
       xTreeNode?.nPtr?.forEach((node: XTree<UnionRenderNode>) => {
         if (node.Op === EditOption.DEL) {
-          console.log(xTreeNode.label, node.label);
           const childDiffNode = new DiffNode();
           childDiffNode.diffType ^= DiffType.NodeDelete;
           childDiffNode.index = node.index;

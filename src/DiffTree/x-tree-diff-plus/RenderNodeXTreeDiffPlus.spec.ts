@@ -9,6 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import * as fs from 'fs';
 import { execSync } from 'child_process';
 import '@auncel/common/polyfill/toJSON';
 import RenderTreeXTreeDiffPlus from './RenderNodeXTreeDiffPlus';
@@ -36,6 +37,7 @@ function testFactory(question: IFixtureData) {
       const treeNew = getRenderTree(answer);
       const xTreeDiff = new RenderTreeXTreeDiffPlus(treeOld, treeNew);
       const { newTree  } = xTreeDiff.diff();
+      // fs.writeFileSync(answer.name + '.json', JSON.stringify(newTree, null, 2));
       expectFunc(newTree as unknown as DiffNode);
     });
   };
@@ -50,42 +52,41 @@ describe(fixture.title, () => {
 
   testFunc(
     answerMap['px.answer.html'],
-    (shadowTree: DiffNode) =>{
-      expect(shadowTree.diffType).toBe(DiffType.None);
-      expect((shadowTree.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
-      expect((shadowTree.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
+    (diffNode: DiffNode) =>{
+      expect(diffNode.diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
     },
   );
 
   testFunc(
     answerMap['has-extra-child.answer.html'],
-    (shadowTree: DiffNode) => {
-      console.log(JSON.stringify(shadowTree, null, 2));
-      expect(shadowTree.diffType).toBe(DiffType.None);
-      expect((shadowTree.get(0).get(5) as DiffNode).subTree).not.toBeNull();
-      expect((shadowTree.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
+    (diffNode: DiffNode) => {
+      expect(diffNode.diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(5) as DiffNode).subTree).not.toBeNull();
+      expect((diffNode.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
     },
   );
 
   testFunc(
     answerMap['missing-a-child.answer.html'],
-    (shadowTree: DiffNode) => {
-      expect(shadowTree.diffType).toBe(DiffType.None);
-      expect((shadowTree.get(0) as DiffNode).diffType).toBe(DiffType.None);
-      expect((shadowTree.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
-      expect((shadowTree.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
-      expect((shadowTree.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
+    (diffNode: DiffNode) => {
+      expect(diffNode.diffType).toBe(DiffType.None);
+      expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
+      expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
+      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
     },
   );
 
   // FIXME: 不能分辨出乱序的情况
   // testFunc(
   //   answerMap['out-of-order.answer.html'],
-  //   (shadowTree: ShadowRenderNode) => {
-  //      expect(shadowTree.diffType).toBe(ShadowDiffType.NONE);
-  //      console.log(JSON.stringify(shadowTree.get(0)))
-  //      expect((shadowTree.get(0).get(0) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
-  //      expect((shadowTree.get(0).get(3) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
+  //   (diffNode: ShadowRenderNode) => {
+  //      expect(diffNode.diffType).toBe(ShadowDiffType.NONE);
+  //      console.log(JSON.stringify(diffNode.get(0)))
+  //      expect((diffNode.get(0).get(0) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
+  //      expect((diffNode.get(0).get(3) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
   //   }
   // );
 });
