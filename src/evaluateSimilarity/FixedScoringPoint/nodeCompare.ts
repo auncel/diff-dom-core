@@ -12,7 +12,7 @@
 
 import { INodeCompare } from 'evaluateSimilarity/nodeCompare.interface';
 import { getNodeLocation } from './fixedScoringPoint';
-import { IDiffLog } from '../diffLog.interface';
+import { IDiffLog } from '../DiffLog.interface';
 import { DiffType } from '../../DiffTree/DiffNode';
 import { NODE_TOTAL_SCORE } from './const';
 import { evaluateIdSimlarity } from './evaluateSimlarity/id';
@@ -24,6 +24,8 @@ import { evaluateAttrSimlarity } from './evaluateSimlarity/attr';
 export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) => {
   const nodeDiffLogs: string[] = [];
   let nodeScore = NODE_TOTAL_SCORE;
+  let nodeCount = 1;
+
   // diff type is rect
   if (diffNode.diffType & DiffType.Id) {
     nodeScore -= evaluateIdSimlarity(diffNode.id!, nodeDiffLogs);
@@ -48,13 +50,29 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
     nodeScore -= attrLosedScore;
   }
 
+  if (diffNode.diffType & DiffType.NodeDelete) {
+    nodeCount = diffNode.subTree?.count() ?? 1;
+    nodeDiffLogs.push(`missing a sub-tree of ${diffNode.location}`)
+    nodeScore = 0;
+  }
+
+  // TODO: 区分 NodeDelet 和 NodeInsert
+  if (diffNode.diffType & DiffType.NodeInsert) {
+    nodeCount = diffNode.subTree?.count() ?? 1;
+    nodeScore = 0;
+  }
+
   const logMsg: IDiffLog = {
     location: getNodeLocation(diffNode),
     difference: nodeDiffLogs,
   };
 
-  if (logMsg.difference.length > 0) {
+  if (nodeDiffLogs.length > 0) {
     diffLogs.push(logMsg);
   }
-  return nodeScore;
+
+  return {
+    nodeScore,
+    nodeCount,
+  };
 };

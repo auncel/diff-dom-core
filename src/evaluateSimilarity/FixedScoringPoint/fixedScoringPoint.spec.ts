@@ -9,15 +9,14 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
-import { generateDiffResult } from './fixedScoringPoint';
-import { IDiffNode } from '../../RenderNode/domCore';
+import { fixedScoringPointGenerateDiffResult } from './fixedScoringPoint';
 import { DiffNode } from '../../DiffTree/DiffNode';
 
 const diffTree: DiffNode = require('../../../fixtures/render/diff-tree.json');
 
 describe('github', () => {
   test('login form', () => {
-    const result = generateDiffResult(diffTree);
+    const result = fixedScoringPointGenerateDiffResult(diffTree);
     expect(result.logs.length).not.toBe(0);
     expect(result.score).not.toBe(0);
   });

@@ -1,4 +1,4 @@
-import { IDistinctionDetail } from "../../DiffTree/DiffNode";
+import { IDistinctionDetail } from "../../../DiffTree/DiffNode";
 import { RECT_SCORE } from "../const";
 
 export function evaluateRectSimlarity(

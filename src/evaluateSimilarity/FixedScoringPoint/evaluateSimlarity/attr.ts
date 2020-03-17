@@ -1,5 +1,6 @@
-import { IDistinctionDetail, DistinctionType } from "../../DiffTree/DiffNode";
+import { IDistinctionDetail, DistinctionType } from "../..//../DiffTree/DiffNode";
 import { ATTR_SCORE } from "../const";
+import { TAttrPropertyType } from "../../../DiffTree/DiffNode";
 
 
 export function evaluateAttrSimlarity(

@@ -1,5 +1,5 @@
-import { DistinctionType } from "../../RenderNode/domCore";
-import { IDistinctionDetail, TCSSPropertyValueType } from "../../DiffTree/DiffNode";
+import { DistinctionType } from "../../../RenderNode/domCore";
+import { IDistinctionDetail, TCSSPropertyValueType } from "../../../DiffTree/DiffNode";
 import { STYLE_SCORE } from "../const";
 
 export function evaluateStyleSimlarity(

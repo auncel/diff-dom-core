@@ -10,21 +10,13 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
 /* eslint-disable no-param-reassign */
-import {
-  IDiffNode,
-  IDiffLog,
-  DiffType,
-  DistinctionType,
-  TNodeRect,
-  IDistinctionDetail,
-  TCSSPropertyValueType,
-  TAttrPropertyType,
-} from '../../RenderNode/domCore';
-import ShadowRenderNode from '../../DiffTree/ShadowRenderNode';
+import { IDiffLog } from '../../RenderNode/domCore';
 import { fixedScoringPointNodeCompare } from './nodeCompare';
-import { DiffNode } from '../../DiffTree/DiffNode';
+import {  DiffNode } from '../../DiffTree/DiffNode';
+import { generateDiffResult } from '../generateDiffResult';
+import { IDiffResult } from 'evaluateSimilarity/generateDiffResult.interface';
 
-export function getNodeLocation(node: ShadowRenderNode | undefined): string {
+export function getNodeLocation(node: DiffNode | null): string {
   const buff = [];
 
   while (node) {
@@ -45,23 +37,15 @@ export interface IFixedScoringPointResult {
  * @export
  * @param {IDiffNode} root
  */
-export function generateDiffResult(root: DiffNode): IFixedScoringPointResult {
-  const diffLog: IDiffLog[] = [];
-  const stack: DiffNode[] = [];
-  stack.push(root);
-  let totalScore = 0;
-  let nodeCount = 0;
-  // 非递归遍历
-  while (stack.length) {
-    const node = stack.pop()!;
-    if (node) {
-      nodeCount++;
+export function fixedScoringPointGenerateDiffResult(root: DiffNode): IDiffResult {
+  return generateDiffResult(root, {
+    nodeCompareFn: fixedScoringPointNodeCompare,
+    afterTraverse: (totalScore, totalNodeCount, logs) => {
+      const score = Number(((totalScore / (totalNodeCount * 100)) * 100).toFixed(2));
+      return {
+        score,
+        logs,
+      };
     }
-    totalScore += fixedScoringPointNodeCompare(node, diffLog);
-  }
-  const score = Number(((totalScore / (nodeCount * 100)) * 100).toFixed(2));
-  return {
-    score,
-    logs: diffLog,
-  };
+  });
 }
