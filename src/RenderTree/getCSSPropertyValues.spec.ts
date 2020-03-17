@@ -64,7 +64,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   $style.innerHTML = '';
-})
+});
 
 describe('simple jsdom env', () => {
   test('DOM is ready', () => {
@@ -79,8 +79,8 @@ describe('simple jsdom env', () => {
   });
 
   test('margin shorthand', () => {
-    const qustionFixture = readFixture(__dirname + '/../../fixtures/css/shorthand/margin/margin.question.html');
-    const answer1Fixture = readFixture(__dirname + '/../../fixtures/css/shorthand/margin/mixed.answer.html');
+    const qustionFixture = readFixture(`${__dirname}/../../fixtures/css/shorthand/margin/margin.question.html`);
+    const answer1Fixture = readFixture(`${__dirname}/../../fixtures/css/shorthand/margin/mixed.answer.html`);
     document.body.innerHTML = qustionFixture.fragment;
     appendUuid(document);
 
@@ -91,4 +91,4 @@ describe('simple jsdom env', () => {
     const propetyMap2 = computeElementStyle(document);
     expect(propetyMap1).toEqual(propetyMap2);
   });
-})
+});

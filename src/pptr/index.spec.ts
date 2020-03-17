@@ -7,7 +7,7 @@
  * Copyright (c) 2019 None                                                   *
  *-------------------------------------------------------------------------- */
 
- import { Puppeteer } from './index';
+import { Puppeteer } from './index';
 
 
 describe('Puppteer', () => {
@@ -15,13 +15,13 @@ describe('Puppteer', () => {
     const pageManager = await Puppeteer.getPageManager({ poolSize: 2 });
     const [page1, page2] = await Promise.all([
       pageManager.getPage(),
-      pageManager.getPage()
+      pageManager.getPage(),
     ]);
     const page3P = pageManager.getPage();
     setTimeout(() => {
       expect(pageManager.getAvailablePoolSize()).toBe(0);
       pageManager.releasePage(page1);
-    }, 1000)
+    }, 1000);
     setTimeout(() => {
       expect(page3P).resolves.not.toBeNull();
       Puppeteer.close();
