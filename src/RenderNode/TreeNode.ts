@@ -31,6 +31,10 @@ abstract class TreeNode {
   parent: TreeNode | null = null;
   children: TreeNode[] = [];
 
+  count(): number {
+    return this.children.reduce((acc, node) => acc + node.count(), 1);
+  }
+
   hasChildren(): boolean {
     return this.children.length !== 0;
   }
