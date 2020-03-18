@@ -84,11 +84,12 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
    *
    * @param {XTree<UnionRenderNode>} newRoot
    */
-  public dumpXTree(oldRoot: XTree<UnionRenderNode>, newRoot: XTree<UnionRenderNode>) {
+  public dumpXTree(
+    oldRoot: XTree<UnionRenderNode>, newRoot: XTree<UnionRenderNode>,
+  ): { oldTree: null; newTree: DiffNode} {
     function traverse(xTreeNode: XTree<UnionRenderNode>): DiffNode {
       const originNode = xTreeNode.data!;
       let diffNode: DiffNode = new DiffNode();
-
       // eslint-disable-next-line default-case
       switch (xTreeNode.Op) {
         case EditOption.INS: {
@@ -111,7 +112,6 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
         }
         // MOV means the nodes are equal, but not its order
         case EditOption.MOV: {
-          console.log('EditOption.MOV');
           const equivalenceShadowNode = xTreeNode?.nPtr;
           if (equivalenceShadowNode) {
             diffNode = DiffNode.createDiffNode(
@@ -150,7 +150,6 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
         // eslint-disable-next-line no-unused-expressions
         if (typeof node.data !== 'undefined') {
           const diffChild = traverse(node);
-          // console.log(diffChild);
           diffNode.append(diffChild);
         }
       });

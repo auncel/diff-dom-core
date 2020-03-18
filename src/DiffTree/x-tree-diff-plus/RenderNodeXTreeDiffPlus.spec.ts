@@ -70,9 +70,9 @@ describe(fixture.title, () => {
       console.log(JSON.stringify(diffNode));
       expect(diffNode.diffType).toBe(DiffType.None);
       expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
-      // expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
-      // expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
-      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeDelete);
+      expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
+      expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
+      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
     },
   );
 
@@ -81,10 +81,10 @@ describe(fixture.title, () => {
     answerMap['out-of-order.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
-      console.log(JSON.stringify(diffNode.get(0)))
+      // console.log(JSON.stringify(diffNode.get(0)))
       expect((diffNode.get(0).get(0) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
       expect((diffNode.get(0).get(4) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
-      expect((((diffNode.get(0).get(0) as DiffNode).subTree as ElementRenderNode).index)).toBe(3);
+      expect((((diffNode.get(0).get(0) as DiffNode).moveDistance))).toBe(2);
     }
   );
 });
