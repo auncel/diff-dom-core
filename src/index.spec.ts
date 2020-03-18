@@ -10,41 +10,32 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 
-import { Puppeteer, PageManager } from './pptr/index';
+// import '@auncel/common/polyfill/toJSON';
+import { Puppeteer } from './pptr/index';
 import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
-import { createHTMLTpl } from './utils/index';
-import { IRenderNode } from '../lib/RenderNode/domCore';
-import { strictEqualDiff } from './diffCore/stricly-equal/index';
-import { generateDiffResult, IFixedScoringPointResult } from './evaluateSimilarity/fixedScoringPoint';
+// import { strictEqualDiff } from './diffCore/stricly-equal/index';
+import { xTreeDiffPlustGenerateDiffTree } from './DiffTree/xTreeDiffPlusGenerateDiffTree'
+import { fixedScoringPointGenerateDiffResult,  } from './evaluateSimilarity/';
 import { writeFileSync } from 'fs';
-import diffBeforeAll from '../test/beforeAll';
-import '@auncel/common/polyfill/toJSON';
+import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
+import '../test/startup';
+import { getRenderTree } from '../test/getRenderTree';
+import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 
 const fixtureMap = readAllFixtures();
-const similarityMap = new Map<string, IFixedScoringPointResult>();
+const similarityMap = new Map<string, IDiffResult>();
 
-const { M_diffScript, pageManager } = diffBeforeAll();
 
-async function getRenderTree(fixtureData: IFixtureData): Promise<IRenderNode> {
-  const { fragment, stylesheet } = fixtureData;
-  const html = createHTMLTpl(fragment, stylesheet);
-  const page = await pageManager.getPage();
-  await page.setContent(html);
-  const renderTree: IRenderNode = (await page.evaluate(M_diffScript) as IRenderNode);
-  return renderTree;
-}
+
 for (const [title, fixtrue] of fixtureMap.entries()) {
   describe(title, () => {
     const { question, answers } = fixtrue;
     for (const answer of answers) {
-      let questionRenderTree = null;
       test(answer.description, async () => {
-        if (!questionRenderTree) {
-          questionRenderTree = await getRenderTree(question);
-        }
-        const answerRenerTree = await getRenderTree(answer);
-        const diffTree = strictEqualDiff(questionRenderTree, answerRenerTree);
-        const evaluateResult: any = generateDiffResult(diffTree);
+        const  questionRenderTree = plainObject2RenderNode(await getRenderTree(question));
+        const answerRenerTree = plainObject2RenderNode(await getRenderTree(answer));
+        const diffTree = xTreeDiffPlustGenerateDiffTree(questionRenderTree, answerRenerTree);
+        const evaluateResult: any = fixedScoringPointGenerateDiffResult(diffTree);
         evaluateResult.expect = answer.similarity;
         similarityMap.set(`${title}: ${question.name} ==> ${answer.name}`, evaluateResult);
         expect(evaluateResult.score * 100 > answer.similarity).toBe(true);
@@ -54,6 +45,7 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
 }
 
 afterAll(async () => {
+  console.log(similarityMap);
   const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
   writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
   await Puppeteer.close();
