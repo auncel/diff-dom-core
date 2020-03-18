@@ -13,12 +13,10 @@
 
 import { isEqual } from 'lodash';
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
-import {
-  IDistinctionDetail, DistinctionType, NodeType, IDiffNode,
-} from '../RenderNode/domCore';
 import { UnionRenderNode } from './x-tree-diff-plus/RenderNodeXTreeDiffPlus';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
-import { DiffType } from './DiffNode';
+import { DistinctionType, IDistinctionDetail } from './DiffNode';
+import { NodeType } from '../RenderNode/enum';
 
 
 export function createDistinction<T>(
@@ -120,11 +118,3 @@ export function getNodeLocal(node: ElementRenderNode): string {
   return buff.join('');
 }
 
-export function createDiffNode(): IDiffNode {
-  return {
-    type: DiffType.None,
-    location: '',
-    children: [],
-    hasChildren: (): boolean => false,
-  };
-}

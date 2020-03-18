@@ -10,13 +10,15 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 import * as fs from 'fs';
+import { parse } from 'path'
 import { execSync } from 'child_process';
 import '@auncel/common/polyfill/toJSON';
 import RenderTreeXTreeDiffPlus from './RenderNodeXTreeDiffPlus';
 import { plainObject2RenderNode } from './plainObject2RenderNode';
 import { readFixtures, IFixtureData } from '../../../fixtures/readFixture';
 import { DiffNode, DiffType } from '../DiffNode';
-// import { DiffType } from '../../RenderNode/enum';
+import { IPlainObject } from '@auncel/common/types/IPlainObject';
+import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 
 const fixture = readFixtures('elements/ul/list-group');
 
@@ -46,13 +48,13 @@ function testFactory(question: IFixtureData) {
 describe(fixture.title, () => {
   const testFunc = testFactory(fixture.question);
   const answerMap: any = fixture.answers.reduce((acc, answer) => {
-    acc[answer.filename] = answer;
+    acc[parse(answer.filename).name] = answer;
     return acc;
-  }, {} as any);
+  }, {} as IPlainObject);
 
   testFunc(
-    answerMap['px.answer.html'],
-    (diffNode: DiffNode) =>{
+    answerMap['px.answer'],
+    (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
       expect((diffNode.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
       expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
@@ -60,7 +62,7 @@ describe(fixture.title, () => {
   );
 
   testFunc(
-    answerMap['has-extra-child.answer.html'],
+    answerMap['has-extra-child.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
       expect((diffNode.get(0).get(5) as DiffNode).subTree).not.toBeNull();
@@ -69,7 +71,7 @@ describe(fixture.title, () => {
   );
 
   testFunc(
-    answerMap['missing-a-child.answer.html'],
+    answerMap['missing-a-child.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
       expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
@@ -79,14 +81,15 @@ describe(fixture.title, () => {
     },
   );
 
-  // FIXME: 不能分辨出乱序的情况
-  // testFunc(
-  //   answerMap['out-of-order.answer.html'],
-  //   (diffNode: ShadowRenderNode) => {
-  //      expect(diffNode.diffType).toBe(ShadowDiffType.NONE);
-  //      console.log(JSON.stringify(diffNode.get(0)))
-  //      expect((diffNode.get(0).get(0) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
-  //      expect((diffNode.get(0).get(3) as ShadowRenderNode).diffType).toBe(ShadowDiffType.MOVED_NODE);
-  //   }
-  // );
+  // FIXME:  标明乱序情况
+  testFunc(
+    answerMap['out-of-order.answer'],
+    (diffNode: DiffNode) => {
+       expect(diffNode.diffType).toBe(DiffType.None);
+       console.log(JSON.stringify(diffNode.get(0)))
+       expect((diffNode.get(0).get(0) as DiffNode).diffType & DiffType.NodeMove).toBe(DiffType.NodeMove);
+       expect((diffNode.get(0).get(4) as DiffNode).diffType & DiffType.NodeMove).toBe(DiffType.NodeMove);
+       expect((((diffNode.get(0).get(0) as DiffNode).subTree as ElementRenderNode).index)).toBe(3);
+    }
+  );
 });

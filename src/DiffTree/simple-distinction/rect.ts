@@ -12,8 +12,8 @@
 /* eslint-disable import/no-unresolved */
 
 import { TNodeRect } from '../../RenderNode/ElementRenderNode';
-import { IDistinctionDetail } from '../../RenderNode/domCore';
 import { distinctionCompare } from '../utils';
+import { IDistinctionDetail } from '../DiffNode';
 
 export function identifyRectDistinction(
   leftRect: TNodeRect, rightRect: TNodeRect, rectTolerance: number,

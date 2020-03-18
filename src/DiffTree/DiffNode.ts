@@ -117,21 +117,21 @@ export class DiffNode extends TreeNode {
 
     if (config.isTagStrictlyEqaul) {
       if (newNode.nodeName !== oldNode.nodeName) {
-        diffNode.diffType ^= DiffType.Tag;
+        diffNode.diffType |= DiffType.Tag;
         diffNode.tagName = identifyTagNameDistinction(newNode, oldNode);
       }
     }
 
     if (config.isIdStrictlyEqual) {
       if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
-        diffNode.diffType ^= DiffType.Id;
+        diffNode.diffType |= DiffType.Id;
         diffNode.id = identifyIdDistinction(newNode, oldNode);
       }
     }
 
     if (config.isClassStrictlyEqual) {
       if (newNode.className !== oldNode.className) {
-        diffNode.diffType ^= DiffType.ClassName;
+        diffNode.diffType |= DiffType.ClassName;
         diffNode.className = identifyClassNameDistinction(newNode, oldNode);
       }
     }
@@ -139,7 +139,7 @@ export class DiffNode extends TreeNode {
     // eslint-disable-next-line no-undef
     const attrDisctinctions = identifyAttrDistinction(newNode, oldNode, config.attrs ?? {});
     if (attrDisctinctions.length !== 0) {
-      diffNode.diffType ^= DiffType.Attr;
+      diffNode.diffType |= DiffType.Attr;
       diffNode.attr = attrDisctinctions;
     }
 
@@ -150,7 +150,7 @@ export class DiffNode extends TreeNode {
     );
 
     if (!isStyleEqual(newNode, oldNode)) {
-      diffNode.diffType ^= DiffType.Style;
+      diffNode.diffType |= DiffType.Style;
       diffNode.style = styleDistinctions;
     }
 

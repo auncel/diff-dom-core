@@ -93,7 +93,7 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
       switch (xTreeNode.Op) {
         case EditOption.INS: {
           diffNode = new DiffNode();
-          diffNode.diffType ^= DiffType.NodeInsert;
+          diffNode.diffType |= DiffType.NodeInsert;
           diffNode.index = xTreeNode.index;
           diffNode.subTree = originNode;
           return diffNode;
@@ -105,19 +105,20 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
               originNode,
               equivalenceShadowNode.data!,
             );
-            diffNode.diffType ^= DiffType.NodeUpdate;
+            diffNode.diffType |= DiffType.NodeUpdate;
           }
           break;
         }
         // MOV means the nodes are equal, but not its order
         case EditOption.MOV: {
+          console.log('EditOption.MOV');
           const equivalenceShadowNode = xTreeNode?.nPtr;
           if (equivalenceShadowNode) {
             diffNode = DiffNode.createDiffNode(
               originNode,
               equivalenceShadowNode.data!,
             );
-            diffNode.diffType ^= DiffType.NodeMove;
+            diffNode.diffType |= DiffType.NodeMove;
             diffNode.moveDistance = computeMoveDistance(xTreeNode, equivalenceShadowNode);
           }
           break;
@@ -134,24 +135,24 @@ export default class RenderTreeXTreeDiffPlus extends XTreeDiffPlus<UnionRenderNo
         }
       }
 
+      // eslint-disable-next-line no-unused-expressions
       xTreeNode?.nPtr?.forEach((node: XTree<UnionRenderNode>) => {
         if (node.Op === EditOption.DEL) {
           const childDiffNode = new DiffNode();
-          childDiffNode.diffType ^= DiffType.NodeDelete;
+          childDiffNode.diffType |= DiffType.NodeDelete;
           childDiffNode.index = node.index;
           childDiffNode.subTree = node.data;
           diffNode.append(childDiffNode);
         }
       });
 
-      xTreeNode.forEach((node: XTree<UnionRenderNode>, index) => {
-          // eslint-disable-next-line no-unused-expressions
-          if (typeof node.data !== 'undefined') {
-  
-            const diffChild = traverse(node);
-            // console.log(diffChild);
-            diffNode.append(diffChild);
-          }
+      xTreeNode.forEach((node: XTree<UnionRenderNode>) => {
+        // eslint-disable-next-line no-unused-expressions
+        if (typeof node.data !== 'undefined') {
+          const diffChild = traverse(node);
+          // console.log(diffChild);
+          diffNode.append(diffChild);
+        }
       });
 
       diffNode.index = xTreeNode.index;

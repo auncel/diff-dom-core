@@ -9,9 +9,8 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
-
-import { DistinctionType } from '../RenderNode/domCore';
 import { distinctionCompare } from './utils';
+import { DistinctionType } from '../RenderNode/enum';
 
 describe('utils: objectCompare', () => {
   test('2 equal objects', () => {

@@ -9,15 +9,11 @@
 *                                                                           *
 * Copyright 2019 - 2019 Mozilla Public License 2.0 License                                         *
 *-------------------------------------------------------------------------- */
-
-import {
-  IRenderNode, IDiffNode, DistinctionType, DiffType, NodeType,
-} from '../../RenderNode/domCore';
 import { IStrictlyEqualOption, strictlyEqualOption } from '../../config';
-import { isElementType, createDistinction, createDiffNode } from '../utils';
+import { isElementType } from '../utils';
 import { DiffNode } from '../DiffNode';
 import { UnionRenderNode } from '../x-tree-diff-plus/RenderNodeXTreeDiffPlus';
-
+import { NodeType } from '../../RenderNode/enum';
 
 /**
  * Depth-first traversal
@@ -41,25 +37,16 @@ function strictEqualDeepFirstTraversal(
     }
     return diffNode;
   } else if (left.nodeType === NodeType.TEXT_NODE && right.nodeType === NodeType.TEXT_NODE) {
-    diffNode = createDiffNode();
-    if (left.text !== right.text) {
-      diffNode.diffType |= DiffType.Text;
-      diffNode.text = createDistinction(
-        'text',
-        DistinctionType.INEQUAL,
-        left.text,
-        right.text,
-      );
-    }
+    diffNode = DiffNode.createDiffNode(left, right);
   } else {
-    diffNode = createDiffNode();
-    diffNode.diffType |= DiffType.NodeType;
-    diffNode.nodeType = createDistinction(
-      'nodeType',
-      DistinctionType.INEQUAL,
-      left.nodeType,
-      right.nodeType,
-    );
+    diffNode = DiffNode.createDiffNode(left, right);
+    // diffNode.diffType |= DiffType.NodeType;
+    // diffNode.nodeType = createDistinction(
+    //   'nodeType',
+    //   DistinctionType.INEQUAL,
+    //   left.nodeType,
+    //   right.nodeType,
+    // );
   }
 
   return diffNode;
@@ -73,8 +60,8 @@ function strictEqualDeepFirstTraversal(
  * @param {IRenderNode} instance 实际输入
  */
 export function strictEqualDiff(
-  exemplar: IRenderNode, instance: IRenderNode,
-): IDiffNode {
+  exemplar: UnionRenderNode, instance: UnionRenderNode,
+): DiffNode {
   const diffRoot = strictEqualDeepFirstTraversal(exemplar, instance, strictlyEqualOption);
   return diffRoot;
 }
