@@ -16,7 +16,7 @@
  *-------------------------------------------------------------------------- */
 import { IFixtureData } from '../fixtures/readFixture';
 import { createHTMLTpl } from '../src/utils';
-import { IElementRenderNode } from '../src/RenderNode/ElementRenderNode';
+import ElementRenderNode, { IElementRenderNode } from '../src/RenderNode/ElementRenderNode';
 import { PageManager } from '../src/pptr';
 
 declare global {
@@ -24,14 +24,17 @@ declare global {
   var M_diffScript: string;
 }
 
-
+const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
 export async function getRenderTree(fixtureData: IFixtureData): Promise<IElementRenderNode> {
   if (globalThis.pageManager && globalThis.M_diffScript) {
+    if (renderTreeCache.has(fixtureData)) {
+      return renderTreeCache.get(fixtureData)!;
+    }
     const { fragment, stylesheet } = fixtureData;
     const html = createHTMLTpl(fragment, stylesheet);
     const page = await globalThis.pageManager.getPage();
     await page.setContent(html);
-    const renderTree: IElementRenderNode = (await page.evaluate(globalThis.M_diffScript) as IElementRenderNode);
+    const renderTree = (await page.evaluate(globalThis.M_diffScript) as IElementRenderNode);
     globalThis.pageManager.releasePage(page);
     return renderTree;
   }
