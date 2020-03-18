@@ -10,19 +10,20 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 
-import { IDiffLog } from "./DiffLog.interface";
-import { DiffNode } from "../DiffTree/DiffNode";
-import { INodeCompare } from "./nodeCompare.interface";
+import { IDiffLog } from './DiffLog.interface';
+import { DiffNode } from '../DiffTree/DiffNode';
+import { INodeCompare } from './nodeCompare.interface';
 
 export interface IDiffResult {
-  score: number,
-  logs: IDiffLog[],
+  score: number;
+  logs: IDiffLog[];
 }
 
+export interface IGenerateDiffResultOption {
+  beforTraverse?: () => void;
+  nodeCompareFn: INodeCompare;
+  afterTraverse: (totalScore: number, nodeCount: number, logs: IDiffLog[]) => IDiffResult;
+}
 export interface IGenerateDiffResult {
-  (root: DiffNode, options: {
-    beforTraverse?: () => void,
-    nodeCompareFn: INodeCompare,
-    afterTraverse: (totalScore: number, nodeCount: number, logs: IDiffLog[]) => IDiffResult;
-  }): IDiffResult;
+  (root: DiffNode, options: IGenerateDiffResultOption): IDiffResult;
 }

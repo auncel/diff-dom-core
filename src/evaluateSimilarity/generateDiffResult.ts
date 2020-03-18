@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -10,14 +11,24 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 
-import { IGenerateDiffResult, IDiffResult } from "./generateDiffResult.interface";
-import { fixedScoringPointNodeCompare } from './FixedScoringPoint/nodeCompare'
-import { IDiffLog } from "./DiffLog.interface";
-import { DiffNode } from "../DiffTree/DiffNode";
+import { IGenerateDiffResult, IDiffResult } from './generateDiffResult.interface';
+import { IDiffLog } from './DiffLog.interface';
+import { DiffNode } from '../DiffTree/DiffNode';
 
-const noop = function(...args: any): any {}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = function (...args: any): any {};
 
 
+/**
+ * 通用 diff 结果生成函数
+ * @export
+ * @param {DiffNode} root
+ * @param {IGenerateDiffResultOption}} options
+ */
 export const generateDiffResult: IGenerateDiffResult = (root, {
   beforTraverse = noop,
   nodeCompareFn,
@@ -28,7 +39,7 @@ export const generateDiffResult: IGenerateDiffResult = (root, {
   stack.push(root);
   let totalScore = 0;
   let totalNodeCount = 0;
-  beforTraverse()
+  beforTraverse();
   // 非递归遍历
   while (stack.length) {
     const node = stack.pop()!;
@@ -36,23 +47,10 @@ export const generateDiffResult: IGenerateDiffResult = (root, {
     const { nodeCount, nodeScore } = nodeCompareFn(node, diffLog);
     totalNodeCount += nodeCount;
     totalScore += nodeScore;
-    node.children.forEach(child => {
-      stack.push(child)
+    node.children.forEach((child) => {
+      stack.push(child);
     });
   }
 
   return afterTraverse(totalScore, totalNodeCount, diffLog);
-  // const score = Number(((totalScore / (totalNodeCount * 100)) * 100).toFixed(2));
-  // return {
-  //   score,
-  //   logs: diffLog,
-  // };
-}
-
-
-/**
- * 只是位置信息的比较
- * TODO: 考虑文本节点
- * @export
- * @param {IDiffNode} root
- */
+};

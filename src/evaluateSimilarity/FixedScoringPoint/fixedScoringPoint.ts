@@ -10,11 +10,11 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
 /* eslint-disable no-param-reassign */
-import { IDiffLog } from '../../RenderNode/domCore';
 import { fixedScoringPointNodeCompare } from './nodeCompare';
-import {  DiffNode } from '../../DiffTree/DiffNode';
+import { DiffNode } from '../../DiffTree/DiffNode';
 import { generateDiffResult } from '../generateDiffResult';
-import { IDiffResult } from 'evaluateSimilarity/generateDiffResult.interface';
+import { IDiffResult } from '../generateDiffResult.interface';
+import { IDiffLog } from '../DiffLog.interface';
 
 export function getNodeLocation(node: DiffNode | null): string {
   const buff = [];
@@ -46,6 +46,6 @@ export function fixedScoringPointGenerateDiffResult(root: DiffNode): IDiffResult
         score,
         logs,
       };
-    }
+    },
   });
 }

@@ -10,4 +10,6 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 
-export { fixedScoringPointGenerateDiffResult } from './FixedScoringPoint/fixedScoringPoint'
+export { fixedScoringPointGenerateDiffResult } from './FixedScoringPoint/fixedScoringPoint';
+
+export { IDiffLog } from './DiffLog.interface';
