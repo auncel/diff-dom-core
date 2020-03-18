@@ -1,3 +1,14 @@
+/* --------------------------------------------------------------------------*
+ * Description:                                                              *
+ *                                                                           *
+ * File Created: Wednesday, 18th March 2020 11:51 pm                         *
+ * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
+ *                                                                           *
+ * Last Modified: Wednesday, 18th March 2020 11:51 pm                        *
+ * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
+ *                                                                           *
+ * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
+ *-------------------------------------------------------------------------- */
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 import { TTag } from '../RenderNode/element';
@@ -54,7 +65,7 @@ function depthFirstTraversal(
         if (childNode.nodeType === NodeType.TEXT_NODE) {
           const text = childNode.nodeValue?.trim() ?? '';
           if (text) { // 排除空串
-            const textChild = new TextRenderNode(domNode.nodeValue ?? '');
+            const textChild = new TextRenderNode(text);
             textChild.index = i;
             renderNode.append(textChild);
           }

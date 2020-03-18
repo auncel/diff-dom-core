@@ -17,6 +17,7 @@ import { readFixtures } from '../../fixtures/readFixture';
 import { IElementRenderNode } from '../RenderNode/ElementRenderNode';
 import { NodeType } from '../RenderNode/enum';
 import '../../test/startup';
+import TextRenderNode from '../RenderNode/TextRenderNode';
 
 const simpleFixture = readFixtures('elements/div/simple');
 const ulFixture = readFixtures('elements/ul/list-group')
@@ -52,5 +53,6 @@ describe(ulFixture.title, () => {
     expect(renderTree.children[0].nodeType).toBe(NodeType.ELEMENT_NODE)
     expect(renderTree.children[0].tagName).toBe('UL');
     expect((renderTree.children[0].children[5]).tagName).toBe('LI');
+    expect((renderTree.children[0].children[0].children[0] as TextRenderNode).text).toBe('Cras justo odio');
   });
 });
