@@ -9,9 +9,9 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { IRenderNode, NodeType } from "lib/renderNode/domCore";
+import { IRenderNode, NodeType } from 'lib/renderNode/domCore';
 import { cloneDeep } from 'lodash';
-import { hashing } from "./hashing";
+import { hashing } from './hashing';
 
 const renderNode: IRenderNode = {
   tagName: 'div',
@@ -29,7 +29,7 @@ const renderNode: IRenderNode = {
       tagName: 'span',
       attr: {},
       children: [],
-    }
+    },
   ],
 };
 

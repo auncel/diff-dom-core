@@ -9,9 +9,9 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { IRenderNode, NodeType } from "lib/renderNode/domCore";
+import { IRenderNode, NodeType } from '../../RenderNode/domCore';
 import { cloneDeep } from 'lodash';
-import { xDiff } from "./index";
+import { xDiff } from './index';
 
 describe('x-diff algorithm', () => {
   test('node', () => {
@@ -37,16 +37,16 @@ describe('x-diff algorithm', () => {
               nodeType: NodeType.ELEMENT_NODE,
               tagName: 'div',
               uuid: '3',
-              children: []
+              children: [],
             },
             {
               nodeType: NodeType.TEXT_NODE,
               uuid: '4',
               text: 'long text',
             },
-          ]
-        }
-      ]
+          ],
+        },
+      ],
     };
     /*
       <div>
@@ -77,18 +77,18 @@ describe('x-diff algorithm', () => {
                   nodeType: NodeType.ELEMENT_NODE,
                   tagName: 'div',
                   uuid: 'd',
-                  children: []
+                  children: [],
                 },
                 {
                   nodeType: NodeType.TEXT_NODE,
                   uuid: 'e',
                   text: 'long text',
                 },
-              ]
-            }
-          ]
-        }
-      ]
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     xDiff(T1, T2);
@@ -117,16 +117,16 @@ describe('x-diff algorithm', () => {
               nodeType: NodeType.ELEMENT_NODE,
               tagName: 'div',
               uuid: '3',
-              children: []
+              children: [],
             },
             {
               nodeType: NodeType.TEXT_NODE,
               uuid: '4',
               text: 'long text',
             },
-          ]
-        }
-      ]
+          ],
+        },
+      ],
     };
     /*
       <div>
@@ -136,7 +136,7 @@ describe('x-diff algorithm', () => {
         </div>
       </div>
     */
-    const T2 = cloneDeep(T1)
+    const T2 = cloneDeep(T1);
     T2.children[0].children[0].tagName = 'span';
     xDiff(T1, T2);
   });
