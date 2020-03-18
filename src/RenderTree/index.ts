@@ -12,7 +12,7 @@
 import { appendUuid } from './appendUuid';
 import { generateRenderTree } from './generateRenderTree';
 import { computeElementStyle } from './getCSSPropertyValues';
-import { TRenderNode } from '../RenderNode/RenderNode';
+import { UnionRenderNode } from '../RenderNode/UnionRenderNode';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-export function generateTree(): TRenderNode {
+export function generateTree(): UnionRenderNode {
   const doc = document;
   // 1. 附加 uuid
   appendUuid(doc);

@@ -28,7 +28,7 @@ describe('append UUID to Element', () => {
   test('simple', () => {
     appendUuid(document);
     expect(document.body.getAttribute(UUID_ATTR)).toBe('uuid_0');
-    expect(document.querySelector('.listItem_listItem').getAttribute(UUID_ATTR)).toBe('uuid_0_0');
-    expect((document.body.firstElementChild.lastElementChild as Element).getAttribute(UUID_ATTR)).toBe('uuid_0_0_1');
+    expect(document.querySelector('.listItem_listItem')!.getAttribute(UUID_ATTR)).toBe('uuid_0_0');
+    expect((document.body.firstElementChild!.lastElementChild! as Element).getAttribute(UUID_ATTR)).toBe('uuid_0_0_1');
   });
 });

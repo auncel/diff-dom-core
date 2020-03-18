@@ -1,32 +1,34 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
-import { NodeType } from '../RenderNode/domCore';
-import { createTextNode } from '../utils/index';
 import { TTag } from '../RenderNode/element';
 import { getAttrs, getStyle, getRect, getUuid } from './utils';
 import { IGenerateRenderTreeOptions, mergeWithDefaultConfig } from '../config';
-import { TRenderNode } from '../RenderNode/RenderNode';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
+import { NodeType } from '../RenderNode/enum';
+import { UnionRenderNode } from '../RenderNode/RenderNode';
 
 /**
  * Depth-first traversal
  *
  * @param {Element} domNode
- * @param {TRenderNode} renderNode
+ * @param {UnionRenderNode} renderNode
  */
 function depthFirstTraversal(
   domNode: HTMLElement,
   coordinate: {x: number; y: number},
   config: IGenerateRenderTreeOptions,
-): TRenderNode {
-  let renderNode: TRenderNode | null = null;
+): UnionRenderNode {
+  let renderNode: UnionRenderNode;
   if (domNode.nodeType === NodeType.ELEMENT_NODE) {
     const tagName = domNode.tagName as TTag;
     renderNode = new ElementRenderNode(tagName);
     renderNode.id = domNode.id;
     renderNode.className = domNode.className;
     renderNode.nodeType = NodeType.ELEMENT_NODE;
+    if (renderNode.index === -1) {
+      renderNode.index = 0;
+    }
 
     renderNode.uuid = getUuid(domNode);
     renderNode.attr = getAttrs(domNode);
@@ -52,11 +54,13 @@ function depthFirstTraversal(
         if (childNode.nodeType === NodeType.TEXT_NODE) {
           const text = childNode.nodeValue?.trim() ?? '';
           if (text) { // 排除空串
-            const textChild = createTextNode(text);
+            const textChild = new TextRenderNode(domNode.nodeValue ?? '');
+            textChild.index = i;
             renderNode.append(textChild);
           }
         } else if (childNode.nodeType === NodeType.ELEMENT_NODE) {
           const elementChild = depthFirstTraversal(childNode, nextCoordinate, config);
+          elementChild.index = i;
           renderNode.append(elementChild);
         }
       }
@@ -65,12 +69,12 @@ function depthFirstTraversal(
     renderNode = new TextRenderNode(domNode.nodeValue ?? '');
   }
 
-  return renderNode as TRenderNode;
+  return renderNode!;
 }
 
 export function generateRenderTree(
   body: HTMLElement, config: IGenerateRenderTreeOptions = {},
-): TRenderNode {
+): UnionRenderNode {
   mergeWithDefaultConfig(config);
   return depthFirstTraversal(body, { x: 0, y: 0 }, config);
 }

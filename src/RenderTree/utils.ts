@@ -9,10 +9,12 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
-import { TNodeRect } from '../RenderNode/domCore';
+
 import { TAttributes, TTagAttribute } from '../RenderNode/element';
 import { UUID_ATTR } from './getCSSPropertyValues';
+import { TNodeRect } from '../RenderNode/ElementRenderNode';
 
+// eslint-disable-next-line no-unused-vars
 /* global elementPropertyMap */
 declare const elementPropertyMap: Map<string, Map<string, string>>;
 

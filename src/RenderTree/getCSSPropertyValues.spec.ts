@@ -53,7 +53,7 @@ div p {
 }`;
 
 
-let $style;
+let $style: HTMLElement;
 beforeAll(() => {
   document.body.innerHTML = fragment;
   $style = document.createElement('style');
@@ -75,7 +75,7 @@ describe('simple jsdom env', () => {
     $style.innerHTML = styesheet;
     const propetyMap = computeElementStyle(document);
     expect(propetyMap.size).toBe(4);
-    expect(propetyMap.get('uuid_0_0').size).toBe(11);
+    expect(propetyMap.get('uuid_0_0')!.size).toBe(11);
   });
 
   test('margin shorthand', () => {

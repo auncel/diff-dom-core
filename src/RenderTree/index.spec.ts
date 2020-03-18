@@ -9,76 +9,48 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
+// why???
+// import '@auncel/common/polyfill/toJSON';
 
-import { Puppeteer } from '../pptr/index';
-import { IRenderNode } from '../../lib/RenderNode/domCore';
-import { createHTMLTpl } from '../utils/index';
-import diffBeforeAll, { pageManager, M_diffScript } from '../../test/beforeAll';
-import '@auncel/common/polyfill/toJSON';
+import { getRenderTree } from '../../test/getRenderTree';
+import { readFixtures } from '../../fixtures/readFixture';
+import { IElementRenderNode } from '../RenderNode/ElementRenderNode';
+import { NodeType } from '../RenderNode/enum';
+import '../../test/startup';
 
-const divSimple = require('../../fixtures/render/simple.json');
-const loginFormSimple = require('../../fixtures/render/login-form.wrong.json');
+const simpleFixture = readFixtures('elements/div/simple');
+const ulFixture = readFixtures('elements/ul/list-group')
 
-diffBeforeAll();
-
-function testFactory(prefix, data) {
-  const { title, fragment, stylesheet, anwser } = data;
-  test(`${prefix} ${title}`, async () => {
-    const html = createHTMLTpl(fragment, stylesheet);
-    const page = await pageManager.getPage();
-    await page.setContent(html);
-    const renderTree: IRenderNode = (await page.evaluate(M_diffScript) as IRenderNode);
-    expect(JSON.parse(JSON.stringify(renderTree))).toEqual(anwser);
-    pageManager.releasePage(page);
+describe(simpleFixture.title, () => {
+  test(simpleFixture.question.name, async () => {
+    const renderTree: IElementRenderNode = await getRenderTree(simpleFixture.question);
+    expect(renderTree.index).toBe(0);
+    expect(renderTree.children[0].nodeType).toBe(NodeType.ELEMENT_NODE)
+    expect(renderTree.children[0].tagName).toBe('DIV');
+    expect((renderTree.children[0] as IElementRenderNode).style.width).toBe('100px');
   });
-}
 
-describe('simple world', () => {
-  divSimple.forEach(example => testFactory('相等测试', example));
+  test(simpleFixture.answers[1].name, async () => {
+    const renderTree: IElementRenderNode = await getRenderTree(simpleFixture.answers[1]);
+    expect(renderTree.children[0].nodeType).toBe(NodeType.ELEMENT_NODE)
+    expect(renderTree.children[0].tagName).toBe('DIV');
+    expect((renderTree.children[0] as IElementRenderNode).style.width).toBe('50px');
+  });
 });
 
-describe('complex world', () => {
-  testFactory('github login form', loginFormSimple);
+describe(ulFixture.title, () => {
+  test(ulFixture.question.name, async () => {
+    const renderTree: IElementRenderNode = await getRenderTree(ulFixture.question);
+    expect(renderTree.children[0].nodeType).toBe(NodeType.ELEMENT_NODE)
+    expect(renderTree.children[0].tagName).toBe('UL');
+    expect((renderTree.children[0].children[4]).tagName).toBe('LI');
+  });
+
+  // has extra child
+  test(ulFixture.answers[0].name, async () => {
+    const renderTree: IElementRenderNode = await getRenderTree(ulFixture.answers[0]);
+    expect(renderTree.children[0].nodeType).toBe(NodeType.ELEMENT_NODE)
+    expect(renderTree.children[0].tagName).toBe('UL');
+    expect((renderTree.children[0].children[5]).tagName).toBe('LI');
+  });
 });
-
-afterAll(async () => {
-  await Puppeteer.close();
-  // pageManager.closeAll();
-});
-
-// function getRenderTree(fixture: IFixtureData) {
-//   const { fragment, stylesheet, } = fixture;
-//   const html = htmlWrap(fragment, stylesheet);
-//   return pageManager.getPage().then((page) => {
-//     return page.setContent(html).then(() => {
-//       return page.evaluate(M_diffScript).finally(() => pageManager.releasePage(page));
-//     });
-//   });
-// }
-
-// describe('div simple', () => {
-//   beforeEach(() => {
-//     jest.setTimeout(10_000);
-//   });
-
-//   async function textFixtureFactory(fixture: IFixture) {
-//     const { question, answers } = fixture;
-//     const questionRenderTree = await getRenderTree(question);
-//     const answerRenderTrees = await Promise.all(answers.map(answer => getRenderTree(answer)));
-
-//     for (const tree of answerRenderTrees) {
-//       test(question.name, () => {
-//         expect(tree).toEqual(questionRenderTree);
-//       }, 10_000);
-//     }
-//   }
-
-//    readFixtures(__dirname + '/../../fixtures/elements/div/simple/')
-//     .then(fixture => {
-//       textFixtureFactory(fixture);
-//     });
-//   // test('async', async () => {
-//   //   const fixture = readFixtures(__dirname + '/../../fixtures/elements/div/simple/')
-//   //   textFixtureFactory(fixture);
-//   // });
-// });

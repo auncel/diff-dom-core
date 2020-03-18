@@ -13,9 +13,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
-import { NodeType } from './domCore';
 import RenderNode, { IRenderNode } from './RenderNode';
 import TreeNode, { TTreeNodeCallback } from './TreeNode';
+import { NodeType } from './enum';
 
 
 export interface ITextRenderNode extends IRenderNode {

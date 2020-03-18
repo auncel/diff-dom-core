@@ -18,10 +18,16 @@ import { generateRenderTree } from './generateRenderTree';
 import { readFixtures, IFixtureData } from '../../fixtures/readFixture';
 import { USER_STYLE_ID } from '../utils/const';
 import { computeElementStyle } from './getCSSPropertyValues';
-import { TRenderNode } from '../RenderNode/RenderNode';
+import { UnionRenderNode } from '../DiffTree/x-tree-diff-plus/RenderNodeXTreeDiffPlus';
 
-function getRenderTree(fixture: IFixtureData): TRenderNode {
-  if (!fixture) return null;
+declare global {
+  interface Window {
+    elementPropertyMap: Map<string, Map<string, string>>;
+  }
+}
+
+function getRenderTree(fixture: IFixtureData): UnionRenderNode  {
+  // if (!fixture) return null;
   const { fragment, stylesheet } = fixture;
   let $userStyle = document.getElementById(USER_STYLE_ID);
   if (!$userStyle) {
