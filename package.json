@@ -1,7 +1,7 @@
 {
   "name": "@auncel/diff-dom-core",
   "description": "typescript project template.",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "main": "dist/index.js",
   "files": [
     "bin",
