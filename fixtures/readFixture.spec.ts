@@ -25,6 +25,5 @@ describe('readAllFixtures', () => {
   test('readAllFixtures work will', () => {
     const fixtureMap = readAllFixtures();
     expect(fixtureMap.size).not.toBe(0);
-    expect(fixtureMap.get('elements -> div -> simple').title).not.toBeNull();
   });
 });

@@ -23,6 +23,7 @@ describe('RenderNode2ShadowRenderNode', () => {
       attr: {},
       style: {},
       rect: {},
+      index: 0,
       children: [
         {
           tagName: 'div',
@@ -31,11 +32,13 @@ describe('RenderNode2ShadowRenderNode', () => {
           style: {},
           rect: {},
           children: [],
+          index: 0,
         },
         {
           tagName: '#text',
           nodeType: NodeType.TEXT_NODE,
           text: 'text node',
+          index: 1,
         } as ITextRenderNode,
       ],
     };
