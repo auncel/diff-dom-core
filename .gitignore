@@ -108,3 +108,5 @@ lib/diffCore/x-diff/x-diff
 tmp.html
 
 x-diff/
+*.json
+!fixtures/**/*.json

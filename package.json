@@ -2,7 +2,13 @@
   "name": "ts-template",
   "description": "typescript project template.",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "bin",
+    "dist",
+    "fixtures",
+    "test"
+  ],
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
     "test": "jest",
