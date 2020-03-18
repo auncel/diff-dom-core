@@ -9,25 +9,24 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import {
-  IRenderNode,
-  NodeType,
-} from "lib/renderNode/domCore";
-import getLeafs from "./getLeafs";
+
+import getLeafs from './getLeafs';
+import { IRenderNode } from '../../RenderNode/RenderNode';
+import { NodeType } from '../../RenderNode/enum';
 
 describe('getLeafs', () => {
   test('a layer of nesting', () => {
     const node: IRenderNode = {
       nodeType: NodeType.ELEMENT_NODE,
       children: [{
-          nodeType: NodeType.ELEMENT_NODE,
-          uuid: '1',
-          children: [],
-        },
-        {
-          nodeType: NodeType.TEXT_NODE,
-          text: 'long logn text 11',
-        },
+        nodeType: NodeType.ELEMENT_NODE,
+        uuid: '1',
+        children: [],
+      },
+      {
+        nodeType: NodeType.TEXT_NODE,
+        text: 'long logn text 11',
+      },
       ],
     };
     const leafs = getLeafs(Array(3).fill(node));

@@ -25,7 +25,7 @@ export interface IFixture {
  * html 文件需要遵循特殊格式
  *
  * @export
- * @param {string} filepath html 文件路径
+ * @param {string} filepath html 文件的绝对路径
  * @returns {IFixtureData}
  */
 export function readFixture(filepath: string): IFixtureData {
