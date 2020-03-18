@@ -1,8 +1,10 @@
-import { IRenderNode, NodeType } from '../RenderNode/domCore';
+
 import { TTag } from '../RenderNode/element';
 import { USER_STYLE_ID } from './const';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
+import { IRenderNode } from '../RenderNode/RenderNode';
+import { NodeType } from '../RenderNode/enum';
 
 /**
  * 创建空的 RenderNode
@@ -48,3 +50,7 @@ export function createHTMLTpl(fragment: string, stylesheet: string): string {
     '</body>',
     '</html>'].join('\n');
 }
+
+
+export * from './traverse';
+export * from './config';

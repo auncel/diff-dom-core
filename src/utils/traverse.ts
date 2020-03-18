@@ -9,7 +9,6 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-// import { ITreeNode } from '../RenderNode/domCore';
 import TreeNode from '../RenderNode/TreeNode';
 
 export type visitorFn = <T>(node: T, index: number, parent: T | null) => boolean | void;
@@ -17,10 +16,10 @@ export interface IVisitorFn<T> {
   (node: T, index: number, parent: T | null): boolean | void;
 }
 
-export type TraverseNode = {
-  node: TreeNode;
+export type TraverseNode<T> = {
+  node: T;
   index: number;
-  parent: TreeNode | null;
+  parent: T | null;
 }
 
 /**
@@ -32,9 +31,9 @@ export type TraverseNode = {
  */
 export function deepFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitorFn<T>): void {
   if (!root) return;
-  const stack: TraverseNode[] = [{ node: root, index: 0, parent: null }];
+  const stack: TraverseNode<T>[] = [{ node: root, index: 0, parent: null }];
   while (stack.length) {
-    const step = stack.pop() as TraverseNode;
+    const step = stack.pop() as TraverseNode<T>;
     const stop = visitor(step.node, step.index, step.parent);
     if (!stop && step.node.children.length) {
       step.node.children.forEach((child, index): void => {
@@ -54,9 +53,9 @@ export function deepFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitor
  */
 export function breadthFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitorFn<T>): void {
   if (!root) return;
-  const queue: TraverseNode[] = [{ node: root, index: 0, parent: null }];
+  const queue: TraverseNode<T>[] = [{ node: root, index: 0, parent: null }];
   while (queue.length) {
-    const step = queue.shift() as TraverseNode;
+    const step = queue.shift() as TraverseNode<T>;
     const stop = visitor(step.node, step.index, step.parent);
     if (!stop && step.node.children.length) {
       step.node.children.forEach((child, index) => {
