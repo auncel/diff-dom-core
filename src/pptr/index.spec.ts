@@ -8,7 +8,7 @@
  *-------------------------------------------------------------------------- */
 
 import { Puppeteer } from './index';
-
+jest.setTimeout(30000);
 
 describe('Puppteer', () => {
   test('init Puppteer', async (done) => {
@@ -29,4 +29,3 @@ describe('Puppteer', () => {
     }, 2000);
   });
 });
-

@@ -49,6 +49,7 @@ export class PageManager {
     // wait
     while (this.isCreating || this.getAvailablePoolSize() === 0) {
       // log.warn('awaiting for get Page');
+      // eslint-disable-next-line no-await-in-loop
       await sleep(200);
     }
 
@@ -61,9 +62,9 @@ export class PageManager {
   }
 
   public async closeAll(): Promise<void> {
-    this.pagePool.forEach((page) => {
-      page.close();
-    });
+    // this.pagePool.forEach((page) => {
+    //   page.close();
+    // });
     this.pagePool.length = 0;
   }
 }
