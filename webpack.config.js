@@ -8,7 +8,7 @@ module.exports = {
     path: __dirname,
     filename: 'dist/diff.js',
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [{
       test: /\.ts?$/,

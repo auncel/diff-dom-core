@@ -12,19 +12,19 @@
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
     "test": "jest",
-    "prepublishOnly": "rm -fr dsit && yarn build",
-    "build": "tsc --build tsconfig.json && webpack"
+    "prepublishOnly": "yarn build",
+    "build": "rm -fr ./dist && tsc --build tsconfig.json && webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yidafu/ts-template.git"
+    "url": "git+https://github.com/auncel/diff-dom-core.git"
   },
   "author": "yidafu (dov yih)",
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/yidafu/ts-template/issues"
+    "url": "https://github.com/auncel/diff-dom-core/issues"
   },
-  "homepage": "https://github.com/yidafu/ts-template#readme",
+  "homepage": "https://github.com/auncel/diff-dom-core#readme",
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix"

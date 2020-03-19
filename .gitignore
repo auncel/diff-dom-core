@@ -110,3 +110,4 @@ tmp.html
 x-diff/
 *.json
 !fixtures/**/*.json
+demo.ts
