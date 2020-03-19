@@ -13,7 +13,7 @@
     "lint": "eslint --ext .ts --fix src/",
     "test": "jest",
     "prepublishOnly": "yarn build",
-    "build": "rm -fr ./dist && webpack"
+    "build": "rm -fr ./dist && tsc --build tsconfig.json && webpack"
   },
   "repository": {
     "type": "git",
