@@ -9,11 +9,11 @@
 *                                                                           *
 * Copyright 2019 - 2019 Mozilla Public License 2.0 License                                         *
 *-------------------------------------------------------------------------- */
-import { IStrictlyEqualOption, strictlyEqualOption } from '../../config';
-import { isElementType } from '../utils';
-import { DiffNode } from '../DiffNode';
-import { UnionRenderNode } from '../x-tree-diff-plus/RenderNodeXTreeDiffPlus';
-import { NodeType } from '../../RenderNode/enum';
+import { IStrictlyEqualOption, strictlyEqualOption } from '../../../config';
+import { isElementType } from '../../utils';
+import { DiffNode } from '../../DiffNode';
+import { UnionRenderNode } from '../../x-tree-diff-plus/RenderNodeXTreeDiffPlus';
+import { NodeType } from '../../../RenderNode/enum';
 
 /**
  * Depth-first traversal

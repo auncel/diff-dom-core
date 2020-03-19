@@ -18,7 +18,17 @@ import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import { DistinctionType, IDistinctionDetail } from './DiffNode';
 import { NodeType } from '../RenderNode/enum';
 
-
+/**
+ *
+ *
+ * @export
+ * @template T {any}
+ * @param {string} key
+ * @param {DistinctionType} type
+ * @param {T} [expect]
+ * @param {T} [actual]
+ * @returns {IDistinctionDetail<T>}
+ */
 export function createDistinction<T>(
   key: string, type: DistinctionType, expect?: T, actual?: T,
 ): IDistinctionDetail<T> {
@@ -57,6 +67,7 @@ export function distinctionCompare<T>(
             key,
             DistinctionType.EQUALITY,
             object[key],
+            comparison[key],
           ),
         );
       } else {
@@ -75,6 +86,7 @@ export function distinctionCompare<T>(
           key,
           DistinctionType.MISSING,
           object[key],
+          undefined,
         ),
       );
     } else if (!isObjectKeyExist && isComparisonKeyExist) {

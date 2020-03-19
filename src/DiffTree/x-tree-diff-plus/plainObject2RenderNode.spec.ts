@@ -13,7 +13,6 @@ import { plainObject2RenderNode } from './plainObject2RenderNode';
 import ElementRenderNode, { IElementRenderNode } from '../../RenderNode/ElementRenderNode';
 import { NodeType } from '../../RenderNode/enum';
 import TextRenderNode, { ITextRenderNode } from '../../RenderNode/TextRenderNode';
-// const diffTree = require('../../../fixtures/render/diff-tree.json');
 
 describe('RenderNode2ShadowRenderNode', () => {
   test('{tagName: div}.children[{tagName: div}, {tagName: #text}]', () => {

@@ -3,11 +3,13 @@ import { readFixture, IFixtureData, readFixtures, readAllFixtures } from './read
 
 describe('readFixture', () => {
   test('readFixture work will', () => {
-   const simpleFixture: IFixtureData = readFixture(__dirname + '/elements/div/simple/simple.question.html');
-   expect(simpleFixture.name).toBe('question: elements -> div -> simple -> simple');
-   expect(simpleFixture.description).toBe('最简单的 div，只有宽高');
-   expect(simpleFixture.fragment).toBe('<div></div>');
-   expect(simpleFixture.stylesheet).toBe('div {\n    width: 100px;\n    height: 100px;\n    background-color: red;\n  }');
+    const simpleFixture: IFixtureData = readFixture(__dirname + '/elements/div/simple/simple.question.html');
+    expect(simpleFixture.name).toBe('question: elements\\div\\simple\\simple');
+    expect(simpleFixture.description).toBe('最简单的 div，只有宽高');
+    expect(simpleFixture.fragment).toBe('<div></div>');
+    expect(simpleFixture.stylesheet.replace(/\s/g, ''))
+      .toBe(`div{width:100px;height:100px;background-color:red;}`
+    );
   });
 });
 

@@ -11,6 +11,8 @@
  *-------------------------------------------------------------------------- */
 import './startup';
 
+jest.setTimeout(30000);
+
  describe('pptr/startup', () => {
   test('startup.ts should work', () => {
     expect(globalThis.diffScript).not.toBeNull();
