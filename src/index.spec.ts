@@ -45,7 +45,7 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
 }
 
 afterAll(async () => {
-  const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
-  writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
+  // const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
+  // writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
   await Puppeteer.close();
 });
