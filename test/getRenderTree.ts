@@ -21,12 +21,12 @@ import { PageManager } from '../src/pptr';
 
 declare global {
   var pageManager: PageManager;
-  var M_diffScript: string;
+  var diffScript: string;
 }
 
 const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
 export async function getRenderTree(fixtureData: IFixtureData): Promise<IElementRenderNode> {
-  if (globalThis.pageManager && globalThis.M_diffScript) {
+  if (globalThis.pageManager && globalThis.diffScript) {
     if (renderTreeCache.has(fixtureData)) {
       return renderTreeCache.get(fixtureData)!;
     }
@@ -34,9 +34,9 @@ export async function getRenderTree(fixtureData: IFixtureData): Promise<IElement
     const html = createHTMLTpl(fragment, stylesheet);
     const page = await globalThis.pageManager.getPage();
     await page.setContent(html);
-    const renderTree = (await page.evaluate(globalThis.M_diffScript) as IElementRenderNode);
+    const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
     globalThis.pageManager.releasePage(page);
     return renderTree;
   }
-  throw new Error('must import starup.ts before using getRenderTree');
+  throw new Error('must import starup.ts before using getRenderTree!');
 }

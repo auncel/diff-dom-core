@@ -22,7 +22,7 @@ import { readJSFile } from '../src/utils/readJSFile';
 
 declare global {
   var pageManager: PageManager;
-  var M_diffScript: string;
+  var diffScript: string;
 }
 
 const webpack = require('webpack');
@@ -31,7 +31,7 @@ const webpackConfig = require('../webpack.config.js');
 jest.setTimeout(30000);
 
 beforeAll(async () => {
-  if (!globalThis.M_diffScript && !globalThis.pageManager) {
+  if (!globalThis.diffScript && !globalThis.pageManager) {
     // eslint-disable-next-line no-shadow
     const [, pageManager] = await Promise.all([
       new Promise((resolve: Function, reject: Function) => {
@@ -48,8 +48,8 @@ beforeAll(async () => {
     ]) as [undefined, PageManager];
 
     const diffModuleStr = await readJSFile(`${__dirname}/../dist/diff.js`);
-    const M_diffScript = `${diffModuleStr}; window.Diff.generateRenderTree();`;
-    globalThis.M_diffScript = M_diffScript;
+    const diffScript = `${diffModuleStr}; window.Diff.generateRenderTree();`;
+    globalThis.diffScript = diffScript;
 
     globalThis.pageManager = pageManager;
   }
