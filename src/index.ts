@@ -50,3 +50,6 @@ export async function diffDomCore(
   evaluateResult = fixedScoringPointGenerateDiffResult(diffTree);
   return evaluateResult;
 }
+
+
+export { Puppeteer } from './pptr';

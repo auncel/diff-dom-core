@@ -17,15 +17,24 @@
 import '../pptr/startup';
 import ElementRenderNode, { IElementRenderNode } from '../RenderNode/ElementRenderNode';
 import { plainObject2RenderNode } from '../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
+import sleep from '../utils/sleep';
 
 
+const MAX_SLEEP_COUNT = 100;
 export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<ElementRenderNode> {
-  if (globalThis.pageManager && globalThis.diffScript) {
-    const page = await globalThis.pageManager.getPage();
-    await page.setContent(htmlSnippet);
-    const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
-    globalThis.pageManager.releasePage(page);
-    return plainObject2RenderNode(renderTree);
+  let sleepCount = 0;
+  while (!globalThis.pageManager || !globalThis.diffScript) {
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(100);
+    sleepCount++;
+    if (sleepCount > MAX_SLEEP_COUNT) {
+      throw new Error('globalThis.pageManager and globalThis.diffScript doesn\'t exsit');
+    }
   }
-  throw new Error('globalThis.pageManager and globalThis.diffScript doesn\'t exsit');
+
+  const page = await globalThis.pageManager.getPage();
+  await page.setContent(htmlSnippet);
+  const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
+  globalThis.pageManager.releasePage(page);
+  return plainObject2RenderNode(renderTree);
 }
