@@ -11,16 +11,18 @@
  *-------------------------------------------------------------------------- */
 
 // import '@auncel/common/polyfill/toJSON';
+import { writeFileSync } from 'fs';
 import { Puppeteer } from './pptr/index';
 import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
 // import { strictEqualDiff } from './diffCore/stricly-equal/index';
-import { xTreeDiffPlustGenerateDiffTree } from './DiffTree/xTreeDiffPlusGenerateDiffTree'
-import { fixedScoringPointGenerateDiffResult,  } from './evaluateSimilarity/';
-import { writeFileSync } from 'fs';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
+import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
+import { diffDomCore } from './index'
+
 import '../test/startup';
 import { getRenderTree } from '../test/getRenderTree';
-import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
+
+jest.setTimeout(30000);
 
 const fixtureMap = readAllFixtures();
 const similarityMap = new Map<string, IDiffResult>();
@@ -33,9 +35,7 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
     for (const answer of answers) {
       test(answer.description, async () => {
         const  questionRenderTree = plainObject2RenderNode(await getRenderTree(question));
-        const answerRenerTree = plainObject2RenderNode(await getRenderTree(answer));
-        const diffTree = xTreeDiffPlustGenerateDiffTree(questionRenderTree, answerRenerTree);
-        const evaluateResult: any = fixedScoringPointGenerateDiffResult(diffTree);
+        const evaluateResult: any = await diffDomCore(questionRenderTree, { html: answer.fragment, style: answer.stylesheet});
         evaluateResult.expect = answer.similarity;
         similarityMap.set(`${title}: ${question.name} ==> ${answer.name}`, evaluateResult);
         expect(evaluateResult.score * 100 > answer.similarity).toBe(true);
@@ -45,7 +45,6 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
 }
 
 afterAll(async () => {
-  console.log(similarityMap);
   const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
   writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
   await Puppeteer.close();

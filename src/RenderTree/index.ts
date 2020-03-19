@@ -10,7 +10,7 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
 import { appendUuid } from './appendUuid';
-import { generateRenderTree } from './generateRenderTree';
+import { generateRenderTree as generateRenderTreeFromDom } from './generateRenderTree';
 import { computeElementStyle } from './getCSSPropertyValues';
 import { UnionRenderNode } from '../RenderNode/UnionRenderNode';
 
@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-export function generateTree(): UnionRenderNode {
+export function generateRenderTree(): UnionRenderNode {
   const doc = document;
   // 1. 附加 uuid
   appendUuid(doc);
@@ -31,6 +31,6 @@ export function generateTree(): UnionRenderNode {
 
   // 3. 生成 Render
   const body = document.body;
-  const renderTree = generateRenderTree(body);
+  const renderTree = generateRenderTreeFromDom(body);
   return renderTree;
 }
