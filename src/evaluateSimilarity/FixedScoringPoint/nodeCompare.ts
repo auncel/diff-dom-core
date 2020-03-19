@@ -52,7 +52,7 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
 
   if (diffNode.diffType & DiffType.NodeDelete) {
     nodeCount = diffNode.subTree?.count() ?? 1;
-    nodeDiffLogs.push(`missing a sub-tree of ${diffNode.location}`)
+    nodeDiffLogs.push(`missing a sub-tree of ${diffNode.location}`);
     nodeScore = 0;
   }
 

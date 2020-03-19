@@ -35,7 +35,7 @@ export function evaluateStyleSimlarity(
     }
   }
 
-  const propertyScore = STYLE_SCORE / (equalityCount + inequalCount + (missingCount * 2));
+  const propertyScore = STYLE_SCORE / (equalityCount + inequalCount + (missingCount / 2) + extraCount);
   const score = propertyScore * (missingCount + inequalCount + extraCount);
   return score;
 }

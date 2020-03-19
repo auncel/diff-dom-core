@@ -13,3 +13,4 @@
 export { fixedScoringPointGenerateDiffResult } from './FixedScoringPoint/fixedScoringPoint';
 
 export { IDiffLog } from './DiffLog.interface';
+export { IGenerateDiffResult, IDiffResult, IGenerateDiffResultOption } from './generateDiffResult.interface';
