@@ -15,11 +15,11 @@ import { getNodeLocation } from './fixedScoringPoint';
 import { IDiffLog } from '../DiffLog.interface';
 import { DiffType } from '../../DiffTree/DiffNode';
 import { NODE_TOTAL_SCORE } from './const';
-import { evaluateIdSimlarity } from './evaluateSimlarity/id';
-import { evaluateClassNameSimlarity } from './evaluateSimlarity/className';
-import { evaluateRectSimlarity } from './evaluateSimlarity/rect';
-import { evaluateStyleSimlarity } from './evaluateSimlarity/style';
-import { evaluateAttrSimlarity } from './evaluateSimlarity/attr';
+import { IdSimilarigyStrategy } from './SimilarityStrategy/IdSimilarityStrategy';
+import { ClassNameSimilarityStrategy } from './SimilarityStrategy/ClassNameSimilarityStrategy';
+import { RectSimilarityStrategy } from './SimilarityStrategy/RectSimilarityStrategy';
+import { StyleSimilarityStrategy } from './SimilarityStrategy/StyleSimilarityStrategy';
+import { AttrSimilarityStrategy } from './SimilarityStrategy/AttrSimilarityStrategy';
 
 export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) => {
   const nodeDiffLogs: string[] = [];
@@ -28,25 +28,25 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
 
   // diff type is rect
   if (diffNode.diffType & DiffType.Id) {
-    nodeScore -= evaluateIdSimlarity(diffNode.id!, nodeDiffLogs);
+    nodeScore -= new IdSimilarigyStrategy().evaluate([diffNode.id!], nodeDiffLogs);
   }
 
   if (diffNode.diffType & DiffType.ClassName) {
-    nodeScore -= evaluateClassNameSimlarity(diffNode.className!, nodeDiffLogs);
+    nodeScore -= new ClassNameSimilarityStrategy().evaluate([diffNode.className!], nodeDiffLogs);
   }
 
   if (diffNode.diffType & DiffType.Rect) {
-    const rectLosedScore = evaluateRectSimlarity(diffNode.rect!, nodeDiffLogs);
+    const rectLosedScore = new RectSimilarityStrategy().evaluate(diffNode.rect!, nodeDiffLogs);
     nodeScore -= rectLosedScore;
   }
 
   if (diffNode.diffType & DiffType.Style) {
-    const styleLosedScore = evaluateStyleSimlarity(diffNode.style!, nodeDiffLogs);
+    const styleLosedScore = new StyleSimilarityStrategy().evaluate(diffNode.style!, nodeDiffLogs);
     nodeScore -= styleLosedScore;
   }
 
   if (diffNode.diffType & DiffType.Attr) {
-    const attrLosedScore = evaluateAttrSimlarity(diffNode.attr!, nodeDiffLogs);
+    const attrLosedScore = new AttrSimilarityStrategy().evaluate(diffNode.attr!, nodeDiffLogs);
     nodeScore -= attrLosedScore;
   }
 
