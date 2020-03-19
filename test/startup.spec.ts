@@ -14,6 +14,6 @@ import './startup';
 describe('startup.ts', () => {
   test('should globalThis has pageManager/M_diffScript property', () => {
     expect(globalThis.pageManager).not.toBeNull();
-    expect(globalThis.M_diffScript).not.toBeNull();
+    expect(globalThis.diffScript).not.toBeNull();
   });
 });
