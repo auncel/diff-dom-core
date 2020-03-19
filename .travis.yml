@@ -6,12 +6,16 @@ cache:
   directories:
     - node_modules
 
+before_install:
+  - npm i -g yarn
+  - export PATH=$HOME/.yarn/bin:$PATH
+
 install:
-  - npm install
+  - yarn
 
 script:
-  - npm run build
-  - npm run test --coverage
+  - yarn build
+  - yarn test --coverage
 
 after_success:
   # - codecov
