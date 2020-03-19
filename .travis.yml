@@ -17,9 +17,9 @@ install:
 script:
   - yarn build && yarn test --coverage --detectOpenHandles
 
-after_success:
-  # - codecov
-  - curl -s https://codecov.io/bash | bash
+# after_success:
+#   # - codecov
+#   - curl -s https://codecov.io/bash | bash
 
 branches:
   only:
