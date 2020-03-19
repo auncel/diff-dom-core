@@ -30,10 +30,10 @@ Tesing
 npm run test
 ```
 
-### exmaple
+### Exmaple
 
 ```ts
-import { diffDomCore } from '@auncel/diff-dom-core';
+import { diffDomCore, Puppeteer } from '@auncel/diff-dom-core';
 
 const diffRes = await diffDomCore(
   { html: '<div>Text</div>', style: 'div{color: #fff;}' },
