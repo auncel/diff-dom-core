@@ -1,5 +1,20 @@
 # @auncel/diff-dom-core
 
+<p style="text-align: center;">
+  <img src="https://travis-ci.com/auncel/diff-dom-core.svg?branch=master" />
+  <a href="https://codecov.io/gh/auncel/diff-dom-core">
+    <img src="https://codecov.io/gh/auncel/diff-dom-core/branch/master/graph/badge.svg" />
+  </a>
+  <a href="https://www.npmjs.com/package/@auncel/diff-dom-core">
+    <img src="https://img.shields.io/npm/dt/@auncel/diff-dom-core.svg" />
+  </a>
+  <img src="https://img.shields.io/npm/l/@auncel/diff-dom-core.svg" />
+  <a href="https://www.npmjs.com/package/@auncel/diff-dom-core">
+    <img src="https://img.shields.io/npm/v/@auncel/diff-dom-core.svg" />
+  </a>
+  <img src="https://img.shields.io/badge/language-javascript-blue.svg" />
+</p>
+
 Core HTML diff algorithm.
 
 ## Usage
