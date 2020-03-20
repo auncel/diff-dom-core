@@ -18,39 +18,9 @@ import { computeElementStyle } from './getCSSPropertyValues';
 import { USER_STYLE_ID } from '../utils/const';
 import { appendUuid } from './appendUuid';
 import { readFixture } from '../../fixtures/readFixture';
+import { getSimpleData } from '../../test/utils';
 
-const fragment = `
-<div class="listItem_listItem">
-  <h1>
-    <a class="text" href="/post/2019-05-08-separation-in-thousandth">数字表示成千位分隔形式的几种解法</a>
-  </h1>
-  <p>Wrote @ 2019-12-01</p>
-</div>`;
-
-const styesheet = `
-.listItem_listItem {
-  background-color: #fff;
-  padding: 30px 50px;
-  margin: 20px;
-  box-shadow: 0 7px 7px 7px #eee;
-  border-radius: 10px;
-}
-
-h1 {
-  font-size: 32px;
-}
-
-h1 a {
-  text-decoration: none;
-}
-
-.text {
-  padding: 20px;
-  color: #333;
-}
-div p {
-  color: #aaa;
-}`;
+const { fragment, stylesheet } = getSimpleData()
 
 
 let $style: HTMLElement;
@@ -72,10 +42,11 @@ describe('simple jsdom env', () => {
   });
 
   test('simple', () => {
-    $style.innerHTML = styesheet;
+    $style.innerHTML = stylesheet;
     const propetyMap = computeElementStyle(document);
     expect(propetyMap.size).toBe(4);
     expect(propetyMap.get('uuid_0_0')!.size).toBe(11);
+    expect(propetyMap.get('uuid_0_0')!.get('border-radius')).toBe('10px');
   });
 
   test('margin shorthand', () => {
@@ -87,8 +58,18 @@ describe('simple jsdom env', () => {
     $style.innerHTML = qustionFixture.stylesheet;
     const propetyMap1 = computeElementStyle(document);
 
+    expect(propetyMap1.get('uuid_0_0')!.get('margin')).toBeUndefined();
+    expect(propetyMap1.get('uuid_0_0')!.get('margin-top')).toBe('20px');
+    expect(propetyMap1.get('uuid_0_0')!.get('margin-right')).toBe('30px');
+    expect(propetyMap1.get('uuid_0_0')!.get('margin-bottom')).toBe('40px');
+    expect(propetyMap1.get('uuid_0_0')!.get('margin-left')).toBe('50px');
+
     $style.innerHTML = answer1Fixture.stylesheet;
     const propetyMap2 = computeElementStyle(document);
-    expect(propetyMap1).toEqual(propetyMap2);
+    expect(propetyMap2.get('uuid_0_0')!.get('margin')).toBeUndefined();
+    expect(propetyMap2.get('uuid_0_0')!.get('margin-top')).toBe('20px');
+    expect(propetyMap2.get('uuid_0_0')!.get('margin-right')).toBe('30px');
+    expect(propetyMap2.get('uuid_0_0')!.get('margin-bottom')).toBe('40px');
+    expect(propetyMap2.get('uuid_0_0')!.get('margin-left')).toBe('50px');
   });
 });

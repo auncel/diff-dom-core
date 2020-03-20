@@ -15,10 +15,9 @@
  *-------------------------------------------------------------------------- */
 
 import { getSimpleData } from '../../test/utils';
-import { appendUuid } from './appendUuid';
-import { UUID_ATTR } from './getCSSPropertyValues';
+import { appendUuid, UUID_ATTR } from './appendUuid';
 
-const { fragment, stylesheet } = getSimpleData();
+const { fragment } = getSimpleData();
 
 beforeEach(() => {
   document.body.innerHTML = fragment;
