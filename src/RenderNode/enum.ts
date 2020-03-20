@@ -29,29 +29,3 @@ export enum NodeType {
   /** @deprecated  */
   NOTATION_NODE, // 一个 XML <!NOTATION ...> 节点。 在 DOM4 规范里被移除.
 }
-
-
-export enum DiffType {
-  None = 0,
-  // eslint-disable-next-line no-shadow
-  NodeType = 1 << 0,
-  Tag = 1 << 1, // element 和 text， element tag 不同
-  Id = 1 << 2,
-  ClassName = 1 << 3,
-  Attr = 1 << 4,
-  DataSet = 1 << 5,
-  Style = 1 << 6,
-  Rect = 1 << 7,
-  Text = 1 << 8, // 文本不相同
-  // 节点差异
-  NodeUPDATE = 1 << 9,
-  NodeINSERT = 1 << 10,
-  NodeDELETE = 1 << 11,
-}
-
-export enum DistinctionType {
-  MISSING,
-  EXTRA,
-  INEQUAL,
-  EQUALITY,
-}

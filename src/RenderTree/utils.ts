@@ -11,7 +11,7 @@
  *-------------------------------------------------------------------------- */
 
 import { TAttributes, TTagAttribute } from '../RenderNode/element';
-import { UUID_ATTR } from './getCSSPropertyValues';
+import { UUID_ATTR } from './appendUuid';
 import { TNodeRect } from '../RenderNode/ElementRenderNode';
 
 // eslint-disable-next-line no-unused-vars
@@ -79,4 +79,8 @@ export function getRect(node: Element, coordinate: {x: number; y: number}): TNod
     width,
     height,
   };
+}
+
+export function getCssValue(dom: HTMLElement, property: keyof CSSStyleDeclaration): string {
+  return window.getComputedStyle(dom)[property];
 }

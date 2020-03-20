@@ -13,8 +13,7 @@
 import { ElementNotExistError } from '../exceptions/index';
 import { parseCSS } from '../CSSTree/parseCSS';
 import { USER_STYLE_ID } from '../utils/const';
-
-export const UUID_ATTR = '__uuid__';
+import { getUuid } from './utils';
 
 export function computeElementStyle(document: Document): Map<string, Map<string, string>> {
   const elementStyleCache: Map<string, Map<string, string>> = new Map();
@@ -28,7 +27,7 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
   for (const [selector, properties] of selectorMap) {
     const $elementList = document.querySelectorAll(selector);
     $elementList.forEach(($element) => {
-      const elementUuid = $element.getAttribute(UUID_ATTR)!;
+      const elementUuid = getUuid($element);
       let propertyMap: Map<string, string> = new Map();
       if (elementStyleCache.has(elementUuid)) {
         propertyMap = elementStyleCache.get(elementUuid)!;
