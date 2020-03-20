@@ -1,5 +1,6 @@
 import { CLASS_SCORE } from '../const';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
+import { DiffNode } from '../../../DiffTree/DiffNode';
 
 export class ClassNameSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
