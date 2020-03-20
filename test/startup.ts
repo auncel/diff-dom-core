@@ -44,7 +44,7 @@ beforeAll(async () => {
         });
       }),
 
-      Puppeteer.getPageManager(),
+      Puppeteer.getPageManager({ poolSize: 20 }),
     ]) as [undefined, PageManager];
 
     const diffModuleStr = await readJSFile(`${__dirname}/../dist/diff.js`);
