@@ -1,12 +1,12 @@
 import { CLASS_SCORE } from '../const';
-import { IDistinctionDetail } from '../../../DiffTree/DiffNode';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
 
 export class ClassNameSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
-  evaluate<String>(distinction: IDistinctionDetail<String>[], logs: string[]): number {
+  evaluate(diffNode: DiffNode, logs: string[]): number {
+    const distinction = diffNode.className!;
     logs.push(
-      `incorent id. expect ${distinction[0].expect}, actual ${distinction[0].actual}`,
+      `incorent id. expect ${distinction.expect}, actual ${distinction.actual}`,
     );
     return CLASS_SCORE;
   }

@@ -111,3 +111,4 @@ x-diff/
 *.json
 !fixtures/**/*.json
 demo.ts
+log.txt

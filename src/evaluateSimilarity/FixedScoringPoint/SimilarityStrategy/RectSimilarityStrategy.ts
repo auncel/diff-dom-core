@@ -1,12 +1,12 @@
-import { IDistinctionDetail } from '../../../DiffTree/DiffNode';
 import { RECT_SCORE } from '../const';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
+import { DiffNode } from '../../../DiffTree/DiffNode';
 
 export class RectSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
-  evaluate<Number>(distinctions: IDistinctionDetail<Number>[], logs: string[]): number {
+  evaluate(diffNode: DiffNode, logs: string[]): number {
     let rectScore = 0;
-
+    const distinctions = diffNode.rect;
     if (!distinctions || !distinctions.length) return rectScore;
 
     // eslint-disable-next-line no-restricted-syntax

@@ -1,12 +1,11 @@
-import { IDistinctionDetail, DistinctionType, TAttrPropertyType } from '../../../DiffTree/DiffNode';
+import { DistinctionType, DiffNode } from '../../../DiffTree/DiffNode';
 import { ATTR_SCORE } from '../const';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
 
 export class AttrSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line class-methods-use-this
-  evaluate<TAttrPropertyType>(
-    distinctions: IDistinctionDetail<TAttrPropertyType>[], logs: string[],
-  ): number {
+  evaluate(diffNode: DiffNode, logs: string[]): number {
+    const distinctions = diffNode.attr!;
     if (!distinctions || !distinctions.length) return ATTR_SCORE;
 
     let equalityCount = 0;

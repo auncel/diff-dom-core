@@ -13,53 +13,20 @@
 import { INodeCompare } from 'evaluateSimilarity/nodeCompare.interface';
 import { getNodeLocation } from './fixedScoringPoint';
 import { IDiffLog } from '../DiffLog.interface';
-import { DiffType } from '../../DiffTree/DiffNode';
 import { NODE_TOTAL_SCORE } from './const';
-import { IdSimilarigyStrategy } from './SimilarityStrategy/IdSimilarityStrategy';
-import { ClassNameSimilarityStrategy } from './SimilarityStrategy/ClassNameSimilarityStrategy';
-import { RectSimilarityStrategy } from './SimilarityStrategy/RectSimilarityStrategy';
-import { StyleSimilarityStrategy } from './SimilarityStrategy/StyleSimilarityStrategy';
-import { AttrSimilarityStrategy } from './SimilarityStrategy/AttrSimilarityStrategy';
+import { SimilarityStrategyContext } from './SimilarityStrategy/indext';
 
 export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) => {
   const nodeDiffLogs: string[] = [];
   let nodeScore = NODE_TOTAL_SCORE;
-  let nodeCount = 1;
+  const nodeCount = diffNode.subTree?.count() ?? 1;
 
-  // diff type is rect
-  if (diffNode.diffType & DiffType.Id) {
-    nodeScore -= new IdSimilarigyStrategy().evaluate([diffNode.id!], nodeDiffLogs);
-  }
-
-  if (diffNode.diffType & DiffType.ClassName) {
-    nodeScore -= new ClassNameSimilarityStrategy().evaluate([diffNode.className!], nodeDiffLogs);
-  }
-
-  if (diffNode.diffType & DiffType.Rect) {
-    const rectLosedScore = new RectSimilarityStrategy().evaluate(diffNode.rect!, nodeDiffLogs);
-    nodeScore -= rectLosedScore;
-  }
-
-  if (diffNode.diffType & DiffType.Style) {
-    const styleLosedScore = new StyleSimilarityStrategy().evaluate(diffNode.style!, nodeDiffLogs);
-    nodeScore -= styleLosedScore;
-  }
-
-  if (diffNode.diffType & DiffType.Attr) {
-    const attrLosedScore = new AttrSimilarityStrategy().evaluate(diffNode.attr!, nodeDiffLogs);
-    nodeScore -= attrLosedScore;
-  }
-
-  if (diffNode.diffType & DiffType.NodeDelete) {
-    nodeCount = diffNode.subTree?.count() ?? 1;
-    nodeDiffLogs.push(`missing a sub-tree of ${diffNode.location}`);
-    nodeScore = 0;
-  }
-
-  // TODO: 区分 NodeDelet 和 NodeInsert
-  if (diffNode.diffType & DiffType.NodeInsert) {
-    nodeCount = diffNode.subTree?.count() ?? 1;
-    nodeScore = 0;
+  const strategyContext = new SimilarityStrategyContext();
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [diffType, strategy] of strategyContext.iterator()) {
+    if (diffNode.diffType & diffType) {
+      nodeScore -= strategy.evaluate(diffNode, nodeDiffLogs);
+    }
   }
 
   const logMsg: IDiffLog = {
@@ -72,7 +39,7 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
   }
 
   return {
-    nodeScore,
+    nodeScore: Math.max(nodeScore, 0),
     nodeCount,
   };
 };

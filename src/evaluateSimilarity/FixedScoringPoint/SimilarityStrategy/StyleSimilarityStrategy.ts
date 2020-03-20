@@ -1,13 +1,13 @@
 
-import { IDistinctionDetail, TCSSPropertyValueType, DistinctionType } from '../../../DiffTree/DiffNode';
+import { DistinctionType, DiffNode } from '../../../DiffTree/DiffNode';
 import { STYLE_SCORE } from '../const';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
 
 export class StyleSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line class-methods-use-this
-  evaluate<TCSSPropertyValueType>(
-    distinctions: IDistinctionDetail<TCSSPropertyValueType>[], logs: string[],
-  ): number {
+  evaluate(diffNode: DiffNode, logs: string[]): number {
+    const distinctions = diffNode.style!;
+
     if (!distinctions || !distinctions.length) return STYLE_SCORE;
 
     let equalityCount = 0;

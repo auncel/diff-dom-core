@@ -15,7 +15,6 @@ import '../../../test/startup';
 import '../../../test/getRenderTree';
 import { readFixtures, IFixtureData } from '../../../fixtures/readFixture';
 import { getRenderTree } from '../../../test/getRenderTree';
-import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import RenderTreeXTreeDiffPlus from '../../DiffTree/x-tree-diff-plus/RenderNodeXTreeDiffPlus';
 import { plainObject2RenderNode } from '../../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 
@@ -40,7 +39,6 @@ describe(simpleFixtures.title, () => {
   test(simpleFixtures.answers[1].name, async () => {
     const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[1]);
     const result = fixedScoringPointGenerateDiffResult(diffTree);
-    console.log(result);
     expect(result.logs.length).not.toBe(0);
     expect(result.score > 50).toBe(true);
   });
