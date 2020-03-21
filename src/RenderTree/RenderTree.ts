@@ -12,20 +12,21 @@
 /* eslint-disable no-multi-assign */
 /* eslint-disable no-param-reassign */
 import { TTag } from '../RenderNode/element';
-import { getAttrs, getStyle, getRect, getUuid, getCssValue } from './utils';
-import { IGenerateRenderTreeOptions, mergeWithDefaultConfig } from '../config';
+import { getAttrs, getStyle, getRect, getUuid, getCssValue, getDisplayRate } from './utils';
+import { IGenerateRenderTreeOptions, generateRenderTreeOptions } from '../config';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
 import { NodeType } from '../RenderNode/enum';
 import { UnionRenderNode } from '../RenderNode/RenderNode';
 import { computeElementStyle } from './getCSSPropertyValues';
 import { appendUuid } from './appendUuid';
+import { mergeWithDefaultConfig } from '../utils';
 
 export class RenderTree {
   private config: IGenerateRenderTreeOptions;
 
   constructor(config: IGenerateRenderTreeOptions = {}) {
-    this.config = mergeWithDefaultConfig(config);
+    this.config = mergeWithDefaultConfig(config, generateRenderTreeOptions);
   }
 
   generate(root: HTMLElement): UnionRenderNode {
@@ -67,6 +68,7 @@ export class RenderTree {
       renderNode.attr = getAttrs(domNode);
       renderNode.style = getStyle(domNode);
       renderNode.rect = getRect(domNode, coordinate);
+      renderNode.displayRate = getDisplayRate(domNode, renderNode.rect, this.config.displayGridGap!) ?? 0;
 
       if (!config.noChildElement?.includes(tagName)) {
         const children = domNode.childNodes;

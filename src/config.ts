@@ -1,14 +1,16 @@
 /* eslint-disable no-param-reassign */
+import { IPlainObject } from '@auncel/common/types/IPlainObject';
 import { TCSSProperty } from './RenderNode/css';
 import { TTag, TTagAttribute } from './RenderNode/element';
 
-export interface IGenerateRenderTreeOptions {
+export interface IGenerateRenderTreeOptions extends IPlainObject {
   ignoreElement?: TTag[];
   CSSPropertWhiteList?: TCSSProperty[]; // 如果 length == 1，那就不生效
   CSSPropertBlackList?: TCSSProperty[];
   tagWhiteList?: TTag[]; // 出题者限制使用的标签
   tagBlackList?: TTag[]; // 如果 length == 1，那就不生效
   noChildElement?: TTag[];
+  displayGridGap?: number;
 }
 
 export const generateRenderTreeOptions: IGenerateRenderTreeOptions = {
@@ -28,30 +30,8 @@ export const generateRenderTreeOptions: IGenerateRenderTreeOptions = {
     'img', 'canvas', 'input', 'textarea', 'audio',
     'video', 'hr', 'embed', 'object', 'progress',
   ],
+  displayGridGap: 5,
 };
-
-export function mergeWithDefaultConfig(
-  config: IGenerateRenderTreeOptions,
-): IGenerateRenderTreeOptions {
-  type IGenerateRenderTreeOptionsKeys = keyof IGenerateRenderTreeOptions;
-  Object.keys(generateRenderTreeOptions).forEach((key) => {
-    const option = key as IGenerateRenderTreeOptionsKeys;
-    if (typeof config[option] !== 'undefined') {
-      if (Array.isArray(generateRenderTreeOptions[option])) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        config[option] = [...generateRenderTreeOptions[option], ...config[option]];
-      } else {
-        throw new TypeError(`generateRenderTreeOptions[${option}] should Be Array`);
-      }
-    } else {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      config[option] = generateRenderTreeOptions[option];
-    }
-  });
-  return config;
-}
 
 /**
  * 1. isStrictlyEqual ture: 严格相等，false:允许 AT 冗余， 默认：true

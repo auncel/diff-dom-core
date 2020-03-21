@@ -72,4 +72,18 @@ describe('simple jsdom env', () => {
     expect(propetyMap2.get('uuid_0_0')!.get('margin-bottom')).toBe('40px');
     expect(propetyMap2.get('uuid_0_0')!.get('margin-left')).toBe('50px');
   });
+
+  
+  test('should ignore z-index', () => {
+    const answer1Fixture = readFixture(`${__dirname}/../../fixtures/css/zIndex/correct.answer.html`);
+    document.body.innerHTML = answer1Fixture.fragment;
+    $style.innerHTML = answer1Fixture.stylesheet;
+
+    appendUuid(document);
+    const propetyMap1 = computeElementStyle(document);
+
+    expect(propetyMap1.get('uuid_0_0')!.get('z-index')).toBeUndefined();
+    expect(propetyMap1.get('uuid_0_1')!.get('z-index')).toBeUndefined();
+    expect(propetyMap1.get('uuid_0_2')!.get('z-index')).toBeUndefined();
+  });
 });

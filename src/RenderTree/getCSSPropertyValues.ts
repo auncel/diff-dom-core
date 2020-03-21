@@ -15,6 +15,8 @@ import { parseCSS } from '../CSSTree/parseCSS';
 import { USER_STYLE_ID } from '../utils/const';
 import { getUuid } from './utils';
 
+const ignorePropertis = ['z-index'];
+
 export function computeElementStyle(document: Document): Map<string, Map<string, string>> {
   const elementStyleCache: Map<string, Map<string, string>> = new Map();
   const $userStyle = document.getElementById(USER_STYLE_ID);
@@ -38,8 +40,10 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
       type TCSSStyleDeclarationKeys = keyof CSSStyleDeclaration;
       const elementStyle = window.getComputedStyle($element);
       properties.forEach((property) => {
-        const propertyValue = elementStyle[property as TCSSStyleDeclarationKeys];
-        propertyMap.set(property, propertyValue);
+        if (!ignorePropertis.includes(property)) {
+          const propertyValue = elementStyle[property as TCSSStyleDeclarationKeys];
+          propertyMap.set(property, propertyValue);
+        }
       });
     });
   }

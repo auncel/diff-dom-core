@@ -11,6 +11,7 @@
  *-------------------------------------------------------------------------- */
 export { identifyAttrDistinction } from './attr';
 export { identifyClassNameDistinction } from './className';
+export { identifyDisplayRateDistinction } from './displayRate';
 export { identifyIdDistinction } from './id';
 export { identifyRectDistinction } from './rect';
 export { identifyStyleDistinction, isStyleEqual } from './style';

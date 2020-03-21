@@ -16,13 +16,13 @@ import RenderNode, { IRenderNode } from './RenderNode';
 import { ITextRenderNode } from './TextRenderNode';
 import { NodeType } from './enum';
 
-export type TNodeRect = {
-  left?: number;
-  top?: number;
-  width?: number;
-  height?: number;
-  x?: number;
-  y?: number;
+export interface INodeRect {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
 }
 
 export interface IElementRenderNode extends IRenderNode {
@@ -35,7 +35,9 @@ export interface IElementRenderNode extends IRenderNode {
   nodeName?: string;
   nodeType: NodeType.ELEMENT_NODE;
 
-  rect: TNodeRect;
+  displayRate: number;
+
+  rect: INodeRect;
 
   dataset?: DOMStringMap;
 
@@ -58,7 +60,10 @@ export default class ElementRenderNode extends RenderNode implements IElementRen
   nodeName?: string;
   nodeType: NodeType.ELEMENT_NODE = NodeType.ELEMENT_NODE;
 
-  rect: TNodeRect = { top: 0, left: 0, width: 0, height: 0, y: 0, x: 0 };
+  /** @type {number} [displayRate=0] 受 z-index 属性影响，Dom 节点实际展示区域比例 */
+  displayRate = 0;
+
+  rect: INodeRect = { top: 0, left: 0, width: 0, height: 0, y: 0, x: 0 };
 
   dataset?: DOMStringMap;
 

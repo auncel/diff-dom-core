@@ -11,12 +11,12 @@
  *-------------------------------------------------------------------------- */
 /* eslint-disable import/no-unresolved */
 
-import { TNodeRect } from '../../RenderNode/ElementRenderNode';
+import { INodeRect } from '../../RenderNode/ElementRenderNode';
 import { distinctionCompare } from '../utils';
 import { IDistinctionDetail } from '../DiffNode';
 
 export function identifyRectDistinction(
-  leftRect: TNodeRect, rightRect: TNodeRect, rectTolerance: number,
+  leftRect: INodeRect, rightRect: INodeRect, rectTolerance: number,
 ): IDistinctionDetail<number>[] {
   const distinctions = distinctionCompare<number>(
     leftRect, rightRect, ['left', 'top', 'width', 'height'],
