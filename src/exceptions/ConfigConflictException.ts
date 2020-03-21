@@ -1,14 +1,17 @@
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
- * File Created: Sunday, 8th December 2019 12:00 pm                          *
+ * File Created: Saturday, 21st March 2020 11:57 am                          *
  * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
  *                                                                           *
- * Last Modified: Sunday, 8th December 2019 12:00 pm                         *
+ * Last Modified: Saturday, 21st March 2020 11:57 am                         *
  * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
  *                                                                           *
- * Copyright 2019 - 2019 MIT License                                         *
+ * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-
-export { ElementNotExistError } from './ElementNotExistError';
-export { ConfigConflictException } from './ConfigConflictException';
+export class ConfigConflictException extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ConfigConflictException';
+  }
+}
