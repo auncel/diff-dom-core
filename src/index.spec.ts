@@ -11,8 +11,7 @@
  *-------------------------------------------------------------------------- */
 
 // import '@auncel/common/polyfill/toJSON';
-import { writeFileSync } from 'fs';
-import { Puppeteer } from './pptr/index';
+import 'expect-puppeteer';
 import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
 // import { strictEqualDiff } from './diffCore/stricly-equal/index';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
@@ -27,9 +26,12 @@ jest.setTimeout(30000);
 const fixtureMap = readAllFixtures();
 const similarityMap = new Map<string, IDiffResult>();
 
-
-
 for (const [title, fixtrue] of fixtureMap.entries()) {
+
+  beforeEach(async () => {
+    await jestPuppeteer.resetPage()
+  });
+
   describe(title, () => {
     const { question, answers } = fixtrue;
     for (const answer of answers) {
@@ -47,5 +49,5 @@ for (const [title, fixtrue] of fixtureMap.entries()) {
 afterAll(async () => {
   // const dateStr = new Date().toLocaleString().replace(/[,:\s\/]/g, '-');
   // writeFileSync(`${__dirname}/../logs/${dateStr}.json`, JSON.stringify(similarityMap, null, 2));
-  await Puppeteer.close();
+  // await Puppeteer.close();
 });

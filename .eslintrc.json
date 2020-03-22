@@ -9,7 +9,8 @@
   ],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -24,5 +25,11 @@
     "max-len": 1,
     "no-plusplus": 0,
     "@typescript-eslint/interface-name-prefix": [2, { "prefixWithI": "always" }]
+  },
+  "globals": {
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true
   }
 }
