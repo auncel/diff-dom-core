@@ -28,7 +28,7 @@ declare global {
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 
-jest.setTimeout(30000);
+jest.setTimeout(60_000);
 
 beforeAll(async () => {
   if (!globalThis.diffScript && !globalThis.pageManager) {
@@ -44,7 +44,7 @@ beforeAll(async () => {
         });
       }),
 
-      Puppeteer.getPageManager({ poolSize: 20 }),
+      Puppeteer.getPageManager({ poolSize: 5 }),
     ]) as [undefined, PageManager];
 
     const diffModuleStr = await readJSFile(`${__dirname}/../dist/diff.js`);
