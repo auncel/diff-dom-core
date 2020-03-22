@@ -40,6 +40,6 @@ export class StyleSimilarityStrategy implements ISimilarityStrategy {
 
     const propertyScore = STYLE_SCORE / (equalityCount + inequalCount + (missingCount / 2) + extraCount);
     const score = propertyScore * (missingCount + inequalCount + extraCount);
-    return score;
+    return score * (diffNode.displayRate?.actual ?? 1);
   }
 }

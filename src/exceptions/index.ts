@@ -11,3 +11,4 @@
  *-------------------------------------------------------------------------- */
 
 export { ElementNotExistError } from './ElementNotExistError';
+export { ConfigConflictException } from './ConfigConflictException';

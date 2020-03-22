@@ -13,8 +13,9 @@
 import { ElementNotExistError } from '../exceptions/index';
 import { parseCSS } from '../CSSTree/parseCSS';
 import { USER_STYLE_ID } from '../utils/const';
+import { getUuid } from './utils';
 
-export const UUID_ATTR = '__uuid__';
+const ignorePropertis = ['z-index'];
 
 export function computeElementStyle(document: Document): Map<string, Map<string, string>> {
   const elementStyleCache: Map<string, Map<string, string>> = new Map();
@@ -28,7 +29,7 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
   for (const [selector, properties] of selectorMap) {
     const $elementList = document.querySelectorAll(selector);
     $elementList.forEach(($element) => {
-      const elementUuid = $element.getAttribute(UUID_ATTR)!;
+      const elementUuid = getUuid($element);
       let propertyMap: Map<string, string> = new Map();
       if (elementStyleCache.has(elementUuid)) {
         propertyMap = elementStyleCache.get(elementUuid)!;
@@ -39,8 +40,10 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
       type TCSSStyleDeclarationKeys = keyof CSSStyleDeclaration;
       const elementStyle = window.getComputedStyle($element);
       properties.forEach((property) => {
-        const propertyValue = elementStyle[property as TCSSStyleDeclarationKeys];
-        propertyMap.set(property, propertyValue);
+        if (!ignorePropertis.includes(property)) {
+          const propertyValue = elementStyle[property as TCSSStyleDeclarationKeys];
+          propertyMap.set(property, propertyValue);
+        }
       });
     });
   }

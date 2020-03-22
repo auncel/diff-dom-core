@@ -1,10 +1,24 @@
-
+/* --------------------------------------------------------------------------*
+ * Description:                                                              *
+ *                                                                           *
+ * File Created: Thursday, 19th March 2020 12:31 am                          *
+ * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
+ *                                                                           *
+ * Last Modified: Saturday, 21st March 2020 11:39 am                         *
+ * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
+ *                                                                           *
+ * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
+ *-------------------------------------------------------------------------- */
 import { TTag } from '../RenderNode/element';
 import { USER_STYLE_ID } from './const';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
 import { IRenderNode } from '../RenderNode/RenderNode';
 import { NodeType } from '../RenderNode/enum';
+
+export function typeOf(val: any): string {
+  return Object.prototype.toString.call(val).slice(8, -1);
+}
 
 /**
  * 创建空的 RenderNode
@@ -54,3 +68,4 @@ export function createHTMLTpl(fragment: string, stylesheet: string): string {
 
 export * from './traverse';
 export * from './config';
+export * from './mergeWithDefaultConfig';

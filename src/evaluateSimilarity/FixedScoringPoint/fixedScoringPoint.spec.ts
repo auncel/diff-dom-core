@@ -40,6 +40,6 @@ describe(simpleFixtures.title, () => {
     const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[1]);
     const result = fixedScoringPointGenerateDiffResult(diffTree);
     expect(result.logs.length).not.toBe(0);
-    expect(result.score > 50).toBe(true);
+    expect(result.score >= 50).toBe(true);
   });
 });

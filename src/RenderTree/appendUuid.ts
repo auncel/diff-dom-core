@@ -1,6 +1,3 @@
-import { UUID_ATTR } from './getCSSPropertyValues';
-import { getUuid, setUuid } from './utils';
-
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -12,6 +9,11 @@ import { getUuid, setUuid } from './utils';
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
+
+import { getUuid, setUuid } from './utils';
+
+export const UUID_ATTR = '__uuid__';
+
 /**
  * 获得 uuid 最后一个数字
  *

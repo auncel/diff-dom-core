@@ -1,19 +1,17 @@
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
- * File Created: Friday, 13th March 2020 5:09 pm                             *
+ * File Created: Saturday, 21st March 2020 11:57 am                          *
  * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
  *                                                                           *
- * Last Modified: Friday, 13th March 2020 5:09 pm                            *
+ * Last Modified: Saturday, 21st March 2020 11:57 am                         *
  * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-export { identifyAttrDistinction } from './attr';
-export { identifyClassNameDistinction } from './className';
-export { identifyDisplayRateDistinction } from './displayRate';
-export { identifyIdDistinction } from './id';
-export { identifyRectDistinction } from './rect';
-export { identifyStyleDistinction, isStyleEqual } from './style';
-export { identifyTagNameDistinction } from './tagName';
-export { identifyTextDistinction } from './text';
+export class ConfigConflictException extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ConfigConflictException';
+  }
+}

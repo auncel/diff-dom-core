@@ -1,0 +1,29 @@
+<!--
+description: should ignore node which display is none
+similarity: 80
+-->
+<style>
+  div {
+    display: block;
+  }
+
+  div div {
+    width: 400px;
+    height: 200px;
+    margin: 100px;
+    background-color: orange;
+  }
+
+  div div:last-child {
+    display: none;
+  }
+</style>
+
+<!-- splitter -->
+
+<div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>

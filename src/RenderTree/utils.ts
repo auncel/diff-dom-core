@@ -11,8 +11,8 @@
  *-------------------------------------------------------------------------- */
 
 import { TAttributes, TTagAttribute } from '../RenderNode/element';
-import { UUID_ATTR } from './getCSSPropertyValues';
-import { TNodeRect } from '../RenderNode/ElementRenderNode';
+import { UUID_ATTR } from './appendUuid';
+import { INodeRect } from '../RenderNode/ElementRenderNode';
 
 // eslint-disable-next-line no-unused-vars
 /* global elementPropertyMap */
@@ -66,9 +66,9 @@ export function getAttrs(node: Element): TAttributes {
  *
  * @export
  * @param {Element} node
- * @returns [X, Y, Width, Left]
+ * @returns {[x, y, left, tope Width, Left]}
  */
-export function getRect(node: Element, coordinate: {x: number; y: number}): TNodeRect {
+export function getRect(node: Element, coordinate: {x: number; y: number}): INodeRect {
   const rect = node.getBoundingClientRect();
   const { left, top, width, height } = rect;
   return {
@@ -79,4 +79,27 @@ export function getRect(node: Element, coordinate: {x: number; y: number}): TNod
     width,
     height,
   };
+}
+
+export function getCssValue(dom: HTMLElement, property: keyof CSSStyleDeclaration): string {
+  return window.getComputedStyle(dom)[property];
+}
+
+export function getDisplayRate(domNode: HTMLElement, rect: INodeRect, displayGridGap: number): number {
+  const rowEdge = rect.x + rect.width;
+  const colEdge = rect.y + rect.height;
+  let displayCount = 0;
+  let totalAreaCount = 0;
+
+  for (let rowGrid = rect.x; rowGrid <= rowEdge; rowGrid += displayGridGap) {
+    for (let colGrid = rect.y; colGrid <= colEdge; colGrid += displayGridGap) {
+      totalAreaCount++;
+      const topNode = document.elementFromPoint(rowGrid, colGrid);
+      if (topNode === domNode) {
+        displayCount++;
+      }
+    }
+  }
+
+  return Number(((displayCount / totalAreaCount) * 100).toFixed(2));
 }

@@ -32,3 +32,9 @@ GI-complate and GL-hard problem
 graph isomorimphism problem
 
 tree base idff algorithm
+
+# 字符串
+
+Levenshtein Distance
+
++ https://www.cnblogs.com/lishanyang/p/6016737.html

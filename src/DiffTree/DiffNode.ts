@@ -18,7 +18,7 @@ import {
 } from './utils';
 import { strictlyEqualOption, IStrictlyEqualOption } from '../config';
 import { identifyIdDistinction, identifyTagNameDistinction, identifyClassNameDistinction,
-  identifyStyleDistinction, isStyleEqual, identifyAttrDistinction, identifyRectDistinction, identifyTextDistinction,
+  identifyStyleDistinction, isStyleEqual, identifyAttrDistinction, identifyRectDistinction, identifyTextDistinction, identifyDisplayRateDistinction,
 } from './simple-distinction';
 import { getConfig, setConfig } from '../utils/config';
 import { UnionRenderNode } from './x-tree-diff-plus/RenderNodeXTreeDiffPlus';
@@ -88,6 +88,8 @@ export class DiffNode extends TreeNode {
 
   text?: IDistinctionDetail<string>;
 
+  displayRate?: IDistinctionDetail<number>;
+
   subTree?: UnionRenderNode;
   // config: IStrictlyEqualOption;
   // constructor() {
@@ -135,6 +137,8 @@ export class DiffNode extends TreeNode {
         diffNode.className = identifyClassNameDistinction(newNode, oldNode);
       }
     }
+
+    diffNode.displayRate = identifyDisplayRateDistinction(newNode, oldNode);
 
     // eslint-disable-next-line no-undef
     const attrDisctinctions = identifyAttrDistinction(newNode, oldNode, config.attrs ?? {});

@@ -9,9 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
-import { appendUuid } from './appendUuid';
-import { generateRenderTree as generateRenderTreeFromDom } from './generateRenderTree';
-import { computeElementStyle } from './getCSSPropertyValues';
+import { RenderTree } from './RenderTree';
 import { UnionRenderNode } from '../RenderNode/UnionRenderNode';
 
 declare global {
@@ -22,15 +20,7 @@ declare global {
 }
 
 export function generateRenderTree(): UnionRenderNode {
-  const doc = document;
-  // 1. 附加 uuid
-  appendUuid(doc);
-
-  // 2.  计算 style
-  window.elementPropertyMap = computeElementStyle(document);
-
-  // 3. 生成 Render
   const body = document.body;
-  const renderTree = generateRenderTreeFromDom(body);
+  const renderTree = new RenderTree().generate(body);
   return renderTree;
 }

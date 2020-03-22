@@ -1,0 +1,37 @@
+<!--
+description: absolute 定位重叠
+similarity: 100
+-->
+<style>
+  body {
+    margin: 50px;
+  }
+
+  div {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+  }
+
+  div:nth-child(1) {
+    background-color: red;
+  }
+
+  div:nth-child(2) {
+    background-color: blue;
+    top: 150px;
+    left: 150px;
+  }
+
+  div:nth-child(3) {
+    top: 350px;
+    left: 350px;
+    background-color: green;
+  }
+</style>
+
+<!-- splitter -->
+
+<div></div>
+<div></div>
+<div></div>

@@ -1,0 +1,41 @@
+<!--
+description: 第三个元素 z-index 999
+similarity: 100
+-->
+
+<style>
+  body {
+    margin: 50px;
+  }
+
+  div {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+  }
+
+  div:nth-child(1) {
+    z-index: 1;
+    background-color: red;
+  }
+
+  div:nth-child(2) {
+    top: 150px;
+    left: 150px;
+    z-index: 2;
+    background-color: blue;
+  }
+
+  div:nth-child(3) {
+    top: 350px;
+    left: 350px;
+    z-index: 999; /* error */
+    background-color: green;
+  }
+</style>
+
+<!-- splitter -->
+
+<div></div>
+<div></div>
+<div></div>
