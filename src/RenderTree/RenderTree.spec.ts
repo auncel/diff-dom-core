@@ -29,29 +29,29 @@ const fixtrues = readFixtures(`${__dirname}/../../fixtures/elements/div/simple/`
 const question: IFixtureData = fixtrues.question;
 const answers: IFixtureData[] = fixtrues.answers;
 
-// describe('css unit', () => {
-//   test('should rem convert to px', async () => {
-//     const questionTree = await getRenderTree(question);
-//     const answerTree = await getRenderTree(answers[0]);
-//     expect((answerTree.children[0] as IElementRenderNode).style.width).toBe('100px');
-//     expect(questionTree).toEqual(answerTree);
-//   });
+describe('css unit', () => {
+  test('should rem convert to px', async () => {
+    const questionTree = await getRenderTree(question);
+    const answerTree = await getRenderTree(answers[0]);
+    expect((answerTree.children[0] as IElementRenderNode).style.width).toBe('100px');
+    expect(questionTree).toEqual(answerTree);
+  });
 
-//   test('should color convert to rgba format', async () => {
-//     const answerTree = await getRenderTree(answers[1]);
-//     expect((answerTree.children[0] as IElementRenderNode).style['background-color']).toBe('rgb(255, 0, 0)');
-//     expect((answerTree.children[0] as IElementRenderNode).style['color']).toBe('rgb(0, 255, 0)');
-//   });
-// });
+  test('should color convert to rgba format', async () => {
+    const answerTree = await getRenderTree(answers[1]);
+    expect((answerTree.children[0] as IElementRenderNode).style['background-color']).toBe('rgb(255, 0, 0)');
+    expect((answerTree.children[0] as IElementRenderNode).style['color']).toBe('rgb(0, 255, 0)');
+  });
+});
 
-// const displayFixtures = readFixtures(`css/display`);
+const displayFixtures = readFixtures(`css/display`);
 
-// describe('css => display', () => {
-//   test(displayFixtures.answers[3].description, async () => {
-//     const answerTree = await  getRenderTree(displayFixtures.answers[3]);
-//     expect(answerTree.children[0].children[3]).toBeUndefined();
-//   });
-// });
+describe('css => display', () => {
+  test(displayFixtures.answers[3].description, async () => {
+    const answerTree = await  getRenderTree(displayFixtures.answers[3]);
+    expect(answerTree.children[0].children[3]).toBeUndefined();
+  });
+});
 
 const zIndexFixtures = readFixtures('css/zIndex');
 
@@ -59,7 +59,7 @@ describe('dispalyRate', () => {
   test(zIndexFixtures.question.description, async () => {
     const questionTree = await  getRenderTree(zIndexFixtures.question);
     expect((questionTree.children[0] as IElementRenderNode).displayRate > 35).toBe(true);
-    expect((questionTree.children[2] as IElementRenderNode).displayRate > 59).toBe(true);
+    expect((questionTree.children[1] as IElementRenderNode).displayRate > 70).toBe(true);
     expect((questionTree.children[2] as IElementRenderNode).displayRate > 95).toBe(true);
   });
 });

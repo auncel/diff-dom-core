@@ -16,6 +16,12 @@ import RenderNode, { IRenderNode } from './RenderNode';
 import { ITextRenderNode } from './TextRenderNode';
 import { NodeType } from './enum';
 
+/**
+ * x,y 是绝对坐标，left,top 是相对父元素的坐标
+ *
+ * @export
+ * @interface INodeRect
+ */
 export interface INodeRect {
   left: number;
   top: number;

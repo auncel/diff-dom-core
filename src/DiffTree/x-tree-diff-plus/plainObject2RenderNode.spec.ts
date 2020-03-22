@@ -21,16 +21,18 @@ describe('RenderNode2ShadowRenderNode', () => {
       nodeType: NodeType.ELEMENT_NODE,
       attr: {},
       style: {},
-      rect: {},
+      rect: { x: 0, y: 0, left: 0, top: 0, width: 0, height: 0},
       index: 0,
+      displayRate: 0,
       children: [
         {
           tagName: 'div',
           nodeType: NodeType.ELEMENT_NODE,
           attr: {},
           style: {},
-          rect: {},
+          rect: { x: 0, y: 0, left: 0, top: 0, width: 0, height: 0},
           children: [],
+          displayRate: 0,
           index: 0,
         },
         {
@@ -38,7 +40,8 @@ describe('RenderNode2ShadowRenderNode', () => {
           nodeType: NodeType.TEXT_NODE,
           text: 'text node',
           index: 1,
-        } as ITextRenderNode,
+          children: []
+        },
       ],
     };
 
