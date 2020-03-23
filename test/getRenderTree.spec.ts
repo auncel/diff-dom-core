@@ -20,7 +20,6 @@ describe('getRenderTree', () => {
   test('should works', async () => {
     const renderTree = await getRenderTree(simpleFixture)
     expect(typeof globalThis.diffScript).toBe('string');
-    expect(typeof globalThis.pageManager).toBe('object');
     expect(renderTree).not.toBeNull();
   });
 });

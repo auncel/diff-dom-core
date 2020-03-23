@@ -28,18 +28,18 @@ declare global {
 
 const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
 export async function getRenderTree(fixtureData: IFixtureData): Promise<IElementRenderNode> {
-  console.log('getRenderTree');
   if (globalThis.diffScript) {
     if (renderTreeCache.has(fixtureData)) {
       return renderTreeCache.get(fixtureData)!;
     }
     const { fragment, stylesheet } = fixtureData;
     const html = createHTMLTpl(fragment, stylesheet);
-    const page = await browser.newPage();
-    page.setContent(html);
-    console.log('before eavluate');
-    const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
-    console.log('after eavluate');
+    const renderPage = await browser.newPage();
+    // await jestPuppeteer.resetPage();
+    await renderPage.setContent(html);
+    const renderTree = await renderPage.evaluate(globalThis.diffScript) as IElementRenderNode;
+    await renderPage.close();
+
     return renderTree;
   }
 

@@ -33,21 +33,17 @@ async function getDiffTree(question: IFixtureData, answer: IFixtureData): Promis
 
 describe(simpleFixtures.title, () => {
 
-  beforeEach(async () => {
-    await jestPuppeteer.resetPage();
-  })
-
   test(simpleFixtures.answers[0].name, async () => {
-    // const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[0]);
-    // const result = fixedScoringPointGenerateDiffResult(diffTree);
-    // expect(result.logs.length).toBe(0);
-    // expect(result.score).toBe(100);
+    const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[0]);
+    const result = fixedScoringPointGenerateDiffResult(diffTree);
+    expect(result.logs.length).toBe(0);
+    expect(result.score).toBe(100);
   });
 
   test(simpleFixtures.answers[1].name, async () => {
-    // const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[1]);
-    // const result = fixedScoringPointGenerateDiffResult(diffTree);
-    // expect(result.logs.length).not.toBe(0);
-    // expect(result.score >= 50).toBe(true);
+    const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[1]);
+    const result = fixedScoringPointGenerateDiffResult(diffTree);
+    expect(result.logs.length).not.toBe(0);
+    expect(result.score >= 50).toBe(true);
   });
 });
