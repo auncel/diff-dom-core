@@ -19,8 +19,7 @@ import { NodeType } from '../../RenderNode/enum';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
 import { DiffNode, DiffType } from '../../DiffTree/DiffNode';
-
-export type UnionRenderNode = ElementRenderNode | TextRenderNode
+import { UnionRenderNode } from '../../RenderNode';
 
 function computeMoveDistance(leftNode: XTree, rightNode: XTree): number {
   const leftParentList: string[] = [];

@@ -13,8 +13,6 @@ import { TTag } from '../RenderNode/element';
 import { USER_STYLE_ID } from './const';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
-import { IRenderNode } from '../RenderNode/RenderNode';
-import { NodeType } from '../RenderNode/enum';
 
 export function typeOf(val: any): string {
   return Object.prototype.toString.call(val).slice(8, -1);
@@ -25,19 +23,23 @@ export function typeOf(val: any): string {
  *
  * @export
  * @param {string} [tagName='div']
- * @returns {IRenderNode}
+ * @returns {ElementRenderNode}
  */
 export function createEmptyNode(tagName: TTag = 'div'): ElementRenderNode {
   return new ElementRenderNode(tagName);
 }
 
+/**
+ * create TextRenderNode
+ *
+ * @export
+ * @param {string} [text=''] value of TextRenderNode
+ * @returns {TextRenderNode}
+ */
 export function createTextNode(text = ''): TextRenderNode {
   return new TextRenderNode(text);
 }
 
-export function isElement(elem: IRenderNode): boolean {
-  return elem.nodeType === NodeType.ELEMENT_NODE;
-}
 
 /**
  * 返回完整的 HTML 字符串

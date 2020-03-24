@@ -21,7 +21,7 @@ export interface ITreeNode {
   children: TreeNode[];
 }
 
-abstract class TreeNode {
+export abstract class TreeNode {
   /**
    * 默认不设置 parent
    *

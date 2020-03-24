@@ -17,7 +17,7 @@ import { IGenerateRenderTreeOptions, generateRenderTreeOptions } from '../config
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
 import { NodeType } from '../RenderNode/enum';
-import { UnionRenderNode } from '../RenderNode/RenderNode';
+import { UnionRenderNode } from '../RenderNode';
 import { computeElementStyle } from './getCSSPropertyValues';
 import { appendUuid } from './appendUuid';
 import { mergeWithDefaultConfig } from '../utils';

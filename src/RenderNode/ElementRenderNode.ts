@@ -52,7 +52,7 @@ export interface IElementRenderNode extends IRenderNode {
   children: (IElementRenderNode | ITextRenderNode)[];
 }
 
-export default class ElementRenderNode extends RenderNode implements IElementRenderNode {
+export class ElementRenderNode extends RenderNode implements IElementRenderNode {
   /**
    * TODO: 完善 attribute
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes#Attribute_list
@@ -87,3 +87,5 @@ export default class ElementRenderNode extends RenderNode implements IElementRen
   }
 }
 
+
+export default ElementRenderNode;

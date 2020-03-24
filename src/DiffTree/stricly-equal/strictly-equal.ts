@@ -12,7 +12,7 @@
 import { IStrictlyEqualOption, strictlyEqualOption } from '../../config';
 import { isElementType } from '../utils';
 import { DiffNode } from '../DiffNode';
-import { UnionRenderNode } from '../x-tree-diff-plus/RenderNodeXTreeDiffPlus';
+import { UnionRenderNode } from '../../RenderNode';
 import { NodeType } from '../../RenderNode/enum';
 
 /**

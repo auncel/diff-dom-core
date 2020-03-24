@@ -21,7 +21,7 @@ import { identifyIdDistinction, identifyTagNameDistinction, identifyClassNameDis
   identifyStyleDistinction, isStyleEqual, identifyAttrDistinction, identifyRectDistinction, identifyTextDistinction, identifyDisplayRateDistinction,
 } from './simple-distinction';
 import { getConfig, setConfig } from '../utils/config';
-import { UnionRenderNode } from './x-tree-diff-plus/RenderNodeXTreeDiffPlus';
+import { UnionRenderNode } from '../RenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 

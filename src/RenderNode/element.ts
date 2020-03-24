@@ -4,4 +4,4 @@ export type TTag = typeof tags[number];
 
 export type TTagAttribute = typeof AttributeList[number];
 
-export type TAttributes = Partial<Record<TTagAttribute, string>>;
+export type TAttributes = Partial<Record<TTagAttribute, string | boolean>>;

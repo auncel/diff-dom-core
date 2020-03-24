@@ -13,7 +13,7 @@
 
 import { isEqual } from 'lodash';
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
-import { UnionRenderNode } from './x-tree-diff-plus/RenderNodeXTreeDiffPlus';
+import { UnionRenderNode } from '../RenderNode';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 import { DistinctionType, IDistinctionDetail } from './DiffNode';
 import { NodeType } from '../RenderNode/enum';
@@ -118,11 +118,6 @@ export function distinctionCompare<T>(
   return res;
 }
 
-export function isElementType(element: UnionRenderNode): boolean {
-  return element.nodeType === NodeType.ELEMENT_NODE;
-}
-
-
 export function getNodeLocal(node: ElementRenderNode): string {
   const buff = [(node.tagName ?? '').toLowerCase()];
   if (node.id) buff.push(`#${node.id}`);
@@ -130,3 +125,6 @@ export function getNodeLocal(node: ElementRenderNode): string {
   return buff.join('');
 }
 
+export function isElementType(renderNode: UnionRenderNode): boolean {
+  return renderNode.nodeType === NodeType.ELEMENT_NODE;
+}

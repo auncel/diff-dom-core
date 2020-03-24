@@ -14,7 +14,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 import RenderNode, { IRenderNode } from './RenderNode';
-import TreeNode, { TTreeNodeCallback } from './TreeNode';
 import { NodeType } from './enum';
 
 
@@ -24,7 +23,7 @@ export interface ITextRenderNode extends IRenderNode {
   nodeType: NodeType.TEXT_NODE;
 }
 
-export default class TextRenderNode extends RenderNode implements ITextRenderNode {
+export class TextRenderNode extends RenderNode implements ITextRenderNode {
   text: string;
   tagName = '#text' as const;
   nodeType: NodeType.TEXT_NODE = NodeType.TEXT_NODE;
@@ -46,3 +45,5 @@ export default class TextRenderNode extends RenderNode implements ITextRenderNod
     throw new TypeError('can\'t append dhild to Text Node');
   }
 }
+
+export default TextRenderNode;
