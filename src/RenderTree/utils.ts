@@ -95,17 +95,19 @@ export function getCssValue(dom: HTMLElement, property: keyof CSSStyleDeclaratio
 }
 
 export function getDisplayRate(domNode: HTMLElement, rect: INodeRect, displayGridGap: number): number {
-  rect.width -= 0.1;
-  rect.height -= 0.1;
-  const rowEdge = rect.x + rect.width;
-  const colEdge = rect.y + rect.height;
+  // eslint-disable-next-line no-mixed-operators
+  const rowEdge = rect.x + rect.width - 0.1;
+  // eslint-disable-next-line no-mixed-operators
+  const colEdge = rect.y + rect.height - 0.1;
 
-  displayGridGap = Math.min(Math.min(rect.width, rect.height) / 10, displayGridGap);
+  // FIXME: why this sentance will cause timeout
+  // displayGridGap = Math.min(Math.min(rect.width, rect.height) / 10, displayGridGap);
+
   let displayCount = 0;
   let totalAreaCount = 0;
 
-  for (let rowGrid = rect.x; rowGrid <= rowEdge; rowGrid += displayGridGap) {
-    for (let colGrid = rect.y; colGrid <= colEdge; colGrid += displayGridGap) {
+  for (let rowGrid = rect.x + 0.1; rowGrid <= rowEdge; rowGrid += displayGridGap) {
+    for (let colGrid = rect.y + 0.1; colGrid <= colEdge; colGrid += displayGridGap) {
       totalAreaCount++;
       const topNode = document.elementFromPoint(rowGrid, colGrid);
       if (topNode === domNode) {

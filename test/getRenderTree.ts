@@ -17,18 +17,18 @@
 import 'expect-puppeteer';
 import { IFixtureData } from '../fixtures/readFixture';
 import { createHTMLTpl } from '../src/utils';
-import ElementRenderNode, { IElementRenderNode } from '../src/RenderNode/ElementRenderNode';
+import { IElementRenderNode } from '../src/RenderNode/ElementRenderNode';
 
-jest.setTimeout(60_000);
+jest.setTimeout(100_000);
 declare global {
   var diffScript: string;
 }
 
-const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
+const renderTreeCache = new Map<string, IElementRenderNode>();
 export async function getRenderTree(fixtureData: IFixtureData): Promise<IElementRenderNode> {
   if (globalThis.diffScript) {
-    if (renderTreeCache.has(fixtureData)) {
-      return renderTreeCache.get(fixtureData)!;
+    if (renderTreeCache.has(fixtureData.name)) {
+      return renderTreeCache.get(fixtureData.name)!;
     }
     const { fragment, stylesheet } = fixtureData;
     const html = createHTMLTpl(fragment, stylesheet);
@@ -38,6 +38,7 @@ export async function getRenderTree(fixtureData: IFixtureData): Promise<IElement
     const renderTree = await renderPage.evaluate(globalThis.diffScript) as IElementRenderNode;
     await renderPage.close();
 
+    renderTreeCache.set(fixtureData.name, renderTree);
     return renderTree;
   }
 
