@@ -33,6 +33,7 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
+  $style.id = USER_STYLE_ID;
   $style.innerHTML = '';
 });
 
@@ -47,6 +48,13 @@ describe('simple jsdom env', () => {
     expect(propetyMap.size).toBe(4);
     expect(propetyMap.get('uuid_0_0')!.size).toBe(11);
     expect(propetyMap.get('uuid_0_0')!.get('border-radius')).toBe('10px');
+  });
+
+  
+  test('doesn\'t hava style tag', () => {
+    $style.id = USER_STYLE_ID + 'Extra';
+    expect(() => computeElementStyle(document))
+      .toThrowError(`should have style#${USER_STYLE_ID}`);
   });
 
   test('margin shorthand', () => {
@@ -86,4 +94,5 @@ describe('simple jsdom env', () => {
     expect(propetyMap1.get('uuid_0_1')!.get('z-index')).toBeUndefined();
     expect(propetyMap1.get('uuid_0_2')!.get('z-index')).toBeUndefined();
   });
+
 });

@@ -10,9 +10,9 @@
  * Copyright 2019 - 2019 MIT License                                         *
  *-------------------------------------------------------------------------- */
 
-export class ElementNotExistError extends Error {
+export class ElementNotExistException extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ElementNotExistError';
+    this.name = 'ElementNotExistException';
   }
 }

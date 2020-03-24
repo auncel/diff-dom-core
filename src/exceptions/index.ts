@@ -10,5 +10,5 @@
  * Copyright 2019 - 2019 MIT License                                         *
  *-------------------------------------------------------------------------- */
 
-export { ElementNotExistError } from './ElementNotExistError';
+export { ElementNotExistException } from './ElementNotExistException';
 export { ConfigConflictException } from './ConfigConflictException';
