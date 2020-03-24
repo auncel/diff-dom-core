@@ -1,14 +1,17 @@
 import { ID_SCORE } from '../const';
-import { DiffNode } from '../../../DiffTree/DiffNode';
+import { DiffNode, DistinctionType } from '../../../DiffTree/DiffNode';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
 
-export class IdSimilarigyStrategy implements ISimilarityStrategy {
+export class IdSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
-  evaluate(difffNode: DiffNode, logs: string[]): number {
-    const distinction = difffNode.id!;
-    logs.push(
-      `incorent id. expect ${distinction.expect}, actual ${distinction.actual}`,
-    );
-    return ID_SCORE;
+  evaluate(diffNode: DiffNode, logs: string[]): number {
+    const distinction = diffNode.id;
+    if (distinction && distinction.type !== DistinctionType.EQUALITY) {
+      logs.push(
+        `incorent id. expect ${distinction.expect}, actual ${distinction.actual}`,
+      );
+      return ID_SCORE;
+    }
+    return 0;
   }
 }

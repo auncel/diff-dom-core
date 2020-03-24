@@ -8,7 +8,7 @@ export class StyleSimilarityStrategy implements ISimilarityStrategy {
   evaluate(diffNode: DiffNode, logs: string[]): number {
     const distinctions = diffNode.style!;
 
-    if (!distinctions || !distinctions.length) return STYLE_SCORE;
+    if (!distinctions || !distinctions.length) return 0;
 
     let equalityCount = 0;
     let inequalCount = 0;
@@ -40,6 +40,6 @@ export class StyleSimilarityStrategy implements ISimilarityStrategy {
 
     const propertyScore = STYLE_SCORE / (equalityCount + inequalCount + (missingCount / 2) + extraCount);
     const score = propertyScore * (missingCount + inequalCount + extraCount);
-    return score * (diffNode.displayRate?.actual ?? 1);
+    return Math.min(score * ((diffNode.displayRate?.actual ?? 1) / 100), STYLE_SCORE);
   }
 }

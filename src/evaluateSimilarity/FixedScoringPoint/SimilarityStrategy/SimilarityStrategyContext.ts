@@ -18,6 +18,8 @@ import { StyleSimilarityStrategy } from './StyleSimilarityStrategy';
 import { NodeDeleteSimilarityStrategy } from './NodeDeleteSimilarityStrategy';
 import { NodeMoveSimilarityStrategy } from './NodeMoveSimilarityStrategy';
 import { NodeInsertSimilarityStrategy } from './NodeInsertSimilarityStrategy';
+import { IdSimilarityStrategy } from './IdSimilarityStrategy';
+import { RectSimilarityStrategy } from './RectSimilarityStrategy';
 
 
 /**
@@ -33,8 +35,8 @@ export class SimilarityStrategyContext implements IStrategyContext {
   constructor() {
     this.setStrategy(DiffType.Attr, new AttrSimilarityStrategy());
     this.setStrategy(DiffType.ClassName, new ClassNameSimilarityStrategy());
-    this.setStrategy(DiffType.Id, new ClassNameSimilarityStrategy());
-    this.setStrategy(DiffType.Rect, new ClassNameSimilarityStrategy());
+    this.setStrategy(DiffType.Id, new IdSimilarityStrategy());
+    this.setStrategy(DiffType.Rect, new RectSimilarityStrategy());
     this.setStrategy(DiffType.Style, new StyleSimilarityStrategy());
     this.setStrategy(DiffType.NodeDelete, new NodeDeleteSimilarityStrategy());
     this.setStrategy(DiffType.NodeInsert, new NodeInsertSimilarityStrategy());
