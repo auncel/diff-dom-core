@@ -49,13 +49,13 @@ export class PageManager {
     this.isCreating = true;
 
     // log.info(`started creating ${this.poolSize} page instance at ${Date.now()}`);
-    console.time(`creating ${this.defaultPoolSize} page instance`);
+    // console.time(`creating ${this.defaultPoolSize} page instance`);
     const pagePromises: Promise<Page>[] = [];
     for (let i = 0; i < this.defaultPoolSize; i++) {
       pagePromises.push(browser.newPage());
     }
     const pageArr = await Promise.all(pagePromises);
-    console.timeEnd(`creating ${this.defaultPoolSize} page instance`);
+    // console.timeEnd(`creating ${this.defaultPoolSize} page instance`);
     // log.info(`creating ${this.poolSize} page instance finished at ${Date.now()}`);
 
     this.isCreating = false;

@@ -46,7 +46,3 @@ beforeAll(async () => {
     globalThis.diffScript = diffScript;
   }
 });
-
-// afterAll(async () => {
-//   await Puppeteer.close();
-// });

@@ -22,8 +22,6 @@ import ElementRenderNode, { IElementRenderNode } from '../src/RenderNode/Element
 jest.setTimeout(60_000);
 declare global {
   var diffScript: string;
-  // eslint-disable-next-line no-redeclare
-  // var page: Page;
 }
 
 const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
