@@ -17,11 +17,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global globalThis */
-import { Puppeteer, PageManager } from '../src/pptr';
 import { readJSFile } from '../src/utils/readJSFile';
 
 declare global {
-  var pageManager: PageManager;
   var diffScript: string;
 }
 
@@ -33,28 +31,18 @@ jest.setTimeout(60_000);
 beforeAll(async () => {
   if (!globalThis.diffScript && !globalThis.pageManager) {
     // eslint-disable-next-line no-shadow
-    const [, pageManager] = await Promise.all([
-      new Promise((resolve: Function, reject: Function) => {
-        webpack(webpackConfig, (error: Error[]) => {
-          if (!error) {
-            resolve();
-          } else {
-            reject(error);
-          }
-        });
-      }),
-
-      Puppeteer.getPageManager({ poolSize: 5 }),
-    ]) as [undefined, PageManager];
+    await new Promise((resolve: Function, reject: Function) => {
+      webpack(webpackConfig, (error: Error[]) => {
+        if (!error) {
+          resolve();
+        } else {
+          reject(error);
+        }
+      });
+    });
 
     const diffModuleStr = await readJSFile(`${__dirname}/../dist/diff.js`);
     const diffScript = `${diffModuleStr}; window.Diff.generateRenderTree();`;
     globalThis.diffScript = diffScript;
-
-    globalThis.pageManager = pageManager;
   }
-});
-
-afterAll(async () => {
-  await Puppeteer.close();
 });

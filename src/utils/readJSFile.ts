@@ -16,7 +16,7 @@ export function readJSFile(filepath: string): Promise<string> {
     if (!fs.existsSync(filepath)) {
       throw Error(`${filepath} does not exist!`);
     }
-    console.log(`read JavaScript from ${filepath}`);
+    // console.log(`read JavaScript from ${filepath}`);
     if (cache.has(filepath)) {
       return Promise.resolve(cache.get(filepath)!);
     }

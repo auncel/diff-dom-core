@@ -9,7 +9,7 @@ export class Puppeteer {
   public static async getBrowser(): Promise<Browser> {
     if (!this.browser) {
       // log.info(`start launch puppeteer at ${Date.now()}`);
-      console.time('puppeteer launch');
+      // console.time('puppeteer launch');
       this.browser = await launch({
         args: ['--no-sandbox'],
         defaultViewport: {
@@ -17,7 +17,7 @@ export class Puppeteer {
           height: 824,
         },
       });
-      console.timeEnd('puppeteer launch');
+      // console.timeEnd('puppeteer launch');
       // log.info(`launch puppeterr at ${Date.now()}`);
       // 注册异常退出回调
       process.on('uncaughtException', async (err) => {

@@ -14,29 +14,32 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import 'expect-puppeteer';
 import { IFixtureData } from '../fixtures/readFixture';
 import { createHTMLTpl } from '../src/utils';
 import ElementRenderNode, { IElementRenderNode } from '../src/RenderNode/ElementRenderNode';
-import { PageManager } from '../src/pptr';
 
+jest.setTimeout(60_000);
 declare global {
-  var pageManager: PageManager;
   var diffScript: string;
 }
 
 const renderTreeCache = new Map<IFixtureData, ElementRenderNode>();
 export async function getRenderTree(fixtureData: IFixtureData): Promise<IElementRenderNode> {
-  if (globalThis.pageManager && globalThis.diffScript) {
+  if (globalThis.diffScript) {
     if (renderTreeCache.has(fixtureData)) {
       return renderTreeCache.get(fixtureData)!;
     }
     const { fragment, stylesheet } = fixtureData;
     const html = createHTMLTpl(fragment, stylesheet);
-    const page = await globalThis.pageManager.getPage();
-    await page.setContent(html);
-    const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
-    globalThis.pageManager.releasePage(page);
+    const renderPage = await browser.newPage();
+    // await jestPuppeteer.resetPage();
+    await renderPage.setContent(html);
+    const renderTree = await renderPage.evaluate(globalThis.diffScript) as IElementRenderNode;
+    await renderPage.close();
+
     return renderTree;
   }
+
   throw new Error('must import starup.ts before using getRenderTree!');
 }

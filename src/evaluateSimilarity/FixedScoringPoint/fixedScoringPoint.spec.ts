@@ -1,3 +1,7 @@
+/**
+ * @jest-environment puppeteer
+ */
+
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -11,12 +15,11 @@
  *-------------------------------------------------------------------------- */
 import { fixedScoringPointGenerateDiffResult } from './fixedScoringPoint';
 import { DiffNode } from '../../DiffTree/DiffNode';
-import '../../../test/startup';
-import '../../../test/getRenderTree';
 import { readFixtures, IFixtureData } from '../../../fixtures/readFixture';
-import { getRenderTree } from '../../../test/getRenderTree';
 import RenderTreeXTreeDiffPlus from '../../DiffTree/x-tree-diff-plus/RenderNodeXTreeDiffPlus';
 import { plainObject2RenderNode } from '../../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
+import '../../../test/startup';
+import { getRenderTree } from '../../../test/getRenderTree';
 
 const simpleFixtures = readFixtures('elements/div/simple');
 
@@ -29,6 +32,7 @@ async function getDiffTree(question: IFixtureData, answer: IFixtureData): Promis
 }
 
 describe(simpleFixtures.title, () => {
+
   test(simpleFixtures.answers[0].name, async () => {
     const diffTree = await getDiffTree(simpleFixtures.question, simpleFixtures.answers[0]);
     const result = fixedScoringPointGenerateDiffResult(diffTree);

@@ -1,3 +1,7 @@
+/**
+ * @jest-environment puppeteer
+ */
+
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -11,26 +15,28 @@
  *-------------------------------------------------------------------------- */
 
 // import '@auncel/common/polyfill/toJSON';
-import { writeFileSync } from 'fs';
-import { Puppeteer } from './pptr/index';
+import 'expect-puppeteer';
 import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
 // import { strictEqualDiff } from './diffCore/stricly-equal/index';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
 import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
-import { diffDomCore } from './index'
+import { diffDomCore, Puppeteer } from './index'
 
 import '../test/startup';
 import { getRenderTree } from '../test/getRenderTree';
 
-jest.setTimeout(30000);
+jest.setTimeout(60_000);
 
 const fixtureMap = readAllFixtures();
 const similarityMap = new Map<string, IDiffResult>();
 
-
-
 for (const [title, fixtrue] of fixtureMap.entries()) {
+  
   describe(title, () => {
+    beforeEach(async () => {
+      await jestPuppeteer.resetPage()
+    });
+    
     const { question, answers } = fixtrue;
     for (const answer of answers) {
       test(answer.description, async () => {
