@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles",
     "prepublishOnly": "yarn build",
     "build": "rm -fr ./dist && tsc --build tsconfig.json && webpack"
   },

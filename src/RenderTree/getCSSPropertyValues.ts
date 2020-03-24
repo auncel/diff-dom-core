@@ -10,7 +10,7 @@
  * Copyright 2019 - 2019 Mozilla Public License 2.0 License                  *
  *-------------------------------------------------------------------------- */
 
-import { ElementNotExistError } from '../exceptions/index';
+import { ElementNotExistException } from '../exceptions/index';
 import { parseCSS } from '../CSSTree/parseCSS';
 import { USER_STYLE_ID } from '../utils/const';
 import { getUuid } from './utils';
@@ -21,7 +21,7 @@ export function computeElementStyle(document: Document): Map<string, Map<string,
   const elementStyleCache: Map<string, Map<string, string>> = new Map();
   const $userStyle = document.getElementById(USER_STYLE_ID);
   if ($userStyle === null) {
-    throw new ElementNotExistError(`should have style#${USER_STYLE_ID}`);
+    throw new ElementNotExistException(`should have style#${USER_STYLE_ID}`);
   }
   const stylesheet = $userStyle.innerHTML;
   const selectorMap: Map<string, Set<string>> = parseCSS(stylesheet);

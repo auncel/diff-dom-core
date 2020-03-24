@@ -36,9 +36,13 @@ export function deepFirstTraverse<T extends TreeNode>(root: T, visitor: IVisitor
     const step = stack.pop() as TraverseNode<T>;
     const stop = visitor(step.node, step.index, step.parent);
     if (!stop && step.node.children.length) {
-      step.node.children.forEach((child, index): void => {
-        stack.push({ node: child as unknown as T, index, parent: step.node });
-      });
+      for (let index = step.node.children.length - 1; index > -1; index--) {
+        stack.push({
+          node: step.node.children[index] as unknown as T,
+          index,
+          parent: step.node,
+        });
+      }
     }
   }
 }

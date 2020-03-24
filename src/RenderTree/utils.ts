@@ -13,6 +13,7 @@
 import { TAttributes, TTagAttribute } from '../RenderNode/element';
 import { UUID_ATTR } from './appendUuid';
 import { INodeRect } from '../RenderNode/ElementRenderNode';
+import { TStyleProps } from '../RenderNode';
 
 // eslint-disable-next-line no-unused-vars
 /* global elementPropertyMap */
@@ -27,8 +28,8 @@ export function setUuid(node: Element, value: string): void {
 }
 
 const defaultMap = new Map();
-export function getStyle(node: Element): TAttributes {
-  let styleObj: TAttributes = {};
+export function getStyle(node: Element): TStyleProps {
+  let styleObj: TStyleProps = {};
   const uuid = getUuid(node);
   if (uuid) {
     // fromEntries node 12 才可用
@@ -39,6 +40,9 @@ export function getStyle(node: Element): TAttributes {
 
 const ignoreAttrs = ['class', 'id', 'style', UUID_ATTR];
 const datasetReg = /^data-.+/;
+
+
+const boolAttr = ['disabled', 'checked', 'muted', 'required', 'reversed', 'selected'];
 
 /**
  * 获取元素的属性
@@ -54,7 +58,12 @@ export function getAttrs(node: Element): TAttributes {
     const attr: Attr = attrs[i];
     const attrName = attr.nodeName as TTagAttribute;
     if (!ignoreAttrs.includes(attrName) && !datasetReg.test(attrName)) {
-      attrObj[attrName] = attr.nodeValue ?? '';
+      // boolean attribute nodeValue is empty string
+      if (boolAttr.includes(attrName)) {
+        attrObj[attrName] = true;
+      } else {
+        attrObj[attrName] = attr.nodeValue ?? '';
+      }
     }
   }
 
@@ -86,13 +95,19 @@ export function getCssValue(dom: HTMLElement, property: keyof CSSStyleDeclaratio
 }
 
 export function getDisplayRate(domNode: HTMLElement, rect: INodeRect, displayGridGap: number): number {
-  const rowEdge = rect.x + rect.width;
-  const colEdge = rect.y + rect.height;
+  // eslint-disable-next-line no-mixed-operators
+  const rowEdge = rect.x + rect.width - 0.1;
+  // eslint-disable-next-line no-mixed-operators
+  const colEdge = rect.y + rect.height - 0.1;
+
+  // FIXME: why this sentance will cause timeout
+  // displayGridGap = Math.min(Math.min(rect.width, rect.height) / 10, displayGridGap);
+
   let displayCount = 0;
   let totalAreaCount = 0;
 
-  for (let rowGrid = rect.x; rowGrid <= rowEdge; rowGrid += displayGridGap) {
-    for (let colGrid = rect.y; colGrid <= colEdge; colGrid += displayGridGap) {
+  for (let rowGrid = rect.x + 0.1; rowGrid <= rowEdge; rowGrid += displayGridGap) {
+    for (let colGrid = rect.y + 0.1; colGrid <= colEdge; colGrid += displayGridGap) {
       totalAreaCount++;
       const topNode = document.elementFromPoint(rowGrid, colGrid);
       if (topNode === domNode) {

@@ -9,7 +9,9 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { typeOf } from './index'
+import { typeOf, createEmptyNode, createTextNode } from './index'
+import ElementRenderNode from '../RenderNode/ElementRenderNode';
+import TextRenderNode from '../RenderNode/TextRenderNode';
 
 describe('utils/typeOf', () => {
   test('should returen Object', () => {
@@ -39,3 +41,24 @@ describe('utils/typeOf', () => {
     expect(typeOf(Symbol())).toBe('Symbol')
   });
 });
+
+
+describe('utils create RenderNode', () => {
+  test('if call createEmptyNode with default param', () => {
+    const renderNode = createEmptyNode();
+    expect(renderNode.tagName).toBe('div');
+    expect(renderNode).toBeInstanceOf(ElementRenderNode);
+  });
+
+  test('if create input ElementRenderNode', () => {
+    const renderNode = createEmptyNode('input');
+    expect(renderNode.tagName).toBe('input');
+    expect(renderNode).toBeInstanceOf(ElementRenderNode);
+  });
+
+  test('if create TextRenderNode', () => {
+    const renderNode = createTextNode('text');
+    expect(renderNode.tagName).toBe('#text');
+    expect(renderNode).toBeInstanceOf(TextRenderNode);
+  });
+})
