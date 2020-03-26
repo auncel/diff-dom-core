@@ -16,23 +16,6 @@ import { createDistinction } from '../utils';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyTextDistinction(
-  newNode: TextRenderNode, oldNode: TextRenderNode,
-): IDistinctionDetail<string> {
-  if (newNode.text && oldNode.text && newNode.text !== oldNode.text) {
-    return createDistinction<string>(
-      'text',
-      DistinctionType.INEQUAL,
-      oldNode.text,
-      newNode.text,
-    );
-  }
-  return createDistinction<string>(
-    'text',
-    DistinctionType.EQUALITY,
-  );
-}
-
 type Str = string;
 
 export class TextDistinctionStrategy implements IDistinctionStrategy {

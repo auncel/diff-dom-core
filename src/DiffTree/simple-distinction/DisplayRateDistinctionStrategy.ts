@@ -15,24 +15,6 @@ import { createDistinction } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyDisplayRateDistinction(
-  newNode: ElementRenderNode, oldNode: ElementRenderNode,
-): IDistinctionDetail<number> {
-  if (newNode.displayRate && oldNode.displayRate && newNode.displayRate !== oldNode.displayRate) {
-    return createDistinction<number>(
-      'displayRate',
-      DistinctionType.INEQUAL,
-      oldNode.displayRate,
-      newNode.displayRate,
-    );
-  }
-  return createDistinction<number>(
-    'displayRate',
-    DistinctionType.EQUALITY,
-  );
-}
-
-
 type Num = number;
 
 export class DisplayRateDistinctionStrategy implements IDistinctionStrategy {

@@ -9,35 +9,10 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { IAttrEvaluationOption } from '../../config';
-import { TAttrPropertyType, IDistinctionDetail, DistinctionType } from '../DiffNode';
+import { TAttrPropertyType, IDistinctionDetail } from '../DiffNode';
 import { distinctionCompare } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
-
-export function identifyAttrDistinction(
-  leftNode: ElementRenderNode, rightNode: ElementRenderNode, attrConfig: IAttrEvaluationOption,
-): IDistinctionDetail<TAttrPropertyType>[] {
-  if (Array.isArray(attrConfig.list)) {
-    return distinctionCompare<TAttrPropertyType>(
-      leftNode.attr ?? {},
-      rightNode.attr ?? {},
-      attrConfig.list,
-    );
-  }
-
-  const distinctions: IDistinctionDetail<TAttrPropertyType>[] = distinctionCompare<TAttrPropertyType>(
-    leftNode.attr ?? {},
-    rightNode.attr ?? {},
-    Object.keys(leftNode.attr ?? {}),
-  );
-
-  if (attrConfig.isStrict) {
-    return distinctions;
-  }
-
-  return distinctions.filter(distinction => distinction.type === DistinctionType.EXTRA);
-}
 
 export class AttrDistinctionStrategy implements IDistinctionStrategy {
   // eslint-disable-next-line class-methods-use-this

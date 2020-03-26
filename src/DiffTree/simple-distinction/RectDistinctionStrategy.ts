@@ -11,23 +11,12 @@
  *-------------------------------------------------------------------------- */
 /* eslint-disable import/no-unresolved */
 
-import ElementRenderNode, { INodeRect } from '../../RenderNode/ElementRenderNode';
+import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { distinctionCompare } from '../utils';
 import { IDistinctionDetail } from '../DiffNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 import { getConfig } from '../../utils';
 import { IGenerateDiffTreeOption } from '../../config';
-
-export function identifyRectDistinction(
-  leftRect: INodeRect, rightRect: INodeRect, rectTolerance: number,
-): IDistinctionDetail<number>[] {
-  const distinctions = distinctionCompare<number>(
-    leftRect, rightRect, ['left', 'top', 'width', 'height'],
-    (leftValue: number, rightValue: number) => Math.abs(leftValue - rightValue) <= rectTolerance,
-  );
-
-  return distinctions;
-}
 
 type Num = number;
 

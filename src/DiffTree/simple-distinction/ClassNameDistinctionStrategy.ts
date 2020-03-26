@@ -16,22 +16,6 @@ import { createDistinction } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyClassNameDistinction(
-  newNode: ElementRenderNode, oldNode: ElementRenderNode,
-): IDistinctionDetail<string> {
-  if (newNode.className && oldNode.className && newNode.className !== oldNode.className) {
-    return createDistinction<string>(
-      'className',
-      DistinctionType.INEQUAL,
-      oldNode.className,
-      newNode.className,
-    );
-  }
-  return createDistinction<string>(
-    'className',
-    DistinctionType.EQUALITY,
-  );
-}
 type Str = string;
 
 export class ClassNameDistinctionStrategy implements IDistinctionStrategy {

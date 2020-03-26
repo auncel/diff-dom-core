@@ -16,24 +16,6 @@ import { createDistinction } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyTagNameDistinction(
-  newNode: ElementRenderNode, oldNode: ElementRenderNode,
-): IDistinctionDetail<string> {
-  if (newNode.nodeName !== oldNode.nodeName) {
-    return createDistinction<string>(
-      'tagName',
-      DistinctionType.INEQUAL,
-      newNode.nodeName,
-      oldNode.nodeName,
-    );
-  }
-  return createDistinction<string>(
-    'tagName',
-    DistinctionType.EQUALITY,
-  );
-}
-
-
 type Str = string;
 export class TagNameDistinctionStrategy implements IDistinctionStrategy {
   // eslint-disable-next-line

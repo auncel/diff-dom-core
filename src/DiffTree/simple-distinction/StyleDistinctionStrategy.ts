@@ -12,24 +12,10 @@
 /* eslint-disable import/no-unresolved */
 
 import isEqual from 'lodash/isEqual';
-import { TStyleProps } from '../../RenderNode/css';
-import { IStyleEvaluationOption } from '../../config';
 import { IDistinctionDetail, TCSSPropertyValueType } from '../DiffNode';
 import { distinctionCompare } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
 import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
-
-/** TODO: styleConfig */
-export function identifyStyleDistinction(
-  // eslint-disable-next-line no-unused-vars
-  leftNodeStyle: TStyleProps, rightNodeStyle: TStyleProps, styleConfig: IStyleEvaluationOption,
-): IDistinctionDetail<TCSSPropertyValueType>[] {
-  const keys = Object.keys(leftNodeStyle);
-  const distinctions = distinctionCompare<TCSSPropertyValueType>(
-    leftNodeStyle, rightNodeStyle, keys,
-  );
-  return distinctions;
-}
 
 export function isStyleEqual(node1: ElementRenderNode, node2: ElementRenderNode): boolean {
   return isEqual(node1.style, node2.style);
