@@ -22,13 +22,13 @@ export class TagNameDistinctionStrategy implements IDistinctionStrategy {
   distinguish<T= Str>(
     leftNode: ElementRenderNode, rightNode: ElementRenderNode,
   ): IDistinctionDetail<T>[] {
-    if (rightNode.nodeName !== leftNode.nodeName) {
+    if (rightNode.tagName !== leftNode.tagName) {
       return [
         createDistinction<T>(
           'tagName',
           DistinctionType.INEQUAL,
-          rightNode.nodeName as unknown as T,
-          leftNode.nodeName as unknown as T,
+          rightNode.tagName as unknown as T,
+          leftNode.tagName as unknown as T,
         ),
       ];
     }

@@ -113,19 +113,20 @@ export class DiffNode extends TreeNode {
 
     diffNode.location = getNodeLocal(newNode);
 
-    if (newNode.nodeName !== oldNode.nodeName) {
+    diffNode.tagName = new TagNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
+    if (diffNode.tagName?.type !== DistinctionType.EQUALITY) {
       diffNode.diffType |= DiffType.Tag;
-      diffNode.tagName = new TagNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
-    if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
+
+    diffNode.id = new IdDistinctionStrategy().distinguish(newNode, oldNode)[0];
+    if (diffNode.id?.type !== DistinctionType.EQUALITY) {
       diffNode.diffType |= DiffType.Id;
-      diffNode.id = new IdDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
-    if (newNode.className !== oldNode.className) {
+    diffNode.className = new ClassNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
+    if (diffNode.className?.type !== DistinctionType.EQUALITY) {
       diffNode.diffType |= DiffType.ClassName;
-      diffNode.className = new ClassNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
     diffNode.displayRate = new DisplayRateDistinctionStrategy().distinguish(newNode, oldNode)[0];
