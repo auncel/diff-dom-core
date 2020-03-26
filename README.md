@@ -50,9 +50,27 @@ npm run test
 ```ts
 import { diffDomCore, Puppeteer } from '@auncel/diff-dom-core';
 
+const options = {
+  // generation: IGenerateRenderTreeOptions,
+  diff: {
+    rectTolerance: 0,
+  },
+  evaluation: {
+    attrs: {
+    isStrict: true,
+      list: [],
+    },
+    // isTagStrictlyEqaul: true,
+    isIdStrictlyEqual: false,
+    isClassStrictlyEqual: true,
+    },
+  },
+};
+
 const diffRes = await diffDomCore(
   { html: '<div>Text</div>', style: 'div{color: #fff;}' },
   { html: '<div>Text</div>', style: 'div{color: #000;}' },
+  options,
 );
 console.log(diffRes);
 // ==>
