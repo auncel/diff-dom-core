@@ -26,13 +26,13 @@ import { pptrGenerateRenderTree } from './RenderTree/pptrGenerateRenderTree';
 import { IDomDiffCoreOption } from './config';
 
 export async function diffDomCore(
-  question: IElementRenderNode | IHTMLSnippet, answer: IHTMLSnippet, options: IDomDiffCoreOption,
+  question: IElementRenderNode | IHTMLSnippet, answer: IHTMLSnippet, options?: IDomDiffCoreOption,
 ): Promise<IDiffResult> {
   const answerHtml = createHTMLTpl(answer.html, answer.style);
 
-  setConfig('generation', options.generation);
-  setConfig('diff', options.diff);
-  setConfig('evaluation', options.evaluation);
+  setConfig('generation', options?.generation ?? {});
+  setConfig('diff', options?.diff ?? {});
+  setConfig('evaluation', options?.evaluation ?? {});
 
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
   let answerRenerTree: ElementRenderNode;
