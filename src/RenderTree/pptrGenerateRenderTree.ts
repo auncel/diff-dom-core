@@ -9,16 +9,11 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable camelcase */
-/* eslint-disable no-var */
-/* eslint-disable vars-on-top */
 /* global globalThis */
 import '../pptr/startup';
 import ElementRenderNode, { IElementRenderNode } from '../RenderNode/ElementRenderNode';
 import { plainObject2RenderNode } from '../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 import sleep from '../utils/sleep';
-
 
 const MAX_SLEEP_COUNT = 100;
 export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<ElementRenderNode> {

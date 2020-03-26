@@ -22,4 +22,13 @@ describe('getRenderTree', () => {
     expect(typeof globalThis.diffScript).toBe('string');
     expect(renderTree).not.toBeNull();
   });
+
+  test('getRenderTree faild', async () => {
+    globalThis.diffScript = '';
+    try {
+      await getRenderTree(simpleFixture);
+    } catch(err) {
+      expect(err).toEqual(new Error('must import starup.ts before using getRenderTree!'))
+    }
+  });
 });

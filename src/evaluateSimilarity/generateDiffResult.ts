@@ -14,6 +14,8 @@
 import { IGenerateDiffResult, IDiffResult } from './generateDiffResult.interface';
 import { IDiffLog } from './DiffLog.interface';
 import { DiffNode } from '../DiffTree/DiffNode';
+import { getConfig } from '../utils';
+import { IFixedScoringPointEvaluationOption } from '../config';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // eslint-disable-next-line no-unused-vars

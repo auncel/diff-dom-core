@@ -11,13 +11,19 @@
  *-------------------------------------------------------------------------- */
 
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
+import { IDomDiffCoreOption, generateRenderTreeOptions, fixedScoringPointEvaluation, generateDiffTreeOption } from '../config';
+import { mergeWithDefaultConfig } from './mergeWithDefaultConfig';
 
-
-const configCache: IPlainObject = {};
+let configCache: IDomDiffCoreOption = {
+  generation: generateRenderTreeOptions,
+  diff: generateDiffTreeOption,
+  evaluation: fixedScoringPointEvaluation,
+};
 
 export function getConfig(properties?: string): any {
   if (typeof properties === 'string') {
-    return configCache[properties];
+    const pathArr = properties.split('.');
+    return pathArr.reduce((preV, currV) => preV[currV] ?? {}, configCache) ?? configCache;
   }
   return configCache;
 }
@@ -28,5 +34,19 @@ export function getConfig(properties?: string): any {
  * @param value
  */
 export function setConfig(properties: string, value: IPlainObject): void {
+  configCache[properties] = mergeWithDefaultConfig(value, configCache[properties]);
   configCache[properties] = value;
+}
+
+/**
+ *
+ *
+ * @export
+ */
+export function resetConfig(): void {
+  configCache = {
+    generation: generateRenderTreeOptions,
+    diff: generateDiffTreeOption,
+    evaluation: fixedScoringPointEvaluation,
+  };
 }

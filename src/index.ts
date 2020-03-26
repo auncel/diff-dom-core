@@ -15,7 +15,7 @@
 
 //import '@auncel/common/polyfill/toJSON';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
-import { createHTMLTpl } from './utils';
+import { createHTMLTpl, setConfig } from './utils';
 import { IHTMLSnippet } from './HTMLSnippet.interface';
 import { fixedScoringPointGenerateDiffResult } from './evaluateSimilarity';
 import { xTreeDiffPlustGenerateDiffTree } from './DiffTree/xTreeDiffPlusGenerateDiffTree';
@@ -23,11 +23,16 @@ import ElementRenderNode, { IElementRenderNode } from './RenderNode/ElementRende
 import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 import './pptr/startup';
 import { pptrGenerateRenderTree } from './RenderTree/pptrGenerateRenderTree';
+import { IDomDiffCoreOption } from './config';
 
 export async function diffDomCore(
-  question: IElementRenderNode | IHTMLSnippet, answer: IHTMLSnippet,
+  question: IElementRenderNode | IHTMLSnippet, answer: IHTMLSnippet, options?: IDomDiffCoreOption,
 ): Promise<IDiffResult> {
   const answerHtml = createHTMLTpl(answer.html, answer.style);
+
+  setConfig('generation', options?.generation ?? {});
+  setConfig('diff', options?.diff ?? {});
+  setConfig('evaluation', options?.evaluation ?? {});
 
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
   let answerRenerTree: ElementRenderNode;

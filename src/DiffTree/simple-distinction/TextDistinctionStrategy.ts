@@ -14,20 +14,28 @@
 import { IDistinctionDetail, DistinctionType } from '../DiffNode';
 import { createDistinction } from '../utils';
 import TextRenderNode from '../../RenderNode/TextRenderNode';
+import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyTextDistinction(
-  newNode: TextRenderNode, oldNode: TextRenderNode,
-): IDistinctionDetail<string> {
-  if (newNode.text && oldNode.text && newNode.text !== oldNode.text) {
-    return createDistinction<string>(
-      'text',
-      DistinctionType.INEQUAL,
-      oldNode.text,
-      newNode.text,
-    );
+type Str = string;
+
+export class TextDistinctionStrategy implements IDistinctionStrategy {
+  // eslint-disable-next-line class-methods-use-this
+  distinguish<T = Str>(leftNode: TextRenderNode, rightNode: TextRenderNode): IDistinctionDetail<T>[] {
+    if (rightNode.text && leftNode.text && rightNode.text !== leftNode.text) {
+      return [
+        createDistinction<T>(
+          'text',
+          DistinctionType.INEQUAL,
+          leftNode.text as unknown as T,
+          rightNode.text as unknown as T,
+        ),
+      ];
+    }
+    return [
+      createDistinction<T>(
+        'text',
+        DistinctionType.EQUALITY,
+      ),
+    ];
   }
-  return createDistinction<string>(
-    'text',
-    DistinctionType.EQUALITY,
-  );
 }

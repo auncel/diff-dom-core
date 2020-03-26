@@ -1,3 +1,14 @@
+/* --------------------------------------------------------------------------*
+ * Description: gloable config store                                         *
+ *                                                                           *
+ * File Created: Sunday, 22nd March 2020 10:28 am                            *
+ * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
+ *                                                                           *
+ * Last Modified: Wednesday, 25th March 2020 9:01 pm                         *
+ * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
+ *                                                                           *
+ * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
+ *-------------------------------------------------------------------------- */
 /* eslint-disable no-param-reassign */
 import { IPlainObject } from '@auncel/common/types/IPlainObject';
 import { TCSSProperty } from './RenderNode/css';
@@ -34,41 +45,73 @@ export const generateRenderTreeOptions: IGenerateRenderTreeOptions = {
 };
 
 /**
- * 1. isStrictlyEqual ture: 严格相等，false:允许 AT 冗余， 默认：true
- * 2. list：检查指定 attr，如果 list 存在，则 isStrictlyEqual 失效
- *
+ * 1. isStrict 1.不允许有多余的属性
+ * 2. list：检查指定 attr，如果 list 不存在，或者长度为0则检查所有出现的属性，否则检查指定的属性
  * @export
  * @interface IStrictlyEqualAttrOption
  */
-export interface IStrictlyEqualAttrOption {
-  isStrictlyEqual?: boolean;
+export interface IAttrEvaluationOption {
+  isStrict?: boolean;
   list?: TTagAttribute[];
 }
 
-export interface IStrictlyEqualStyleOption {
-  // false表示不严格，true表示和 QT 一致
-  display?: boolean;
-  boxSizing?: boolean;
-  color?: boolean;
-  backgroundColor?: boolean;
-  // true z-index 的数值一致即可，false 表示前后顺序相同即可
-  zIndex?: boolean;
-}
+/**
+ * @type {Partial<Omit<Record<keyof CSSStyleDeclaration, boolean>, number>>} true means check properties, false means skip check
+ */
+export type IStyleEvaluationOption = Partial<Omit<Record<keyof CSSStyleDeclaration, boolean>, number>>;
 
+/**
+ *
+ */
 export interface IStrictlyEqualOption {
-  attrs?: IStrictlyEqualAttrOption;
+  attrs?: IAttrEvaluationOption;
   isTagStrictlyEqaul?: boolean;
   isIdStrictlyEqual?: boolean;
   isClassStrictlyEqual?: boolean;
-  style: IStrictlyEqualStyleOption;
+  style: IStyleEvaluationOption;
   rectTolerance: number;
 }
 
 export const strictlyEqualOption: IStrictlyEqualOption = {
   attrs: {
-    isStrictlyEqual: true,
+    isStrict: true,
+    list: [],
   },
-  isTagStrictlyEqaul: true,
+  // isTagStrictlyEqaul: true,
+  isIdStrictlyEqual: false,
+  isClassStrictlyEqual: true,
+  style: {
+    display: true,
+    boxSizing: true,
+    color: true,
+    backgroundColor: true,
+    zIndex: false,
+  },
+  rectTolerance: 0,
+};
+
+export interface IGenerateDiffTreeOption {
+  rectTolerance?: number;
+}
+
+export const generateDiffTreeOption: IGenerateDiffTreeOption = {
+  rectTolerance: 0,
+};
+export interface IFixedScoringPointEvaluationOption {
+  attrs?: IAttrEvaluationOption;
+  isTagStrictlyEqaul?: boolean;
+  isIdStrictlyEqual?: boolean;
+  isClassStrictlyEqual?: boolean;
+  style?: IStyleEvaluationOption;
+  rectTolerance?: number;
+}
+
+export const fixedScoringPointEvaluation: IFixedScoringPointEvaluationOption = {
+  attrs: {
+    isStrict: true,
+    list: [],
+  },
+  // isTagStrictlyEqaul: true,
   isIdStrictlyEqual: true,
   isClassStrictlyEqual: true,
   style: {
@@ -76,7 +119,13 @@ export const strictlyEqualOption: IStrictlyEqualOption = {
     boxSizing: true,
     color: true,
     backgroundColor: true,
-    zIndex: true,
+    zIndex: false,
   },
   rectTolerance: 0,
 };
+
+export interface IDomDiffCoreOption extends IPlainObject{
+  generation: IGenerateRenderTreeOptions;
+  diff: IGenerateDiffTreeOption;
+  evaluation: IFixedScoringPointEvaluationOption;
+}
