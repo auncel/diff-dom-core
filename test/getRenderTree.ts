@@ -36,7 +36,7 @@ export async function getRenderTree(fixtureData: IFixtureData): Promise<IElement
     // await jestPuppeteer.resetPage();
     await renderPage.setContent(html);
     const renderTree = await renderPage.evaluate(globalThis.diffScript) as IElementRenderNode;
-    if (renderPage.isClosed()) {
+    if (!renderPage.isClosed()) {
       await renderPage.close();
     }
 
