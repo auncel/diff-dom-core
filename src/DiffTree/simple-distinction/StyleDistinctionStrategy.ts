@@ -13,15 +13,16 @@
 
 import isEqual from 'lodash/isEqual';
 import { TStyleProps } from '../../RenderNode/css';
-import { IStrictlyEqualStyleOption } from '../../config';
+import { IStyleEvaluationOption } from '../../config';
 import { IDistinctionDetail, TCSSPropertyValueType } from '../DiffNode';
 import { distinctionCompare } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
+import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
 /** TODO: styleConfig */
 export function identifyStyleDistinction(
   // eslint-disable-next-line no-unused-vars
-  leftNodeStyle: TStyleProps, rightNodeStyle: TStyleProps, styleConfig: IStrictlyEqualStyleOption,
+  leftNodeStyle: TStyleProps, rightNodeStyle: TStyleProps, styleConfig: IStyleEvaluationOption,
 ): IDistinctionDetail<TCSSPropertyValueType>[] {
   const keys = Object.keys(leftNodeStyle);
   const distinctions = distinctionCompare<TCSSPropertyValueType>(
@@ -32,4 +33,19 @@ export function identifyStyleDistinction(
 
 export function isStyleEqual(node1: ElementRenderNode, node2: ElementRenderNode): boolean {
   return isEqual(node1.style, node2.style);
+}
+
+export class StyleDistinctionStrategy implements IDistinctionStrategy {
+  // eslint-disable-next-line
+  distinguish<T = TCSSPropertyValueType>(
+    leftNode: ElementRenderNode, rightNode: ElementRenderNode,
+  ): IDistinctionDetail<T>[] {
+    const leftNodeStyle = leftNode.style!;
+    const rightNodeStyle = rightNode.style!;
+    const keys = Object.keys(leftNodeStyle);
+    const distinctions = distinctionCompare<T>(
+      leftNodeStyle, rightNodeStyle, keys,
+    );
+    return distinctions;
+  }
 }

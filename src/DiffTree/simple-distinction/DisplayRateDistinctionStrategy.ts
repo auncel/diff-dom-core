@@ -13,6 +13,7 @@
 import { IDistinctionDetail, DistinctionType } from '../DiffNode';
 import { createDistinction } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
+import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
 export function identifyDisplayRateDistinction(
   newNode: ElementRenderNode, oldNode: ElementRenderNode,
@@ -29,4 +30,33 @@ export function identifyDisplayRateDistinction(
     'displayRate',
     DistinctionType.EQUALITY,
   );
+}
+
+
+type Num = number;
+
+export class DisplayRateDistinctionStrategy implements IDistinctionStrategy {
+  // eslint-disable-next-line
+  distinguish<T = Num>(
+    leftNode: ElementRenderNode, rightNode: ElementRenderNode,
+  ): IDistinctionDetail<T>[] {
+    if (rightNode.displayRate
+      && leftNode.displayRate
+      && rightNode.displayRate !== leftNode.displayRate) {
+      return [
+        createDistinction<T>(
+          'displayRate',
+          DistinctionType.INEQUAL,
+          leftNode.displayRate as unknown as T,
+          rightNode.displayRate as unknown as T,
+        ),
+      ];
+    }
+    return [
+      createDistinction<T>(
+        'displayRate',
+        DistinctionType.EQUALITY,
+      ),
+    ];
+  }
 }

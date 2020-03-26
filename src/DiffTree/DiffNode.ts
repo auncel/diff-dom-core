@@ -13,19 +13,16 @@
 /* eslint-disable no-bitwise */
 import TreeNode from '../RenderNode/TreeNode';
 import { NodeType } from '../RenderNode/enum';
+import { getNodeLocal } from './utils';
 import {
-  getNodeLocal,
-} from './utils';
-import { strictlyEqualOption, IStrictlyEqualOption } from '../config';
-import { identifyIdDistinction, identifyTagNameDistinction, identifyClassNameDistinction,
-  identifyStyleDistinction, isStyleEqual, identifyAttrDistinction, identifyRectDistinction, identifyTextDistinction, identifyDisplayRateDistinction,
+  TagNameDistinctionStrategy, IdDistinctionStrategy, ClassNameDistinctionStrategy,
+  DisplayRateDistinctionStrategy, AttrDistinctionStrategy, StyleDistinctionStrategy,
+  isStyleEqual, RectDistinctionStrategy, TextDistinctionStrategy,
 } from './simple-distinction';
-import { getConfig, setConfig } from '../utils/config';
 import { UnionRenderNode } from '../RenderNode';
 import TextRenderNode from '../RenderNode/TextRenderNode';
 import ElementRenderNode from '../RenderNode/ElementRenderNode';
 
-setConfig('diff', strictlyEqualOption);
 
 export enum DiffType {
   None = 0,
@@ -112,57 +109,42 @@ export class DiffNode extends TreeNode {
     newNode: ElementRenderNode,
     oldNode: ElementRenderNode,
   ): DiffNode {
-    const config = getConfig('diff') as IStrictlyEqualOption;
     const diffNode = new DiffNode();
 
     diffNode.location = getNodeLocal(newNode);
 
-    if (config.isTagStrictlyEqaul) {
-      if (newNode.nodeName !== oldNode.nodeName) {
-        diffNode.diffType |= DiffType.Tag;
-        diffNode.tagName = identifyTagNameDistinction(newNode, oldNode);
-      }
+    if (newNode.nodeName !== oldNode.nodeName) {
+      diffNode.diffType |= DiffType.Tag;
+      diffNode.tagName = new TagNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
-    if (config.isIdStrictlyEqual) {
-      if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
-        diffNode.diffType |= DiffType.Id;
-        diffNode.id = identifyIdDistinction(newNode, oldNode);
-      }
+    if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
+      diffNode.diffType |= DiffType.Id;
+      diffNode.id = new IdDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
-    if (config.isClassStrictlyEqual) {
-      if (newNode.className !== oldNode.className) {
-        diffNode.diffType |= DiffType.ClassName;
-        diffNode.className = identifyClassNameDistinction(newNode, oldNode);
-      }
+    if (newNode.className !== oldNode.className) {
+      diffNode.diffType |= DiffType.ClassName;
+      diffNode.className = new ClassNameDistinctionStrategy().distinguish(newNode, oldNode)[0];
     }
 
-    diffNode.displayRate = identifyDisplayRateDistinction(newNode, oldNode);
+    diffNode.displayRate = new DisplayRateDistinctionStrategy().distinguish(newNode, oldNode)[0];
 
     // eslint-disable-next-line no-undef
-    const attrDisctinctions = identifyAttrDistinction(newNode, oldNode, config.attrs ?? {});
+    const attrDisctinctions = new AttrDistinctionStrategy().distinguish(newNode, oldNode);
     if (attrDisctinctions.length !== 0) {
       diffNode.diffType |= DiffType.Attr;
       diffNode.attr = attrDisctinctions;
     }
 
-    const styleDistinctions = identifyStyleDistinction(
-      newNode.style ?? {},
-      oldNode.style ?? {},
-      config.style,
-    );
+    const styleDistinctions = new StyleDistinctionStrategy().distinguish(newNode, oldNode);
 
     if (!isStyleEqual(newNode, oldNode)) {
       diffNode.diffType |= DiffType.Style;
       diffNode.style = styleDistinctions;
     }
 
-    const rectDistinction = identifyRectDistinction(
-      newNode.rect ?? {},
-      oldNode.rect ?? {},
-      config.rectTolerance,
-    );
+    const rectDistinction = new RectDistinctionStrategy().distinguish(newNode, oldNode);
     if (rectDistinction.length) {
       diffNode.rect = rectDistinction;
     }
@@ -172,7 +154,7 @@ export class DiffNode extends TreeNode {
 
   private static createTextDiffNode(newNode: TextRenderNode, oldNode: TextRenderNode): DiffNode {
     const diffNode = new DiffNode();
-    diffNode.text = identifyTextDistinction(newNode, oldNode);
+    diffNode.text = new TextDistinctionStrategy().distinguish(newNode, oldNode)[0];
     return diffNode;
   }
 }

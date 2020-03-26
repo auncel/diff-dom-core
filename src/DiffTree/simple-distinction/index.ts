@@ -9,11 +9,11 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-export { identifyAttrDistinction } from './attr';
-export { identifyClassNameDistinction } from './className';
-export { identifyDisplayRateDistinction } from './displayRate';
-export { identifyIdDistinction } from './id';
-export { identifyRectDistinction } from './rect';
-export { identifyStyleDistinction, isStyleEqual } from './style';
-export { identifyTagNameDistinction } from './tagName';
-export { identifyTextDistinction } from './text';
+export { AttrDistinctionStrategy } from './AttrDistinctionStrategy';
+export { ClassNameDistinctionStrategy } from './ClassNameDistinctionStrategy';
+export { DisplayRateDistinctionStrategy } from './DisplayRateDistinctionStrategy';
+export { IdDistinctionStrategy } from './IdDistinctionStrategy';
+export { RectDistinctionStrategy } from './RectDistinctionStrategy';
+export { StyleDistinctionStrategy, isStyleEqual } from './StyleDistinctionStrategy';
+export { TagNameDistinctionStrategy } from './TagNameDistinctionStrategy';
+export { TextDistinctionStrategy } from './TextDistinctionStrategy';

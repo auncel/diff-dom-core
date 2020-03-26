@@ -14,11 +14,15 @@
 /* global globalThis */
 import { readJSFile } from '../utils/readJSFile';
 import { Puppeteer } from './Puppeteer';
+import { getConfig } from '../utils';
 
 (async (): Promise<void> => {
   if (!globalThis.diffScript && !globalThis.pageManager) {
     const diffModuleStr = await readJSFile(`${__dirname}/../../dist/diff.js`);
-    const diffScript = `${diffModuleStr}; window.Diff.generateRenderTree();`;
+    const diffScript = `${diffModuleStr};
+    window.generateRenderTreeOptions = ${JSON.stringify(getConfig('generation'))};
+    window.Diff.generateRenderTree();`;
+
     globalThis.diffScript = diffScript;
     const pageManager = await Puppeteer.getPageManager();
     globalThis.pageManager = pageManager;

@@ -13,6 +13,7 @@
 import { IdSimilarityStrategy } from './IdSimilarityStrategy'
 import { DiffNode, DistinctionType } from '../../../DiffTree/DiffNode';
 import { ID_SCORE } from '../const';
+import { resetConfig, setConfig } from '../../../utils/config';
 
 
 describe('FixedScoringPoint/SimilarityStrategy/Id', () => {
@@ -41,5 +42,22 @@ describe('FixedScoringPoint/SimilarityStrategy/Id', () => {
     const score = new IdSimilarityStrategy().evaluate(new DiffNode(), logs);
     expect(score).toBe(0);
     expect(logs.length).toBe(0)
+  });
+  
+  test('if evaluation.isIdStrictlyEqual = false', () => {
+    setConfig('evaluation', {
+      isIdStrictlyEqual: false,
+    });
+    const diffNode = new DiffNode();
+    diffNode.id = { type: DistinctionType.INEQUAL, actual: 'id', expect: 'id-1', key: 'id' };
+
+    const logs: string[] = [];
+    const score = new IdSimilarityStrategy().evaluate(diffNode, logs);
+    expect(score).toBe(0);
+    expect(logs.length).toBe(0);
+  });
+  
+  afterEach(() => {
+    resetConfig();
   });
 });

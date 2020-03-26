@@ -14,20 +14,47 @@
 import { IDistinctionDetail, DistinctionType } from '../DiffNode';
 import { createDistinction } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
+import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
-export function identifyTagNameDistinction(
+export function identifyIdDistinction(
   newNode: ElementRenderNode, oldNode: ElementRenderNode,
 ): IDistinctionDetail<string> {
-  if (newNode.nodeName !== oldNode.nodeName) {
+  if (newNode.id && oldNode.id && newNode.id !== oldNode.id) {
     return createDistinction<string>(
-      'tagName',
+      'id',
       DistinctionType.INEQUAL,
-      newNode.nodeName,
-      oldNode.nodeName,
+      oldNode.id,
+      newNode.id,
     );
   }
   return createDistinction<string>(
-    'tagName',
+    'id',
     DistinctionType.EQUALITY,
   );
+}
+
+type Str = string;
+
+export class IdDistinctionStrategy implements IDistinctionStrategy {
+  // eslint-disable-next-line
+  distinguish<T = Str>(
+    leftNode: ElementRenderNode, rightNode: ElementRenderNode,
+  ): IDistinctionDetail<T>[] {
+    if (rightNode.id && leftNode.id && rightNode.id !== leftNode.id) {
+      return [
+        createDistinction<T>(
+          'id',
+          DistinctionType.INEQUAL,
+          leftNode.id as unknown as T,
+          rightNode.id as unknown as T,
+        ),
+      ];
+    }
+    return [
+      createDistinction<T>(
+        'id',
+        DistinctionType.EQUALITY,
+      ),
+    ];
+  }
 }

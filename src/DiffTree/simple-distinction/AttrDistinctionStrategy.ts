@@ -9,13 +9,14 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-import { IStrictlyEqualAttrOption } from '../../config';
-import { TAttrPropertyType, IDistinctionDetail, DistinctionType } from '../../DiffTree/DiffNode';
-import { distinctionCompare } from '../../DiffTree/utils';
+import { IAttrEvaluationOption } from '../../config';
+import { TAttrPropertyType, IDistinctionDetail, DistinctionType } from '../DiffNode';
+import { distinctionCompare } from '../utils';
 import ElementRenderNode from '../../RenderNode/ElementRenderNode';
+import { IDistinctionStrategy } from '../DistinctionStrategy.interface';
 
 export function identifyAttrDistinction(
-  leftNode: ElementRenderNode, rightNode: ElementRenderNode, attrConfig: IStrictlyEqualAttrOption,
+  leftNode: ElementRenderNode, rightNode: ElementRenderNode, attrConfig: IAttrEvaluationOption,
 ): IDistinctionDetail<TAttrPropertyType>[] {
   if (Array.isArray(attrConfig.list)) {
     return distinctionCompare<TAttrPropertyType>(
@@ -31,9 +32,24 @@ export function identifyAttrDistinction(
     Object.keys(leftNode.attr ?? {}),
   );
 
-  if (attrConfig.isStrictlyEqual) {
+  if (attrConfig.isStrict) {
     return distinctions;
   }
 
   return distinctions.filter(distinction => distinction.type === DistinctionType.EXTRA);
+}
+
+export class AttrDistinctionStrategy implements IDistinctionStrategy {
+  // eslint-disable-next-line class-methods-use-this
+  distinguish<T = TAttrPropertyType>(
+    leftNode: ElementRenderNode, rightNode: ElementRenderNode,
+  ): IDistinctionDetail<T>[] {
+    const distinctions = distinctionCompare<T>(
+      leftNode.attr ?? {},
+      rightNode.attr ?? {},
+      Object.keys(leftNode.attr ?? {}),
+    );
+
+    return distinctions;
+  }
 }

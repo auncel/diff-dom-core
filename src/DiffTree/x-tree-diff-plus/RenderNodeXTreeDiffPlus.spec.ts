@@ -58,34 +58,34 @@ describe(fixture.title, () => {
     },
   );
 
-  testFunc(
-    answerMap['has-extra-child.answer'],
-    (diffNode: DiffNode) => {
-      expect(diffNode.diffType).toBe(DiffType.None);
-      expect((diffNode.get(0).get(5) as DiffNode).subTree).not.toBeNull();
-      expect((diffNode.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
-    },
-  );
+  // testFunc(
+  //   answerMap['has-extra-child.answer'],
+  //   (diffNode: DiffNode) => {
+  //     expect(diffNode.diffType).toBe(DiffType.None);
+  //     expect((diffNode.get(0).get(5) as DiffNode).subTree).not.toBeNull();
+  //     expect((diffNode.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
+  //   },
+  // );
 
-  testFunc(
-    answerMap['missing-a-child.answer'],
-    (diffNode: DiffNode) => {
-      expect(diffNode.diffType).toBe(DiffType.None);
-      expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
-      expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
-      expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
-      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
-    },
-  );
+  // testFunc(
+  //   answerMap['missing-a-child.answer'],
+  //   (diffNode: DiffNode) => {
+  //     expect(diffNode.diffType).toBe(DiffType.None);
+  //     expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
+  //     expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
+  //     expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
+  //     expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
+  //   },
+  // );
 
-  // FIXME:  标明乱序情况
-  testFunc(
-    answerMap['out-of-order.answer'],
-    (diffNode: DiffNode) => {
-      expect(diffNode.diffType).toBe(DiffType.None);
-      expect((diffNode.get(0).get(0) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
-      expect((diffNode.get(0).get(4) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
-      expect((((diffNode.get(0).get(0) as DiffNode).moveDistance))).toBe(2);
-    }
-  );
+  // // FIXME:  标明乱序情况
+  // testFunc(
+  //   answerMap['out-of-order.answer'],
+  //   (diffNode: DiffNode) => {
+  //     expect(diffNode.diffType).toBe(DiffType.None);
+  //     expect((diffNode.get(0).get(0) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
+  //     expect((diffNode.get(0).get(4) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
+  //     expect((((diffNode.get(0).get(0) as DiffNode).moveDistance))).toBe(2);
+  //   }
+  // );
 });

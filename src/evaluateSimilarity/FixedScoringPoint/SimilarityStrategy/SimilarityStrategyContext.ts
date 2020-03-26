@@ -9,9 +9,9 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import { DiffType } from '../../../DiffTree/DiffNode';
 import { IStrategyContext } from '../../StrategyContext.interface';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
-import { DiffType } from '../../../DiffTree/DiffNode';
 import { AttrSimilarityStrategy } from './AttrSimilarityStrategy';
 import { ClassNameSimilarityStrategy } from './ClassNameSimilarityStrategy';
 import { StyleSimilarityStrategy } from './StyleSimilarityStrategy';
