@@ -1,6 +1,17 @@
 /*--------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
+ * File Created: Friday, 24th April 2020 10:18 pm                            *
+ * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
+ *                                                                           *
+ * Last Modified: Friday, 24th April 2020 10:18 pm                           *
+ * Modified By: yidafu(dov-yih) (me@yidafu.dev>)                             *
+ *                                                                           *
+ * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
+ *-------------------------------------------------------------------------- */
+/*--------------------------------------------------------------------------*
+ * Description:                                                              *
+ *                                                                           *
  * File Created: Thursday, 19th March 2020 12:40 am                          *
  * Author: yidafu(dov-yih) (me@yidafu.dev)                                   *
  *                                                                           *
@@ -14,12 +25,11 @@
 /// <reference path="./global.d.ts" />
 
 //import '@auncel/common/polyfill/toJSON';
-import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
 import { createHTMLTpl, setConfig } from './utils';
 import { IHTMLSnippet } from './HTMLSnippet.interface';
-import { fixedScoringPointGenerateDiffResult } from './evaluateSimilarity';
+import { fixedScoringPointGenerateDiffResult, IDiffLog, IDiffResult, IGenerateDiffResultOption } from './evaluateSimilarity';
 import { xTreeDiffPlustGenerateDiffTree } from './DiffTree/xTreeDiffPlusGenerateDiffTree';
-import ElementRenderNode, { IElementRenderNode } from './RenderNode/ElementRenderNode';
+import { ElementRenderNode, IElementRenderNode, TextRenderNode, ITextRenderNode, IRenderNode } from './RenderNode';
 import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 import './pptr/startup';
 import { pptrGenerateRenderTree } from './RenderTree/pptrGenerateRenderTree';
@@ -56,5 +66,12 @@ export async function diffDomCore(
   return evaluateResult;
 }
 
-
 export { Puppeteer } from './pptr';
+export * from './exceptions';
+export {
+  IHTMLSnippet,
+  IDomDiffCoreOption,
+  ElementRenderNode,
+  TextRenderNode, ITextRenderNode, IRenderNode,
+  IDiffLog, IDiffResult, IGenerateDiffResultOption,
+};
