@@ -20,7 +20,7 @@ import { readAllFixtures, IFixtureData } from '../fixtures/readFixture';
 // import { strictEqualDiff } from './diffCore/stricly-equal/index';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
 import { plainObject2RenderNode } from './DiffTree/x-tree-diff-plus/plainObject2RenderNode';
-import { diffDomCore, Puppeteer } from './index'
+import { diffDomCore, Puppeteer } from './index.pptr'
 
 import '../test/startup';
 import { getRenderTree } from '../test/getRenderTree';

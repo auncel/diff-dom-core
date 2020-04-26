@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------------------*
+/* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
  * File Created: Friday, 24th April 2020 10:18 pm                            *
@@ -9,7 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-/*--------------------------------------------------------------------------*
+/* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
  * File Created: Thursday, 19th March 2020 12:40 am                          *
@@ -20,11 +20,8 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-/*eslint spaced-comment: ["error", "never"]*/
-//eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./global.d.ts" />
-
-//import '@auncel/common/polyfill/toJSON';
+import './types';
+// import '@auncel/common/polyfill/toJSON';
 import { createHTMLTpl, setConfig } from './utils';
 import { IHTMLSnippet } from './HTMLSnippet.interface';
 import { fixedScoringPointGenerateDiffResult, IDiffLog, IDiffResult, IGenerateDiffResultOption } from './evaluateSimilarity';
@@ -47,7 +44,7 @@ export async function diffDomCore(
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
   let answerRenerTree: ElementRenderNode;
   let questionRenderTree: ElementRenderNode;
-  //eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   if (typeof (<IElementRenderNode>question).nodeType !== 'undefined') {
     answerRenerTree = await pptrGenerateRenderTree(answerHtml);
     questionRenderTree = plainObject2RenderNode(question as IElementRenderNode);

@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------*
+/* ---------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
  * File Created: Friday, 24th April 2020 10:18 pm                            *
@@ -10,11 +10,8 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 
-/*eslint spaced-comment: ["error", "never"]*/
-//eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./global.d.ts" />
-
-//import '@auncel/common/polyfill/toJSON';
+import './types';
+// import '@auncel/common/polyfill/toJSON';
 import { IDiffResult } from './evaluateSimilarity/generateDiffResult.interface';
 import { createHTMLTpl, setConfig, getConfig } from './utils';
 import { IHTMLSnippet } from './HTMLSnippet.interface';
@@ -40,11 +37,11 @@ export async function diffDomCore(
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
   let answerRenerTree: ElementRenderNode;
   let questionRenderTree: ElementRenderNode;
-  //eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   if (typeof (<IElementRenderNode>question).nodeType !== 'undefined') {
-    //answerRenerTree = await pptrGenerateRenderTree(answerHtml);
+    // answerRenerTree = await pptrGenerateRenderTree(answerHtml);
     window.generateRenderTreeOptions = getConfig('generation');
-    //TODO: need iframe implement
+    // TODO: need iframe implement
     answerRenerTree = generateRenderTree() as ElementRenderNode;
     questionRenderTree = plainObject2RenderNode(question as IElementRenderNode);
   } else {
