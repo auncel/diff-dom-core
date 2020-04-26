@@ -1,6 +1,9 @@
 import { Browser, launch } from 'puppeteer';
+import debug from 'debug';
 import { PageManager } from './PageManager';
 import { MAX_PAGE_POOL_SIZE } from './constants';
+
+const log = debug('auncel:dom:Puppeteer');
 
 export class Puppeteer {
   private static browser: Browser | null = null;
@@ -8,7 +11,7 @@ export class Puppeteer {
 
   public static async getBrowser(): Promise<Browser> {
     if (!this.browser) {
-      // log.info(`start launch puppeteer at ${Date.now()}`);
+      log(`start launch puppeteer at ${Date.now()}`);
       // console.time('puppeteer launch');
       this.browser = await launch({
         args: ['--no-sandbox'],
@@ -17,8 +20,7 @@ export class Puppeteer {
           height: 824,
         },
       });
-      // console.timeEnd('puppeteer launch');
-      // log.info(`launch puppeterr at ${Date.now()}`);
+      log('puppeteer launched');
       // 注册异常退出回调
       process.on('uncaughtException', async (err) => {
         // log.error('uncaughtException', err.message);
@@ -31,6 +33,7 @@ export class Puppeteer {
 
   public static async getPageManager({ poolSize = MAX_PAGE_POOL_SIZE } = {}): Promise<PageManager> {
     if (!this.pageManager) {
+      log('create a new PageManager');
       this.pageManager = new PageManager(poolSize);
       const browser = await Puppeteer.getBrowser();
       await this.pageManager.initPagePool(browser);

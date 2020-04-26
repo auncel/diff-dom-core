@@ -10,10 +10,13 @@
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
 /* global globalThis */
+import debug from 'debug';
 import '../pptr/startup';
 import ElementRenderNode, { IElementRenderNode } from '../RenderNode/ElementRenderNode';
 import { plainObject2RenderNode } from '../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
 import sleep from '../utils/sleep';
+
+const log = debug('auncel:dom:ReaderTree:pptrGenerateRenderTree');
 
 const MAX_SLEEP_COUNT = 100;
 export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<ElementRenderNode> {
@@ -23,11 +26,11 @@ export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<Eleme
     await sleep(100);
     sleepCount++;
     if (sleepCount > MAX_SLEEP_COUNT) {
-      throw new Error('globalThis.pageManager and globalThis.diffScript doesn\'t exsit');
+      throw new Error('globalThis.pageManager or globalThis.diffScript doesn\'t exsit');
     }
   }
-
   const page = await globalThis.pageManager.getPage();
+  log('generateReanderTree %s', htmlSnippet);
   await page.setContent(htmlSnippet);
   const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
   globalThis.pageManager.releasePage(page);

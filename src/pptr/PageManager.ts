@@ -1,7 +1,10 @@
 import { Page, Browser } from 'puppeteer';
+import debug from 'debug';
 // import log from '../logger/puppeteer';
 import { MAX_PAGE_POOL_SIZE, DEFUALT_PAGE_POOL_SIZE } from './constants';
 import sleep from '../utils/sleep';
+
+const log = debug('auncel:dom:PageManager');
 /**
  * TODO: 当 initpageManager 时，不允许调用 getPage、releasePage
  *
@@ -19,7 +22,9 @@ export class PageManager {
    */
   private isCreating = true;
 
-  private defaultPoolSize = DEFUALT_PAGE_POOL_SIZE
+  private defaultPoolSize = DEFUALT_PAGE_POOL_SIZE;
+
+  private browser: Browser | null = null;
   /**
    * max pool size
    *
@@ -48,34 +53,35 @@ export class PageManager {
   public async initPagePool(browser: Browser): Promise<void> {
     this.isCreating = true;
 
-    // log.info(`started creating ${this.poolSize} page instance at ${Date.now()}`);
-    // console.time(`creating ${this.defaultPoolSize} page instance`);
+    log(`started creating ${this.getPoolSize()} page instance`);
     const pagePromises: Promise<Page>[] = [];
     for (let i = 0; i < this.defaultPoolSize; i++) {
       pagePromises.push(browser.newPage());
     }
     const pageArr = await Promise.all(pagePromises);
-    // console.timeEnd(`creating ${this.defaultPoolSize} page instance`);
-    // log.info(`creating ${this.poolSize} page instance finished at ${Date.now()}`);
 
+    this.browser = browser;
     this.isCreating = false;
     this.pagePool.push(...pageArr);
+    log(`creating ${this.getPoolSize()} page instance finished`);
   }
 
   public async getPage(): Promise<Page> {
     if (!this.isCreating && this.getPoolSize() < this.maxPoolSize) {
-      const newPage = await browser.newPage();
+      log('expand poolSize');
+      const newPage = await this.browser!.newPage();
       this.unavilablePool.push(newPage);
       return newPage;
     }
 
     // TODO: retry times limitation
     while (this.isCreating || this.getAvailablePoolSize() === 0) {
-      // log.warn('awaiting for get Page');
+      log('awaiting for get Page');
       // eslint-disable-next-line no-await-in-loop
       await sleep(200);
     }
     const reusePage = this.pagePool.shift()!;
+    log('get a reuse page');
     this.unavilablePool.push(reusePage);
     return reusePage;
   }

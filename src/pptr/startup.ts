@@ -12,19 +12,25 @@
 
 /* eslint-disable no-unused-expressions */
 /* global globalThis */
+import debug from 'debug';
 import { readJSFile } from '../utils/readJSFile';
 import { Puppeteer } from './Puppeteer';
 import { getConfig } from '../utils';
 
+const log = debug('auncel:pptr.startup');
+
 (async (): Promise<void> => {
+  log('start up pptr!');
   if (!globalThis.diffScript && !globalThis.pageManager) {
     const diffModuleStr = await readJSFile(`${__dirname}/../../dist/diff.js`);
     const diffScript = `${diffModuleStr};
     window.generateRenderTreeOptions = ${JSON.stringify(getConfig('generation'))};
     window.Diff.generateRenderTree();`;
 
+    log('mount diffScript to globalThis');
     globalThis.diffScript = diffScript;
     const pageManager = await Puppeteer.getPageManager();
+    log('mount pageManager to globalThis');
     globalThis.pageManager = pageManager;
   }
 })();
