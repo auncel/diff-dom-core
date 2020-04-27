@@ -42,12 +42,12 @@ export async function diffDomCore(
   setConfig('evaluation', options?.evaluation ?? {});
 
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
-  let answerRenerTree: ElementRenderNode;
-  let questionRenderTree: ElementRenderNode;
+  let answerRenerTree: IElementRenderNode;
+  let questionRenderTree: IElementRenderNode;
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   if (typeof (<IElementRenderNode>question).nodeType !== 'undefined') {
     answerRenerTree = await pptrGenerateRenderTree(answerHtml);
-    questionRenderTree = plainObject2RenderNode(question as IElementRenderNode);
+    questionRenderTree = question as IElementRenderNode;
   } else {
     const questionHtml = createHTMLTpl(
       (question as IHTMLSnippet).html,
@@ -58,7 +58,10 @@ export async function diffDomCore(
       pptrGenerateRenderTree(questionHtml),
     ]);
   }
-  const diffTree = xTreeDiffPlustGenerateDiffTree(questionRenderTree!, answerRenerTree!);
+  const diffTree = xTreeDiffPlustGenerateDiffTree(
+    plainObject2RenderNode(questionRenderTree!),
+    plainObject2RenderNode(answerRenerTree!),
+  );
   evaluateResult = fixedScoringPointGenerateDiffResult(diffTree);
   return evaluateResult;
 }
