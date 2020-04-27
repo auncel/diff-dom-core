@@ -12,14 +12,18 @@
 /* global globalThis */
 import debug from 'debug';
 import '../pptr/startup';
-import ElementRenderNode, { IElementRenderNode } from '../RenderNode/ElementRenderNode';
-import { plainObject2RenderNode } from '../DiffTree/x-tree-diff-plus/plainObject2RenderNode';
+import { IElementRenderNode } from '../RenderNode/ElementRenderNode';
 import sleep from '../utils/sleep';
+import { IHTMLSnippet } from '../HTMLSnippet.interface';
+import { createHTMLTpl } from '../utils';
 
 const log = debug('auncel:dom:ReaderTree:pptrGenerateRenderTree');
 
 const MAX_SLEEP_COUNT = 100;
-export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<ElementRenderNode> {
+export async function pptrGenerateRenderTree(htmlSnippet: string | IHTMLSnippet): Promise<IElementRenderNode> {
+  if (typeof htmlSnippet !== 'string') {
+    htmlSnippet = createHTMLTpl(htmlSnippet.html, htmlSnippet.style);
+  }
   let sleepCount = 0;
   while (!globalThis.pageManager || !globalThis.diffScript) {
     // eslint-disable-next-line no-await-in-loop
@@ -30,9 +34,11 @@ export async function pptrGenerateRenderTree(htmlSnippet: string): Promise<Eleme
     }
   }
   const page = await globalThis.pageManager.getPage();
-  log('generateReanderTree %s', htmlSnippet);
+  // log('generateReanderTree %s', htmlSnippet);
   await page.setContent(htmlSnippet);
+  log('generate render tree starting');
   const renderTree = (await page.evaluate(globalThis.diffScript) as IElementRenderNode);
+  log('successfully generate render tree');
   globalThis.pageManager.releasePage(page);
-  return plainObject2RenderNode(renderTree);
+  return renderTree;
 }
