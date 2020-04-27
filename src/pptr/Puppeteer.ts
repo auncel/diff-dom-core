@@ -9,26 +9,48 @@ export class Puppeteer {
   private static browser: Browser | null = null;
   private static pageManager: PageManager | null = null;
 
+  /**
+   * @url https://github.com/puppeteer/puppeteer/issues/4428
+   * @urlhttps://github.com/browserless/chrome/issues/253
+   */
   public static async getBrowser(): Promise<Browser> {
-    if (!this.browser) {
-      log(`start launch puppeteer at ${Date.now()}`);
-      // console.time('puppeteer launch');
-      this.browser = await launch({
-        args: ['--no-sandbox'],
-        defaultViewport: {
-          width: 1519, // base on my computer: acer Aspire VX15
-          height: 824,
-        },
-      });
-      log('puppeteer launched');
-      // 注册异常退出回调
-      process.on('uncaughtException', async (err) => {
-        // log.error('uncaughtException', err.message);
-        console.log(err);
-        await Puppeteer.close();
-      });
-    }
-    return this.browser;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const that = this;
+    return new Promise<Browser>((resovle, reject) => {
+      const retryTimes = 0;
+      async function setup(): Promise<void> {
+        if (!that.browser) {
+          log(`start launch puppeteer at ${Date.now()}`);
+          // console.time('puppeteer launch');
+          that.browser = await launch({
+            args: ['--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage'],
+            defaultViewport: {
+              width: 1519, // based on my computer: acer Aspire VX15
+              height: 824,
+            },
+          });
+
+          that.browser.on('disconnected', () => {
+            if (retryTimes > 10) {
+              reject();
+            } else {
+              log('pptr connect retry');
+              setup();
+            }
+          });
+          that.browser.on('targetcreated', () => resovle(that.browser!));
+          log('puppeteer launched');
+          // 注册异常退出回调
+          process.on('uncaughtException', async (err) => {
+            // log.error('uncaughtException', err.message);
+            console.log(err);
+            await Puppeteer.close();
+          });
+        }
+        resovle(that.browser!);
+      }
+      setup();
+    });
   }
 
   public static async getPageManager({ poolSize = MAX_PAGE_POOL_SIZE } = {}): Promise<PageManager> {
