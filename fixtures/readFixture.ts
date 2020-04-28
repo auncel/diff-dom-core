@@ -94,7 +94,7 @@ export function readFixtures(dirpath: string): IFixture {
  * 解析 fixtures/ 目录下的所有子目录
  *
  * @export
- * @returns {Map<string, IFixture>} key 是表示文件路径
+ * @returns {Map<string, IFixture>} key 是表示路径，value 是目录下 fixture 数据
  */
 export function readAllFixtures(): Map<string, IFixture> {
   const fixtrueMap = new Map<string, IFixture>();
