@@ -32,32 +32,33 @@ import './pptr/startup';
 import { pptrGenerateRenderTree } from './RenderTree/pptrGenerateRenderTree';
 import { IDomDiffCoreOption } from './config';
 
-export async function diffDomCore(
-  question: IElementRenderNode | IHTMLSnippet, answer: IHTMLSnippet, options?: IDomDiffCoreOption,
-): Promise<IDiffResult> {
-  const answerHtml = createHTMLTpl(answer.html, answer.style);
+export async function getRenderTree(data: IElementRenderNode | IHTMLSnippet): Promise<IElementRenderNode> {
+  // @url https://jkchao.github.io/typescript-book-chinese/typings/typeGuard.html#in
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  if ('html' in data) {
+    const html = createHTMLTpl(data.html, data.style);
+    const renderTree = await pptrGenerateRenderTree(html);
+    return renderTree;
+  }
+  return data;
+}
 
+export async function diffDomCore(
+  question: IElementRenderNode | IHTMLSnippet,
+  answer: IElementRenderNode | IHTMLSnippet,
+  options?: IDomDiffCoreOption,
+): Promise<IDiffResult> {
   setConfig('generation', options?.generation ?? {});
   setConfig('diff', options?.diff ?? {});
   setConfig('evaluation', options?.evaluation ?? {});
 
   let evaluateResult: IDiffResult = { score: 0, logs: [] };
-  let answerRenerTree: IElementRenderNode;
-  let questionRenderTree: IElementRenderNode;
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  if (typeof (<IElementRenderNode>question).nodeType !== 'undefined') {
-    answerRenerTree = await pptrGenerateRenderTree(answerHtml);
-    questionRenderTree = question as IElementRenderNode;
-  } else {
-    const questionHtml = createHTMLTpl(
-      (question as IHTMLSnippet).html,
-      (question as IHTMLSnippet).style,
-    );
-    [questionRenderTree, answerRenerTree] = await Promise.all([
-      pptrGenerateRenderTree(answerHtml),
-      pptrGenerateRenderTree(questionHtml),
-    ]);
-  }
+
+  const [questionRenderTree, answerRenerTree] = await Promise.all([
+    getRenderTree(question),
+    getRenderTree(answer),
+  ]);
+
   const diffTree = xTreeDiffPlustGenerateDiffTree(
     plainObject2RenderNode(questionRenderTree!),
     plainObject2RenderNode(answerRenerTree!),
