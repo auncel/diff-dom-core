@@ -17,7 +17,7 @@ import { setConfig, resetConfig } from '../../../utils/config';
 import { IFixedScoringPointEvaluationOption } from '../../../config';
 
 describe('FixedScoringPoint/SimilarityStrategy/Attr', () => {
-  
+
   test('if instance can run evaluate', () => {
     const diffNode = new DiffNode();
     diffNode.attr = [
