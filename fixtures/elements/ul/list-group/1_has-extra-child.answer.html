@@ -1,11 +1,12 @@
 <!--
-description: out of order
-similarity: 50
+description: has extra child
+similarity: 70
 -->
-<style id="userStyle">
+<style>
   ul {
     width: 400px;
   }
+
   .list-group {
     display: flex;
     flex-direction: column;
@@ -34,14 +35,17 @@ similarity: 50
 <!-- splitter -->
 
 <ul class="list-group">
-  <!-- 4 -->
-  <li class="list-group-item">Porta ac consectetur ac</li>
   <!-- 1 -->
   <li class="list-group-item">Cras justo odio</li>
-  <!-- 3 -->
-  <li class="list-group-item">Morbi leo risus</li>
-  <!-- 5 -->
-  <li class="list-group-item">Vestibulum at eros</li>
   <!-- 2 -->
   <li class="list-group-item">Dapibus ac facilisis in</li>
+  <!-- 3 -->
+  <li class="list-group-item">Morbi leo risus</li>
+  <!-- 4 -->
+  <li class="list-group-item">Porta ac consectetur ac</li>
+  <!-- 5 -->
+  <li class="list-group-item">Vestibulum at eros</li>
+
+  <!-- 6 extra child -->
+  <li class="list-group-item">(extra) Vestibulum at eros</li>
 </ul>
