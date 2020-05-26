@@ -68,7 +68,7 @@ export class PageManager {
 
   public async getPage(): Promise<Page> {
     if (!this.isCreating && this.getPoolSize() < this.maxPoolSize) {
-      log('expand poolSize');
+      log('expand poolSize %d', this.getPoolSize());
       const newPage = await this.browser!.newPage();
       this.unavilablePool.push(newPage);
       return newPage;

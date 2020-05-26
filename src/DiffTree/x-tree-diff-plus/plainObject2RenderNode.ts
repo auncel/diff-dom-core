@@ -9,9 +9,12 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import debug from 'debug';
 import { NodeType } from '../../RenderNode/enum';
 import ElementRenderNode, { IElementRenderNode } from '../../RenderNode/ElementRenderNode';
 import TextRenderNode, { ITextRenderNode } from '../../RenderNode/TextRenderNode';
+
+const log = debug('auncel:dom:plainObject2RenderNode');
 
 /**
  * create shadow render node
@@ -27,6 +30,7 @@ function createRenderNode(
   } else if (node.nodeType === NodeType.TEXT_NODE) {
     return new TextRenderNode(node.text);
   }
+  log('unkonw NodeType %o', node);
   throw new Error('unkonw NodeType');
 }
 

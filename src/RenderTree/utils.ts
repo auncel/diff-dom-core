@@ -77,7 +77,7 @@ export function getAttrs(node: Element): TAttributes {
  * @param {Element} node
  * @returns {[x, y, left, tope Width, Left]}
  */
-export function getRect(node: Element, coordinate: {x: number; y: number}): INodeRect {
+export function getRect(node: Element, coordinate: { x: number; y: number }): INodeRect {
   const rect = node.getBoundingClientRect();
   const { left, top, width, height } = rect;
   return {
@@ -94,7 +94,17 @@ export function getCssValue(dom: HTMLElement, property: keyof CSSStyleDeclaratio
   return window.getComputedStyle(dom)[property];
 }
 
+/**
+ * TODO: Elements with pointer-events set to none will be ignored, and the element below it will be returned.
+ *
+ * @param domNode
+ * @param rect
+ * @param displayGridGap
+ */
 export function getDisplayRate(domNode: HTMLElement, rect: INodeRect, displayGridGap: number): number {
+  if (rect.width === 0 || rect.height === 0) {
+    return 1;
+  }
   // eslint-disable-next-line no-mixed-operators
   const rowEdge = rect.x + rect.width - 0.1;
   // eslint-disable-next-line no-mixed-operators
@@ -112,7 +122,30 @@ export function getDisplayRate(domNode: HTMLElement, rect: INodeRect, displayGri
       const topNode = document.elementFromPoint(rowGrid, colGrid);
       if (topNode === domNode) {
         displayCount++;
+        // var col = document.createElement('div');
+        // col.style.position = 'absolute';
+        // col.style.left = colGrid + "px";
+        // col.style.height = '1000px';
+        // col.style.width = '1px';
+        // col.style.backgroundColor = '#000';
+        // document.body.appendChild(col);
+
+        // var div = document.createElement('div');
+        // div.style.position = 'absolute';
+        // div.style.left = rowGrid + "px";
+        // div.style.top = colGrid + "px";
+        // div.style.width = '3px';
+        // div.style.height = '3px';
+        // div.style.backgroundColor = 'green';
+        // document.body.appendChild(div);
       }
+      // const row = document.createElement('div');
+      // row.style.position = 'absolute';
+      // row.style.top = `${rowGrid}px`;
+      // row.style.width = '1000px';
+      // row.style.height = '1px';
+      // row.style.backgroundColor = '#000';
+      // document.body.appendChild(row);
     }
   }
 
