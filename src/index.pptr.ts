@@ -63,6 +63,7 @@ export async function diffDomCore(
     plainObject2RenderNode(questionRenderTree!),
     plainObject2RenderNode(answerRenerTree!),
   );
+
   evaluateResult = fixedScoringPointGenerateDiffResult(diffTree);
   return evaluateResult;
 }

@@ -21,6 +21,7 @@ const log = debug('auncel:diff:nodeCompare');
 export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) => {
   const nodeDiffLogs: string[] = [];
   let nodeScore = NODE_TOTAL_SCORE;
+  // const isLeaf = !diffNode.hasChildren() && !!diffNode.subTree;
   const nodeCount = diffNode.subTree?.count() ?? 1;
 
   const strategyContext = new SimilarityStrategyContext();
