@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { join, relative, resolve } from 'path';
+import { join, relative, resolve, normalize } from 'path';
 import * as YAML from 'js-yaml';
 
 const SPLITTER = '<!-- splitter -->';
@@ -41,7 +41,7 @@ export function readFixture(filepath: string): IFixtureData {
   const stylesheet = htmlContent.substring(commentEndIdx + 3, splitterIdx).trim().slice(7, -8).trim();
   const fragment = htmlContent.substring(splitterIdx + SPLITTER.length).trim();
 
-  const relativePaths = relative(__dirname, filepath).split('/');
+  const relativePaths = normalize(relative(__dirname, filepath)).split(/[/\\]/);
   const filename = relativePaths.pop()!;
 
   const { description, similarity }: { description: string; similarity: number} = YAML.load(yamlText);
@@ -74,7 +74,7 @@ export function readFixtures(dirpath: string): IFixture {
     throw Error(`${absPath} must be Directory`);
   }
   const fixtureObject: IFixture = {} as IFixture;
-  fixtureObject.title = relative(__dirname, dirpath).split('/').join(' -> ');
+  fixtureObject.title = normalize(relative(__dirname, dirpath)).split(/[/\\]/).join(' -> ');
   fixtureObject.answers = [];
   const filenames = fs.readdirSync(absPath);
   filenames.sort(); // 字母排序

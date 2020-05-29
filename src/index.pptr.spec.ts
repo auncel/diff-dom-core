@@ -31,7 +31,7 @@ jest.setTimeout(60_000);
 const fixtureMap = readAllFixtures();
 const similarityMap = new Map<string, IDiffResult>();
 
-const divSimple = fixtureMap.get('elements\\div\\simple')!;
+const divSimple = fixtureMap.get('elements -> div -> simple')!;
 describe(divSimple.question.description, () => {
   const { question, answers, title } = divSimple;
   const [answer1, answer2, answer3] = answers;
@@ -66,7 +66,7 @@ describe(divSimple.question.description, () => {
 });
 
 
-const widthIs0 = fixtureMap.get('elements\\div\\width-is-0')!;
+const widthIs0 = fixtureMap.get('elements -> div -> width-is-0')!;
 describe(widthIs0.question.description, () => {
   const { question, answers, title } = widthIs0;
   const [answer1] = answers;
@@ -84,7 +84,7 @@ describe(widthIs0.question.description, () => {
 });
 
 
-const listGroup = fixtureMap.get('elements\\ul\\list-group')!;
+const listGroup = fixtureMap.get('elements -> ul -> list-group')!;
 describe(listGroup.question.description, () => {
   const { question, answers, title } = listGroup;
   const [answer1, answer2, answer3, answer4] = answers;
@@ -131,7 +131,7 @@ describe(listGroup.question.description, () => {
 });
 
 
-const zIndex = fixtureMap.get('css\\zIndex')!;
+const zIndex = fixtureMap.get('css -> zIndex')!;
 describe(zIndex.question.description, () => {
   const { question, answers, title } = zIndex;
   const [answer1, answer2, answer3] = answers;
@@ -169,7 +169,7 @@ describe(zIndex.question.description, () => {
   });
 });
 
-const loginForm = fixtureMap.get('complex-word\\login-form')!;
+const loginForm = fixtureMap.get('complex-word -> login-form')!;
 describe(loginForm.question.description, () => {
   const { question, answers, title } = loginForm;
   const [answer1, answer2] = answers;
