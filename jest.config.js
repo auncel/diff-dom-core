@@ -8,5 +8,11 @@ module.exports = merge.recursive(
   puppeteer_preset,
   {
     testSequencer: './test/CustomSequencer.js',
+    reporters: [
+      'default',
+      ['./node_modules/jest-html-reporter', {
+        pageTitle: 'Auncel Diff DOM Core Report',
+      }],
+    ],
   },
 );

@@ -19,8 +19,8 @@ export class AttrSimilarityStrategy implements ISimilarityStrategy {
     // eslint-disable-next-line no-restricted-syntax
     for (const distinction of distinctions) {
       if (Array.isArray(attrEvaluationOption.list)
-          && attrEvaluationOption.list.length > 1
-          && !attrEvaluationOption.list.includes(distinction.key as TTagAttribute)
+        && attrEvaluationOption.list.length > 1
+        && !attrEvaluationOption.list.includes(distinction.key as TTagAttribute)
       ) {
         // eslint-disable-next-line no-continue
         continue;

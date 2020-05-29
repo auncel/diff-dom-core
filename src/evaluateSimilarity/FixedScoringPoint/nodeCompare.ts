@@ -9,16 +9,19 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
-
+import debug from 'debug';
 import { INodeCompare } from 'evaluateSimilarity/nodeCompare.interface';
 import { getNodeLocation } from './fixedScoringPoint';
 import { IDiffLog } from '../DiffLog.interface';
 import { NODE_TOTAL_SCORE } from './const';
 import { SimilarityStrategyContext } from './SimilarityStrategy/indext';
 
+const log = debug('auncel:diff:nodeCompare');
+
 export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) => {
   const nodeDiffLogs: string[] = [];
   let nodeScore = NODE_TOTAL_SCORE;
+  // const isLeaf = !diffNode.hasChildren() && !!diffNode.subTree;
   const nodeCount = diffNode.subTree?.count() ?? 1;
 
   const strategyContext = new SimilarityStrategyContext();
@@ -26,6 +29,7 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
   for (const [diffType, strategy] of strategyContext.iterator()) {
     if (diffNode.diffType & diffType) {
       nodeScore -= strategy.evaluate(diffNode, nodeDiffLogs);
+      log('diffType %s nodeScore %s', diffType, nodeScore);
     }
   }
 
@@ -39,7 +43,7 @@ export const fixedScoringPointNodeCompare: INodeCompare = (diffNode, diffLogs) =
   }
 
   return {
-    nodeScore: Math.max(nodeScore, 0),
+    nodeScore,
     nodeCount,
   };
 };

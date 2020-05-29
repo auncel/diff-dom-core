@@ -32,10 +32,10 @@ const fixture = readFixtures('elements/ul/list-group');
 function testFactory(question: IFixtureData) {
   return function (answer: IFixtureData, expectFunc: (tree: DiffNode) => void) {
     test(answer.name, async () => {
-      const treeOld =  plainObject2RenderNode(await getRenderTree(question));
+      const treeOld = plainObject2RenderNode(await getRenderTree(question));
       const treeNew = plainObject2RenderNode(await getRenderTree(answer));
       const xTreeDiff = new RenderTreeXTreeDiffPlus(treeOld, treeNew);
-      const { newTree  } = xTreeDiff.diff();
+      const { newTree } = xTreeDiff.diff();
       // fs.writeFileSync(answer.name + '.json', JSON.stringify(newTree, null, 2));
       expectFunc(newTree as unknown as DiffNode);
     });
@@ -49,29 +49,23 @@ describe(fixture.title, () => {
     return acc;
   }, {} as IPlainObject);
 
-  testFunc(
-    answerMap['px.answer'],
-    (diffNode: DiffNode) => {
-      expect(diffNode.diffType).toBe(DiffType.None);
-      expect((diffNode.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
-      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
-    },
-  );
 
   testFunc(
-    answerMap['has-extra-child.answer'],
+    answerMap['1_has-extra-child.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
+      expect(diffNode.subTree).toBeUndefined();
       expect((diffNode.get(0).get(5) as DiffNode).subTree).not.toBeNull();
+      expect((diffNode.get(0).get(5) as DiffNode).subTree?.count()).toBe(2);
       expect((diffNode.get(0).get(5) as DiffNode).diffType).toBe(DiffType.NodeInsert);
     },
   );
 
   testFunc(
-    answerMap['missing-a-child.answer'],
+    answerMap['2_missing-a-child.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
-      expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
+      // expect((diffNode.get(0) as DiffNode).diffType).toBe(DiffType.None);
       expect((diffNode.get(0).get(2) as DiffNode).diffType).toBe(DiffType.NodeDelete);
       expect((diffNode.get(0).get(3) as DiffNode).diffType).toBe(DiffType.NodeMove);
       expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.NodeMove);
@@ -80,12 +74,21 @@ describe(fixture.title, () => {
 
   // FIXME:  标明乱序情况
   testFunc(
-    answerMap['out-of-order.answer'],
+    answerMap['3_out-of-order.answer'],
     (diffNode: DiffNode) => {
       expect(diffNode.diffType).toBe(DiffType.None);
       expect((diffNode.get(0).get(0) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
       expect((diffNode.get(0).get(4) as DiffNode).diffType >= DiffType.NodeMove).toBe(true);
       expect((((diffNode.get(0).get(0) as DiffNode).moveDistance))).toBe(2);
     }
+  );
+
+  testFunc(
+    answerMap['4_px.answer'],
+    (diffNode: DiffNode) => {
+      expect(diffNode.diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(0) as DiffNode).diffType).toBe(DiffType.None);
+      expect((diffNode.get(0).get(4) as DiffNode).diffType).toBe(DiffType.None);
+    },
   );
 });

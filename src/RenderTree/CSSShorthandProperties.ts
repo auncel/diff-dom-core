@@ -99,10 +99,14 @@ export default {
   ],
   'border-top': [
     'border-top-color',
-    'border-top-left-radius',
-    'border-top-right-radius',
     'border-top-style',
     'border-top-width',
+  ],
+  'border-redius': [
+    'border-top-left-radius',
+    'border-top-right-radius',
+    'border-bottom-left-radius',
+    'border-bottom-right-radius',
   ],
   'column-rule': [
     'column-rule-color',

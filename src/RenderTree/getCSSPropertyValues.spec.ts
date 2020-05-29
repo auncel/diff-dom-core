@@ -83,7 +83,7 @@ describe('simple jsdom env', () => {
 
   
   test('should ignore z-index', () => {
-    const answer1Fixture = readFixture(`${__dirname}/../../fixtures/css/zIndex/correct.answer.html`);
+    const answer1Fixture = readFixture(`${__dirname}/../../fixtures/css/zIndex/1_correct.answer.html`);
     document.body.innerHTML = answer1Fixture.fragment;
     $style.innerHTML = answer1Fixture.stylesheet;
 

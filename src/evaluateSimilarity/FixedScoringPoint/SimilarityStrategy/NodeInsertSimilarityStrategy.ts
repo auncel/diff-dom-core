@@ -9,13 +9,19 @@
  *                                                                           *
  * Copyright 2019 - 2020 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import debug from 'debug';
 import { DiffNode } from '../../../DiffTree/DiffNode';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
+import { NODE_TOTAL_SCORE } from '../const';
+
+const log = debug('auncel:diff:NodeInsertSimilarityStrategy');
 
 export class NodeInsertSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
   evaluate(diffNode: DiffNode, logs: string[]): number {
     logs.push(`having a extra sub-tree of ${diffNode.location}`);
-    return -Infinity;
+    const count = diffNode.subTree?.count() ?? 1;
+    log('subTree count %d', count);
+    return NODE_TOTAL_SCORE * count;
   }
 }

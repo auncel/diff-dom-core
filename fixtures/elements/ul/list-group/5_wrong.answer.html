@@ -1,50 +1,45 @@
 <!--
-description: has extra child
+description: 差异比较多的情况
 similarity: 50
 -->
 <style>
+  html {
+    font-size: 16px;
+  }
+
   ul {
     width: 400px;
   }
+
   .list-group {
-    display: flex;
-    flex-direction: column;
     list-style-type: none;
   }
 
   .list-group-item:first-child {
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
+    border-top-left-radius: 8px; /* wrong */
+    border-top-right-radius: 8px; /* wrong */
   }
 
   .list-group-item {
-    padding: .75rem 1.25rem;
+    padding: 4px 10px; /* wrong */
     margin-bottom: -1px;
     background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .125);
+    border: 1px solid #353635; /* wrong */
   }
 
   .list-group-item:last-child {
     margin-bottom: 0;
-    border-bottom-right-radius: .25rem;
-    border-bottom-left-radius: .25rem;
-  } 
+    border-bottom-right-radius: 8px; /* wrong */
+    border-bottom-left-radius: 8px; /* wrong */
+  }
 </style>
 
 <!-- splitter -->
 
 <ul class="list-group">
-  <!-- 1 -->
   <li class="list-group-item">Cras justo odio</li>
-  <!-- 2 -->
   <li class="list-group-item">Dapibus ac facilisis in</li>
-  <!-- 3 -->
   <li class="list-group-item">Morbi leo risus</li>
-  <!-- 4 -->
   <li class="list-group-item">Porta ac consectetur ac</li>
-  <!-- 5 -->
   <li class="list-group-item">Vestibulum at eros</li>
-
-  <!-- 6 extra child -->
-  <li class="list-group-item">(extra) Vestibulum at eros</li>
 </ul>

@@ -124,7 +124,7 @@ export const fixedScoringPointEvaluation: IFixedScoringPointEvaluationOption = {
   rectTolerance: 0,
 };
 
-export interface IDomDiffCoreOption extends IPlainObject{
+export interface IDomDiffCoreOption extends IPlainObject {
   generation: IGenerateRenderTreeOptions;
   diff: IGenerateDiffTreeOption;
   evaluation: IFixedScoringPointEvaluationOption;

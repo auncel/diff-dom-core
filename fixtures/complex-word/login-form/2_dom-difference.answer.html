@@ -1,46 +1,38 @@
-<!-- 
-description: github login form https://github.com/login 
-similarity: 50
+<!--
+description: 提交按钮改为了button，缺失“Forgot password?”文案
+similarity: 60
 -->
-
 <style>
   body {
     background-color: #f9f9f9;
   }
 
   main {
-    margin-top: 120px;
-    /* wrong */
+    margin-top: 106px;
   }
 
   .login-form {
     width: 340px;
     margin: 0 auto;
-
     border-radius: 5px;
     padding: 20px;
     font-size: 14px;
     background-color: #fff;
-    border: 3px solid #d8dee2;
-    /* wrong */
+    border: 1px solid #d8dee2;
   }
 
   label {
     display: block;
     margin-bottom: 7px;
     text-align: left;
-    font-weight: normal;
-    /* wrong */
+    font-weight: 600;
   }
 
   input {
     display: block;
     width: 100%;
-    margin-bottom: 5px;
-    /* wrong */
-    margin-top: 15px;
-    /* wrong */
-    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     padding: 6px 8px;
     font-size: 16px;
     line-height: 20px;
@@ -59,10 +51,11 @@ similarity: 50
   }
 
   .btn {
+    display: block;
+    width: 100%;
     margin-top: 20px;
     color: #fff;
-    background-color: #34d058;
-    /* wrong */
+    background-color: #28a745;
     position: relative;
     padding: 6px 12px;
     font-size: 14px;
@@ -70,26 +63,26 @@ similarity: 50
     line-height: 20px;
     cursor: pointer;
     border-radius: .25em;
+    border-style: none;
   }
 </style>
 
 <!-- splitter -->
 
 <main>
-
-
   <div class="login-form">
 
     <label for="login_field" class="login-form-lable">
       Username or email address
     </label>
-    <input type="text" name="login_field" class="form-control input-block">
+    <input type="text" name="login_field">
 
     <label for="password" class="login-form-lable">
-      Password <a class="label-link" href="/password_reset">Forgot password?</a>
+      Password
+      <!-- <a class="label-link" href="/password_reset">Forgot password?</a> -->
     </label>
-    <input type="password" name="password" id="password" class="form-control form-control input-block">
+    <input type="password" name="password" id="password">
 
-    <input type="submit" name="commit" value="Sign in" class="btn">
+    <button type="submit" name="commit" class="btn">Sign in</button>
   </div>
 </main>

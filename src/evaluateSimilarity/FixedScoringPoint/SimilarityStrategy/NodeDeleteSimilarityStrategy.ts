@@ -11,11 +11,13 @@
  *-------------------------------------------------------------------------- */
 import { DiffNode } from '../../../DiffTree/DiffNode';
 import { ISimilarityStrategy } from '../../SimilarityStrategy.interface';
+import { NODE_TOTAL_SCORE } from '../const';
 
 export class NodeDeleteSimilarityStrategy implements ISimilarityStrategy {
   // eslint-disable-next-line
   evaluate(diffNode: DiffNode, logs: string[]): number {
     logs.push(`missing a sub-tree of ${diffNode.location}`);
-    return -Infinity;
+    const count = diffNode.subTree?.count() ?? 1;
+    return NODE_TOTAL_SCORE * count;
   }
 }
