@@ -112,3 +112,4 @@ x-diff/
 !fixtures/**/*.json
 demo.ts
 log.txt
+test-report.html

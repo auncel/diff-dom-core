@@ -26,4 +26,3 @@ branches:
     - master
 env:
   - CODECOV_TOKEN="0f0b771d-2cb6-47f4-99ae-a16d33024e73"
-  
