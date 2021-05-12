@@ -6559,10 +6559,10 @@ merge-stream@^2.0.0:
   resolved "https://registry.npm.taobao.org/merge-stream/download/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha1-UoI2KaFN0AyXcPtq1H3GMQ8sH2A=
 
-merge@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/merge/download/merge-1.2.1.tgz#38bebf80c3220a8a487b6fcfb3941bb11720c145"
-  integrity sha1-OL6/gMMiCopIe2/Ps5QbsRcgwUU=
+merge@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/merge/download/merge-2.1.1.tgz#59ef4bf7e0b3e879186436e8481c06a6c162ca98"
+  integrity sha1-We9L9+Cz6HkYZDboSBwGpsFiypg=
 
 micromatch@^2.3.11:
   version "2.3.11"
